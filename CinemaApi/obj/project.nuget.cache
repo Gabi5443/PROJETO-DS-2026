@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "pKr31VMNB2c=",
+  "dgSpecHash": "WX/bLpN8qUk=",
   "success": true,
   "projectFilePath": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\PROJETO-DS-2026\\CinemaApi\\CinemaApi.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\gabri\\.nuget\\packages\\mysqlconnector\\3.0.0\\mysqlconnector.3.0.0.nupkg.sha512"
+  ],
   "logs": []
 }
