@@ -87,7 +87,10 @@ public async Task CreateAsync(Users user)
                 // Pega o texto da coluna EMAIL_USERS
                 EmailUsers = reader.GetString("EMAIL_USERS"),
                 // Pega o texto da coluna ROLE_USERS
-                RoleUsers = reader.GetString("ROLE_USERS")
+               // Linha 90 e Linha 128:
+              RoleUsers = Enum.Parse<EnumRoleUsers>(reader.GetString("ROLE_USERS"), ignoreCase: true)
+
+
             };
         }
 
@@ -125,7 +128,10 @@ public async Task CreateAsync(Users user)
                 IdUsers = reader.GetInt32("ID_USERS"),
                 NameUsers = reader.GetString("NAME_USERS"),
                 EmailUsers = reader.GetString("EMAIL_USERS"),
-                RoleUsers = reader.GetString("ROLE_USERS")
+                // Linha 90 e Linha 128:
+                RoleUsers = Enum.Parse<EnumRoleUsers>(reader.GetString("ROLE_USERS"), ignoreCase: true)
+
+
             };
         }
 

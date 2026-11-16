@@ -23,11 +23,11 @@ public class MovieService
 
         using var command = new MySqlCommand(query, connection);
 
-        command.Parameters.AddWithValue("@title", movie.Title_Movie);
-        command.Parameters.AddWithValue("@synopsis", movie.Synopsis_Movie);
-        command.Parameters.AddWithValue("@duration", movie.Duration_Movie);
-        command.Parameters.AddWithValue("@genre", movie.Genre_Movie);
-        command.Parameters.AddWithValue("@ageRating", movie.Age_Rating_Movie);
+        command.Parameters.AddWithValue("@title", movie.TitleMovie);
+        command.Parameters.AddWithValue("@synopsis", movie.SynopsisMovie);
+        command.Parameters.AddWithValue("@duration", movie.DurationMovie);
+        command.Parameters.AddWithValue("@genre", movie.GenreMovie);
+        command.Parameters.AddWithValue("@ageRating", movie.AgeRatingMovie);
 
         await command.ExecuteNonQueryAsync();
     }
@@ -52,12 +52,12 @@ public class MovieService
         {
             var movie = new Movie
             {
-                Id_Movie = reader.GetInt32("ID_MOVIE"),
-                Title_Movie = reader.GetString("TITLE_MOVIE"),
-                Synopsis_Movie = reader.GetString("SYNOPSIS_MOVIE"),
-                Duration_Movie = reader.GetInt32("DURATION_MOVIE"), // Lembre de conferir se é GetString ou GetInt32
-                Genre_Movie = reader.GetString("GENRE_MOVIE"),
-                Age_Rating_Movie = reader.GetInt32("AGE_RATING_MOVIE")
+                IdMovie = reader.GetInt32("ID_MOVIE"),
+                TitleMovie = reader.GetString("TITLE_MOVIE"),
+                SynopsisMovie = reader.GetString("SYNOPSIS_MOVIE"),
+                DurationMovie = reader.GetInt32("DURATION_MOVIE"), // Lembre de conferir se é GetString ou GetInt32
+                GenreMovie = reader.GetString("GENRE_MOVIE"),
+                AgeRatingMovie = reader.GetInt32("AGE_RATING_MOVIE")
             };
 
             // Adiciona o filme montado dentro da lista
@@ -86,12 +86,12 @@ public class MovieService
         {
             return new Movie
             {
-                Id_Movie = reader.GetInt32("ID_MOVIE"),
-                Title_Movie = reader.GetString("TITLE_MOVIE"),
-                Synopsis_Movie = reader.GetString("SYNOPSIS_MOVIE"),
-                Duration_Movie = reader.GetInt32("DURATION_MOVIE"),
-                Genre_Movie = reader.GetString("GENRE_MOVIE"),
-                Age_Rating_Movie = reader.GetInt32("AGE_RATING_MOVIE")
+                IdMovie = reader.GetInt32("ID_MOVIE"),
+                TitleMovie = reader.GetString("TITLE_MOVIE"),
+                SynopsisMovie = reader.GetString("SYNOPSIS_MOVIE"),
+                DurationMovie = reader.GetInt32("DURATION_MOVIE"),
+                GenreMovie = reader.GetString("GENRE_MOVIE"),
+                AgeRatingMovie = reader.GetInt32("AGE_RATING_MOVIE")
             };
         }
 
@@ -109,11 +109,11 @@ public class MovieService
 
         using var command = new MySqlCommand(query, connection);
         command.Parameters.AddWithValue("@id", id);
-        command.Parameters.AddWithValue("@title", movie.Title_Movie);
-        command.Parameters.AddWithValue("@synopsis", movie.Synopsis_Movie);
-        command.Parameters.AddWithValue("@duration", movie.Duration_Movie);
-        command.Parameters.AddWithValue("@genre", movie.Genre_Movie);
-        command.Parameters.AddWithValue("@ageRating", movie.Age_Rating_Movie);
+        command.Parameters.AddWithValue("@title", movie.TitleMovie);
+        command.Parameters.AddWithValue("@synopsis", movie.SynopsisMovie);
+        command.Parameters.AddWithValue("@duration", movie.DurationMovie);
+        command.Parameters.AddWithValue("@genre", movie.GenreMovie);
+        command.Parameters.AddWithValue("@ageRating", movie.AgeRatingMovie);
 
         var rowsAffected = await command.ExecuteNonQueryAsync();
 
