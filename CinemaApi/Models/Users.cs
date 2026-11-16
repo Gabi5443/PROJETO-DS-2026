@@ -11,6 +11,6 @@ public class Users
     public int IdUsers { get; set; }
     public string NameUsers { get; set; } = string.Empty;
     public string EmailUsers { get; set; } = string.Empty;
-    public int PasswordUsers { get; set; } = string.Empty;
-    public string RoleUsers { get; set; } ;
+    public int PasswordUsers { get; set; }
+    public EnumRoleUsers RoleUsers { get; set; } = RoleUser.Client;
 }
