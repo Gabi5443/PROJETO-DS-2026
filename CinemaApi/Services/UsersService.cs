@@ -38,10 +38,10 @@ public async Task CreateAsync(Users user)
         
         // Substitui cada @ na query pelos valores reais que vieram no objeto "user"
         // Fazer isso evita ataques de SQL Injection
-        command.Parameters.AddWithValue("@name", user.Name_Users);
-        command.Parameters.AddWithValue("@email", user.Email_Users);
-        command.Parameters.AddWithValue("@password", user.Password_Users);
-        command.Parameters.AddWithValue("@role", user.Role_Users);
+        command.Parameters.AddWithValue("@name", user.NameUsers);
+        command.Parameters.AddWithValue("@email", user.EmailUsers);
+        command.Parameters.AddWithValue("@password", user.PasswordUsers);
+        command.Parameters.AddWithValue("@role", user.RoleUsers);
 
         // Executa o comando no banco. "ExecuteNonQueryAsync" é usado quando NÃO esperamos dados de volta (INSERT, UPDATE, DELETE)
         await command.ExecuteNonQueryAsync();
@@ -81,13 +81,13 @@ public async Task CreateAsync(Users user)
             return new Users
             {
                 // Pega o número inteiro da coluna ID_USERS
-                Id_Users = reader.GetInt32("ID_USERS"),
+                IdUsers = reader.GetInt32("ID_USERS"),
                 // Pega o texto da coluna NAME_USERS
-                Name_Users = reader.GetString("NAME_USERS"),
+                NameUsers = reader.GetString("NAME_USERS"),
                 // Pega o texto da coluna EMAIL_USERS
-                Email_Users = reader.GetString("EMAIL_USERS"),
+                EmailUsers = reader.GetString("EMAIL_USERS"),
                 // Pega o texto da coluna ROLE_USERS
-                Role_Users = reader.GetString("ROLE_USERS")
+                RoleUsers = reader.GetString("ROLE_USERS")
             };
         }
 
@@ -122,10 +122,10 @@ public async Task CreateAsync(Users user)
         {
             return new Users
             {
-                Id_Users = reader.GetInt32("ID_USERS"),
-                Name_Users = reader.GetString("NAME_USERS"),
-                Email_Users = reader.GetString("EMAIL_USERS"),
-                Role_Users = reader.GetString("ROLE_USERS")
+                IdUsers = reader.GetInt32("ID_USERS"),
+                NameUsers = reader.GetString("NAME_USERS"),
+                EmailUsers = reader.GetString("EMAIL_USERS"),
+                RoleUsers = reader.GetString("ROLE_USERS")
             };
         }
 
@@ -151,9 +151,9 @@ public async Task CreateAsync(Users user)
         // Cria o comando e preenche todos os valores novos + o ID de quem será alterado
         using var command = new MySqlCommand(query, connection);
         command.Parameters.AddWithValue("@id", id);
-        command.Parameters.AddWithValue("@name", user.Name_Users);
-        command.Parameters.AddWithValue("@email", user.Email_Users);
-        command.Parameters.AddWithValue("@password", user.Password_Users);
+        command.Parameters.AddWithValue("@name", user.NameUsers);
+        command.Parameters.AddWithValue("@email", user.EmailUsers);
+        command.Parameters.AddWithValue("@password", user.PasswordUsers);
 
         // Executa o UPDATE e guarda quantas linhas foram modificadas no banco
         var rowsAffected = await command.ExecuteNonQueryAsync();
