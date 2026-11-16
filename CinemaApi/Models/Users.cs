@@ -1,3 +1,5 @@
+namespace CinemaApi.Models;
+
 public class Users
 {
     public int Id_Users { get; set; }
