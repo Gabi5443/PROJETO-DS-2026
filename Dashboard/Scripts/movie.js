@@ -1,3 +1,6 @@
+const API_URL = "http://localhost:5252/CinemaApi/Movie";
+
+
 async function createMovie() {
   // 1. Pega os valores digitados nos inputs do seu HTML
   const novoFilme = {
