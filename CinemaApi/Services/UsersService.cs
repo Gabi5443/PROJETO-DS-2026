@@ -30,8 +30,8 @@ public async Task CreateAsync(Users user)
 
         // Escreve o comando SQL que será enviado. O "@" antes do texto permite quebrar linhas na string
         // Os nomes com @ (@name, @email...) são espaços reservados (parâmetros) para os valores reais
-        var query = @"INSERT INTO USERS (NAME_USERS, EMAIL_USERS, PASSWORD_USERS, ROLE_USERS) 
-                      VALUES (@name, @email, @password, @role)";
+        var query = @"INSERT INTO USERS (NAME_USERS, EMAIL_USERS, PASSWORD_USERS, PHOTO_USERS, ROLE_USERS) 
+                      VALUES (@name, @email, @password, @photo, @role)";
 
         // Cria o "mensageiro" (command) que vai levar o texto SQL através da conexão aberta
         using var command = new MySqlCommand(query, connection);
@@ -41,7 +41,8 @@ public async Task CreateAsync(Users user)
         command.Parameters.AddWithValue("@name", user.NameUsers);
         command.Parameters.AddWithValue("@email", user.EmailUsers);
         command.Parameters.AddWithValue("@password", user.PasswordUsers);
-        command.Parameters.AddWithValue("@role", user.RoleUsers);
+        command.Parameters.AddWithValue("@photo", user.PhotoUsers);
+        command.Parameters.AddWithValue("@role", user.RoleUsers.ToString());
 
         // Executa o comando no banco. "ExecuteNonQueryAsync" é usado quando NÃO esperamos dados de volta (INSERT, UPDATE, DELETE)
         await command.ExecuteNonQueryAsync();
@@ -59,7 +60,7 @@ public async Task CreateAsync(Users user)
         await connection.OpenAsync();
 
         // Comando SQL para buscar os dados do usuário onde o e-mail E a senha batem com o que foi digitado
-        var query = @"SELECT ID_USERS, NAME_USERS, EMAIL_USERS, ROLE_USERS 
+        var query = @"SELECT ID_USERS, NAME_USERS, EMAIL_USERS, PHOTO_USERS, ROLE_USERS 
                       FROM USERS 
                       WHERE EMAIL_USERS = @email AND PASSWORD_USERS = @password";
 
@@ -86,6 +87,7 @@ public async Task CreateAsync(Users user)
                 NameUsers = reader.GetString("NAME_USERS"),
                 // Pega o texto da coluna EMAIL_USERS
                 EmailUsers = reader.GetString("EMAIL_USERS"),
+                PhotoUsers = reader.GetString("PHOTO_USERS"),
                 // Pega o texto da coluna ROLE_USERS
                // Linha 90 e Linha 128:
               RoleUsers = Enum.Parse<EnumRoleUsers>(reader.GetString("ROLE_USERS"), ignoreCase: true)
@@ -109,7 +111,7 @@ public async Task<List<Users>> GetAllAsync()
         await connection.OpenAsync();
 
         // Como queremos todos, não tem cláusula WHERE
-        var query = @"SELECT ID_USERS, NAME_USERS, EMAIL_USERS, ROLE_USERS 
+        var query = @"SELECT ID_USERS, NAME_USERS, EMAIL_USERS, PHOTO_USERS, ROLE_USERS 
                       FROM USERS";
 
         using var command = new MySqlCommand(query, connection);
@@ -126,6 +128,7 @@ public async Task<List<Users>> GetAllAsync()
                 NameUsers = reader.GetString("NAME_USERS"),
                 // Pega o texto da coluna EMAIL_USERS
                 EmailUsers = reader.GetString("EMAIL_USERS"),
+                PhotoUsers = reader.GetString("PHOTO_USERS"),
                 // Pega o texto da coluna ROLE_USERS
                // Linha 90 e Linha 128:
               RoleUsers = Enum.Parse<EnumRoleUsers>(reader.GetString("ROLE_USERS"), ignoreCase: true)
@@ -140,12 +143,6 @@ public async Task<List<Users>> GetAllAsync()
         return users;
     }
 
-
-
-
-
-
-
     // =========================================================================
     // 3. BUSCAR USUÁRIO POR ID (Para tela de Perfil)
     // =========================================================================
@@ -157,7 +154,7 @@ public async Task<List<Users>> GetAllAsync()
         await connection.OpenAsync();
 
         // Query buscando apenas pelo ID do usuário
-        var query = @"SELECT ID_USERS, NAME_USERS, EMAIL_USERS, ROLE_USERS 
+        var query = @"SELECT ID_USERS, NAME_USERS, EMAIL_USERS, PHOTO_USERS, ROLE_USERS 
                       FROM USERS 
                       WHERE ID_USERS = @id";
 
@@ -176,6 +173,7 @@ public async Task<List<Users>> GetAllAsync()
                 IdUsers = reader.GetInt32("ID_USERS"),
                 NameUsers = reader.GetString("NAME_USERS"),
                 EmailUsers = reader.GetString("EMAIL_USERS"),
+                PhotoUsers = reader.GetString("PHOTO_USERS"),
                 // Linha 90 e Linha 128:
                 RoleUsers = Enum.Parse<EnumRoleUsers>(reader.GetString("ROLE_USERS"), ignoreCase: true)
 
@@ -199,7 +197,7 @@ public async Task<List<Users>> GetAllAsync()
 
         // Comando SQL para alterar nome, e-mail e senha de um usuário específico (WHERE ID_USERS = @id)
         var query = @"UPDATE USERS 
-                      SET NAME_USERS = @name, EMAIL_USERS = @email, PASSWORD_USERS = @password 
+                      SET NAME_USERS = @name, EMAIL_USERS = @email, PASSWORD_USERS = @password, PHOTO_USERS = @photo, ROLE_USERS = @role
                       WHERE ID_USERS = @id";
 
         // Cria o comando e preenche todos os valores novos + o ID de quem será alterado
@@ -208,6 +206,8 @@ public async Task<List<Users>> GetAllAsync()
         command.Parameters.AddWithValue("@name", user.NameUsers);
         command.Parameters.AddWithValue("@email", user.EmailUsers);
         command.Parameters.AddWithValue("@password", user.PasswordUsers);
+        command.Parameters.AddWithValue("@photo", user.PhotoUsers);
+        command.Parameters.AddWithValue("@role", user.RoleUsers.ToString());
 
         // Executa o UPDATE e guarda quantas linhas foram modificadas no banco
         var rowsAffected = await command.ExecuteNonQueryAsync();

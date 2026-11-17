@@ -8,4 +8,5 @@ public class Movie
     public int DurationMovie {get; set;}
     public string GenreMovie {get; set;} = string.Empty;
     public int AgeRatingMovie {get; set;}
+    public string PhotoMovie { get; set; } = string.Empty;
 }
