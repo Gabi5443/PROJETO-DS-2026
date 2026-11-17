@@ -1,21 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Movie</title>
+    <title>Editar Filme</title>
 </head>
 <body>
-    <div class="form">
-        <form id="EditarMovie" >
-            <input type="text" id="TitleMovie" name="TitleMovie">
-            <input type="text" id="SinopsysMovie" name="SinopsysMovie">
-            <input type="time" id="DurationMovie" name="DurationMovie">
-            <input type="text" id="GenreMovie" name="GenreMovie">
-            <input type="number" id="AgeRatingMovie" name="AgeRatingMovie">
-            <input type="text" id="GenreMovie" name="GenreMovie">
-            <input type="file" id="PhotoMovie" name="PhotoMovie" accept="image/*">
-            <button type="submit">Editar Cliente</button>
+    <div class="createCard">
+        <form id="EditarMovie">
+            <div class="formGroup">
+                <label for="Titulo">Título:</label>
+                <input type="text" id="TitleMovie" name="TitleMovie">
+            </div>
+            
+            <div class="formGroup">
+                <label for="Sinopse">Sinopse:</label>
+                <input type="text" id="SinopsysMovie" name="SinopsysMovie">
+            </div>
+            
+            <div class="formGroup">
+                <label for="Duração">Duração:</label>
+                <input type="time" id="DurationMovie" name="DurationMovie">
+            </div>
+            
+            <div class="formGroup">
+                <label for="Genero">Gênero:</label>
+                <input type="text" id="GenreMovie" name="GenreMovie">
+            </div>
+            
+            <div class="formGroup">
+                <label for="Classificacao">Classificação:</label>
+                <input type="number" id="AgeRatingMovie" name="AgeRatingMovie">
+            </div>
+            
+            <div class="formGroup">
+                <label for="Foto">Foto:</label>
+                <input type="file" id="PhotoMovie" name="PhotoMovie" accept="image/*">
+            </div>
+            
+            <button type="submit">Editar Filme</button>
         </form>
     </div>
 </body>
