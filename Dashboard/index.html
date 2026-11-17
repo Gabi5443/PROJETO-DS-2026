@@ -5,29 +5,110 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <style>
-        
-        .cardsGrid{
-            display: grid;
-
+        * {
+            box-sizing: border-box;
+            border: 0;
+            padding: 0;
+            margin: 0;
         }
-        .cMovies{
-            
+
+        body {
+            background-color: #0F0A1C;
+            font-family: Arial, sans-serif;
+            display: flex; /* Faltava ativar o flex aqui */
+            flex-direction: column;
+            min-height: 100vh; /* Faz o body ocupar 100% da altura da tela */
+        }
+
+        .header {
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        .degrade {
+            font-size: 3rem;
+            font-weight: bold;
+            display: inline-flex; /* Elimina o espaço indesejado criado pelas quebras de linha no HTML */
+            letter-spacing: 2px;
+        }
+
+        .degrade span:nth-child(1) { color: #4E135F; }
+        .degrade span:nth-child(2) { color: #7B1E7A; }
+        .degrade span:nth-child(3) { color: #B22282; }
+        .degrade span:nth-child(4) { color: #FF85C0; }
+        .degrade span:nth-child(5) { color: #FF85C0; }
+        .degrade span:nth-child(6) { color: #B22282; }
+        .degrade span:nth-child(7) { color: #7B1E7A; }
+        .degrade span:nth-child(8) { color: #4E135F; }
+
+        .main {
+            flex: 1; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .grid {
+            display: grid;
+            width: 100%;
+            max-width: 100rem; 
+            gap: 15px;
+        }
+
+        .cardsGrid {
+            grid-template-columns: repeat(3, 1fr); 
+            grid-auto-rows: 140px; 
+            grid-template-areas:
+                "users movie movie"
+                "tickets session session"
+                "tickets room room";
+        }
+
+        .cMovies { grid-area: movie; }
+        .cUsers { grid-area: users; }
+        .cTickets { grid-area: tickets; }
+        .cRooms { grid-area: room; }
+        .cSession { grid-area: session; }
+
+        .item {
+            background: tomato;
+            color: white;
+            border-radius: 10px;
+            font-size: 1.5em;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="title">MOVIEING</div>
 
+    <div class="header">
+        <div class="title">
+            <div class="degrade">
+                <span>M</span>
+                <span>O</span>
+                <span>V</span>
+                <span>I</span>
+                <span>E</span>
+                <span>I</span>
+                <span>N</span>
+                <span>G</span>
+            </div>
+        </div>
     </div>
+
     <div class="main">
-<section class="cardsGrid">
-    <div class="cMovies"></div>
-    <div class="cUsers"></div>
-    <div class="cTickets"></div>
-    <div class="cRooms"></div>
-    <div class="cSession"></div>
-</section>
+        <section class="grid cardsGrid">
+            <div class="item cMovies">Movies</div>
+            <div class="item cUsers">Users</div>
+            <div class="item cTickets">Tickets</div>
+            <div class="item cRooms">Rooms</div>
+            <div class="item cSession">Session</div>
+        </section>
     </div>
+
 </body>
 </html>
