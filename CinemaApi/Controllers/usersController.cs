@@ -48,6 +48,15 @@ public class UsersController : ControllerBase
         return Ok(user);
     }
 
+
+
+    [HttpGet]
+    public async Task<IActionResult> GetAllUsers()
+    {
+        var users = await _usersService.GetAllAsync();
+        return Ok(users);
+    }
+
     // ROTA DE BUSCA POR ID: GET api/users/1
     [HttpGet("{id}")]
     public async Task<IActionResult> GetUserById(int id)

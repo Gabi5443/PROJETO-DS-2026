@@ -119,7 +119,53 @@ public class TicketService
         }
 
         return tickets;
+
+
+
     }
+
+//GET ALL TICKETS
+public async Task<List<Ticket>> GetAllAsync()
+    {
+        // Cria uma lista vazia que vai guardar todos os filmes encontrados
+        var tickets = new List<Ticket>();
+
+        using var connection = new MySqlConnection(_connectionString);
+        await connection.OpenAsync();
+
+        // Como queremos todos, não tem cláusula WHERE
+        var query = @"SELECT ID_TICKET, SEAT_NUMBER_TICKET, TYPE_TICKET, FINAL_PRICE_TICKET, ID_ORDER_FK, ID_SESSION_FK
+                      FROM TICKET";
+
+        using var command = new MySqlCommand(query, connection);
+        using var reader = await command.ExecuteReaderAsync();
+
+        // Enquanto houver linhas para ler no resultado do banco, ele repete o bloco
+        while (await reader.ReadAsync())
+        {
+            var ticket = new Ticket
+            {
+                 IdTicket = reader.GetInt32("ID_TICKET"),
+                SeatNumberTicket = reader.GetString("SEAT_NUMBER_TICKET"),
+                TypeTicket = Enum.Parse<EnumTypeTicket>(reader.GetString("TYPE_TICKET"), ignoreCase: true),
+                FinalPriceTicket = reader.GetDecimal("FINAL_PRICE_TICKET"),
+                IdOrderFk = reader.GetInt32("ID_ORDER_FK"),
+                IdSessionFk = reader.GetInt32("ID_SESSION_FK")
+            };
+
+            // Adiciona o filme montado dentro da lista
+            tickets.Add(ticket);
+        }
+
+        // Devolve a lista completa (se não houver filmes no banco, devolve uma lista vazia [])
+        return tickets;
+    }
+
+
+
+
+
+
 
     // 4. CANCELAR COMPRA DO PEDIDO (DELETE)
     public async Task<bool> CancelOrderAsync(int orderId, int userId)

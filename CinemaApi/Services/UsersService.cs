@@ -99,6 +99,53 @@ public async Task CreateAsync(Users user)
         return null; 
     }
 
+
+public async Task<List<Users>> GetAllAsync()
+    {
+        // Cria uma lista vazia que vai guardar todos os filmes encontrados
+        var users = new List<Users>();
+
+        using var connection = new MySqlConnection(_connectionString);
+        await connection.OpenAsync();
+
+        // Como queremos todos, não tem cláusula WHERE
+        var query = @"SELECT ID_USERS, NAME_USERS, EMAIL_USERS, ROLE_USERS 
+                      FROM USERS";
+
+        using var command = new MySqlCommand(query, connection);
+        using var reader = await command.ExecuteReaderAsync();
+
+        // Enquanto houver linhas para ler no resultado do banco, ele repete o bloco
+        while (await reader.ReadAsync())
+        {
+            var user = new Users
+            {
+                // Pega o número inteiro da coluna ID_USERS
+                IdUsers = reader.GetInt32("ID_USERS"),
+                // Pega o texto da coluna NAME_USERS
+                NameUsers = reader.GetString("NAME_USERS"),
+                // Pega o texto da coluna EMAIL_USERS
+                EmailUsers = reader.GetString("EMAIL_USERS"),
+                // Pega o texto da coluna ROLE_USERS
+               // Linha 90 e Linha 128:
+              RoleUsers = Enum.Parse<EnumRoleUsers>(reader.GetString("ROLE_USERS"), ignoreCase: true)
+                
+            };
+
+            // Adiciona o filme montado dentro da lista
+            users.Add(user);
+        }
+
+        // Devolve a lista completa (se não houver filmes no banco, devolve uma lista vazia [])
+        return users;
+    }
+
+
+
+
+
+
+
     // =========================================================================
     // 3. BUSCAR USUÁRIO POR ID (Para tela de Perfil)
     // =========================================================================

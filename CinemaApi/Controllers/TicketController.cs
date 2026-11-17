@@ -49,6 +49,14 @@ public class TicketController : ControllerBase
         return Ok(tickets);
     }
 
+
+     [HttpGet]
+    public async Task<IActionResult> GetAllTickets()
+    {
+        var tickets = await _ticketService.GetAllAsync();
+        return Ok(tickets);
+    }
+
      [HttpDelete("cancelar/{orderId}/{userId}")]
 public async Task<IActionResult> CancelOrder(int orderId, int userId)
 {
