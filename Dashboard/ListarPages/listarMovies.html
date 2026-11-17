@@ -18,6 +18,11 @@
             font-family: "Sniglet", system-ui;
         }
 
+        header {
+            display: flex;
+            justify-content: space-between;
+        }
+
         .voltar {
             display: inline-block;
             margin: 2%;
@@ -30,6 +35,20 @@
             background-color: #B22282;
         }
 
+        .criar {
+            display: inline-block;
+            margin: 2%;
+            margin-right: 5%;
+            text-decoration: none;
+            padding: 0.6rem 0.9rem;
+            border-radius: 0.35rem;
+            transition: 0.2s ease;
+            text-align: center;
+            color: #fff;
+            background-color: #338a0a;
+        }
+
+        .criar:hover,
         .voltar:hover {
             filter: brightness(0.92);
             transform: translateY(-1px);
@@ -97,7 +116,10 @@
 </head>
 
 <body>
-    <a href="index.html" class="voltar">Voltar</a>
+    <header>
+        <a class="voltar">Voltar</a>
+        <a class="criar"> + Adicionar Filme</a>
+    </header>
     <table class="tabela">
         <thead>
             <tr>
