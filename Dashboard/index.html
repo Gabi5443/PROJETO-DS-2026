@@ -3,8 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Dashboard - Movieing</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap" rel="stylesheet">
     <style>
+
+        
+
         * {
             box-sizing: border-box;
             border: 0;
@@ -14,51 +20,64 @@
 
         body {
             background-color: #0F0A1C;
-            font-family: Arial, sans-serif;
-            display: flex; /* Faltava ativar o flex aqui */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
             flex-direction: column;
-            min-height: 100vh; /* Faz o body ocupar 100% da altura da tela */
+            min-height: 100vh;
         }
 
+        
         .header {
-            padding: 30px 20px;
-            text-align: center;
+            height: 3.5rem;
+            padding: 0 2.5rem;
+            background-color: #160F29;
+            border-bottom: 1px solid #2A1D4C;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
         .degrade {
-            font-size: 3rem;
-            font-weight: bold;
-            display: inline-flex; /* Elimina o espaço indesejado criado pelas quebras de linha no HTML */
+            font-size: 1.6rem; 
+            font-weight: 800;
+            display: inline-flex;
             letter-spacing: 2px;
+            font-family: "Orbitron", sans-serif;
         }
 
-        .degrade span:nth-child(1) { color: #4E135F; }
-        .degrade span:nth-child(2) { color: #7B1E7A; }
+        .degrade span:nth-child(1) { color: #7B1E7A; }
+        .degrade span:nth-child(2) { color: #9C2080; }
         .degrade span:nth-child(3) { color: #B22282; }
         .degrade span:nth-child(4) { color: #FF85C0; }
         .degrade span:nth-child(5) { color: #FF85C0; }
         .degrade span:nth-child(6) { color: #B22282; }
-        .degrade span:nth-child(7) { color: #7B1E7A; }
-        .degrade span:nth-child(8) { color: #4E135F; }
+        .degrade span:nth-child(7) { color: #9C2080; }
+        .degrade span:nth-child(8) { color: #7B1E7A; }
+
+        .header-info {
+           
+        }
+
+    
 
         .main {
-            flex: 1; 
+            flex: 1;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 2rem;
         }
 
         .grid {
             display: grid;
             width: 100%;
-            max-width: 100rem; 
-            gap: 15px;
+            max-width: 75rem;
+            gap: 1.5rem;
         }
 
         .cardsGrid {
-            grid-template-columns: repeat(3, 1fr); 
-            grid-auto-rows: 140px; 
+            grid-template-columns: repeat(3, 1fr);
+            grid-auto-rows: 150px;
             grid-template-areas:
                 "users movie movie"
                 "tickets session session"
@@ -71,16 +90,38 @@
         .cRooms { grid-area: room; }
         .cSession { grid-area: session; }
 
+       
         .item {
-            background: tomato;
-            color: white;
-            border-radius: 10px;
-            font-size: 1.5em;
-            font-weight: bold;
+            background: linear-gradient(145deg, #1A1230, #130C24);
+            border: 1px solid #2D1E54;
+            border-radius: 0.3rem;
+            padding: 1.5rem;
             display: flex;
-            align-items: center;
-            justify-content: center;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+            cursor: pointer;
         }
+
+        .item:hover {
+            transform: translateY(-4px);
+            border-color: #B22282;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.95rem;
+            color: #A799C7;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .card-value {
+           
+        }
+
     </style>
 </head>
 <body>
@@ -98,15 +139,42 @@
                 <span>G</span>
             </div>
         </div>
+        <div class="header-info">
+          
+        </div>
     </div>
 
     <div class="main">
         <section class="grid cardsGrid">
-            <div class="item cMovies">Movies</div>
-            <div class="item cUsers">Users</div>
-            <div class="item cTickets">Tickets</div>
-            <div class="item cRooms">Rooms</div>
-            <div class="item cSession">Session</div>
+            <div class="item cUsers">
+                <div class="card-header"><span>Users</span></div>
+                <div class="card-value"></div>
+                
+            </div>
+
+            <div class="item cMovies">
+                <div class="card-header"><span>Movies em Cartaz</span></div>
+                <div class="card-value"></div>
+                
+            </div>
+
+            <div class="item cTickets">
+                <div class="card-header"><span>Tickets Vendidos</span></div>
+                <div class="card-value"></div>
+                
+            </div>
+
+            <div class="item cSession">
+                <div class="card-header"><span>Sessions Hoje</span></div>
+                <div class="card-value"></div>
+                
+            </div>
+
+            <div class="item cRooms">
+                <div class="card-header"><span>Rooms Ativas</span></div>
+                <div class="card-value"> </div>
+                
+            </div>
         </section>
     </div>
 
