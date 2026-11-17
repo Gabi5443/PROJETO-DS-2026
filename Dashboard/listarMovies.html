@@ -48,6 +48,36 @@
             color: #c2c1c1;
             font-size: 0.9rem;
         }
+
+        .botoes {
+            display: flex;
+            gap: 15%;
+            align-items: center;
+            justify-self: center;
+        }
+
+        .botaoAlter,
+        .botaoDelete {
+            padding: 0.6rem 0.9rem;
+            border-radius: 0.35rem;
+            transition: 0.2s ease;
+            text-align: center;
+            color: #fff;
+        }
+
+        .botaoAlter {
+            background-color: #ffbe33;
+        }
+
+        .botaoDelete {
+            background-color: #e92f3b;
+        }
+
+        .botaoAlter:hover,
+        .botaoDelete:hover {
+            filter: brightness(0.92);
+            transform: translateY(-1px);
+        }
     </style>
 </head>
 
@@ -61,6 +91,7 @@
                 <th>Gênero</th>
                 <th>Classificação</th>
                 <th></th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -71,6 +102,12 @@
                 <td>Gênero</td>
                 <td>Classificação</td>
                 <td>Foto</td>
+                <td>
+                    <div class="botoes">
+                        <div class="botaoAlter">Alterar</div>
+                        <div class="botaoDelete">Deletar</div>
+                    </div>
+                </td>
             </tr>
         </tbody>
     </table>
