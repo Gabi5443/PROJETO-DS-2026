@@ -24,6 +24,10 @@ public class SessionController : ControllerBase
             await _sessionService.CreateAsync(session);
             return Ok(new { message = "Sessão cadastrada com sucesso!" });
         }
+        catch (MySqlException ex) when (ex.Number == 1452) // Filme ou Sala inexistente
+        {
+            return BadRequest(new { message = "O filme ou a sala informada não existe." });
+        }
         catch (Exception ex)
         {
             return StatusCode(500, new { message = "Erro no servidor: " + ex.Message });
@@ -31,19 +35,19 @@ public class SessionController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAllMovies()
+    public async Task<IActionResult> GetAllSessions()
     {
         var sessions = await _sessionService.GetAllAsync();
         return Ok(sessions);
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetMovieById(int id)
+    public async Task<IActionResult> GetSessionsById(int id)
     {
         var session = await _sessionService.GetByIdAsync(id);
         if (session == null)
         {
-            return NotFound(new { message = "Sessão não encontrado." });
+            return NotFound(new { message = "Sessão não encontrada." });
         }
         return Ok(session);
     }
@@ -51,12 +55,21 @@ public class SessionController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateSession(int id, [FromBody] Session session)
     {
-        var updated = await _sessionService.UpdateAsync(id, session);
-        if (!updated)
+        try
         {
-            return NotFound(new { message = "Sessão não encontrada para atualização." });
+            var updated = await _sessionService.UpdateAsync(id, session);
+            if (!updated)
+            {
+                return NotFound(new { message = "Sessão não encontrada para atualização." });
+            }
+
+            return Ok(new { message = "Sessão atualizada com sucesso!" });
         }
-        return Ok(new { message = "Sessão atualizada com sucesso!" });
+        catch (MySqlException ex) when (ex.Number == 1452)
+        {
+            return BadRequest(new { message = "O filme ou a sala informada não existe." });
+        }
+
     }
 
     [HttpDelete("{id}")]

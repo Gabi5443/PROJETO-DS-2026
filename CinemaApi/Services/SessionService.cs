@@ -100,7 +100,8 @@ public class SessionService
                       WHERE ID_SESSION = @id";
 
         using var command = new MySqlCommand(query, connection);
-         command.Parameters.AddWithValue("@showTimeSession", session.ShowTimeSession);
+        command.Parameters.AddWithValue("@id", id);
+        command.Parameters.AddWithValue("@showTimeSession", session.ShowTimeSession);
         command.Parameters.AddWithValue("@price", session.PriceSession);
         command.Parameters.AddWithValue("@idMovieFk", session.idMovieFk);
         command.Parameters.AddWithValue("@idRoomFk", session.idRoomFk);

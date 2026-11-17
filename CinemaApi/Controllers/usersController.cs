@@ -36,6 +36,18 @@ public class UsersController : ControllerBase
         }
     }
 
+     // ROTA DE LOGIN: POST api/users/login
+    [HttpPost("login")]
+    public async Task<IActionResult> Login([FromBody] LoginRequest loginData)
+    {
+        var user = await _usersService.LoginAsync(loginData.Email, loginData.Password);
+        if (user == null)
+        {
+            return Unauthorized(new { message = "E-mail ou senha inválidos." });
+        }
+        return Ok(user);
+    }
+
     // ROTA DE BUSCA POR ID: GET api/users/1
     [HttpGet("{id}")]
     public async Task<IActionResult> GetUserById(int id)
@@ -46,5 +58,17 @@ public class UsersController : ControllerBase
             return NotFound(new { message = "Usuário não encontrado." });
         }
         return Ok(user);
+    }
+
+    // ROTA DE ATUALIZAÇÃO: PUT api/users/1
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateUser(int id, [FromBody] Users user)
+    {
+        var updated = await _usersService.UpdateAsync(id, user);
+        if (!updated)
+        {
+            return NotFound(new { message = "Usuário não encontrado para atualização." });
+        }
+        return Ok(new { message = "Dados atualizados com sucesso!" });
     }
 }

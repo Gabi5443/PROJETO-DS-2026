@@ -11,6 +11,12 @@ public class Users
     public int IdUsers { get; set; }
     public string NameUsers { get; set; } = string.Empty;
     public string EmailUsers { get; set; } = string.Empty;
-    public int PasswordUsers { get; set; }
+    public string PasswordUsers { get; set; } = string.Empty;
     public EnumRoleUsers RoleUsers { get; set; } = EnumRoleUsers.Client;
+}
+
+public class LoginRequest
+{
+    public string Email { get; set; } = string.Empty;
+    public string Password { get; set; } = string.Empty;
 }

@@ -62,11 +62,22 @@ public class MovieController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteMovie(int id)
     {
-        var deleted = await _movieService.DeleteAsync(id);
-        if (!deleted)
+        try
         {
-            return NotFound(new { message = "Filme não encontrado para exclusão." });
+            var deleted = await _movieService.DeleteAsync(id);
+            if (!deleted)
+            {
+                return NotFound(new { message = "Filme não encontrado para exclusão." });
+            }
+            return Ok(new { message = "Filme removido com sucesso!" });
         }
-        return Ok(new { message = "Filme removido com sucesso!" });
+        catch (MySqlException ex) when (ex.Number == 1451) // Erro 1451 = Registro em uso por outra tabela (FK)
+        {
+            return BadRequest(new { message = "Não é possível excluir este filme pois existem sessões vinculadas a ele." });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { message = "Erro no servidor: " + ex.Message });
+        }
     }
 }
