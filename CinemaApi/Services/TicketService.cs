@@ -18,16 +18,13 @@ public class TicketService
         using var connection = new MySqlConnection(_connectionString);
         await connection.OpenAsync();
 
-        // Inicia transação ("tudo ou nada")
         using var transaction = await connection.BeginTransactionAsync();
 
         try
         {
-            // Soma o valor final de todos os ingressos do carrinho
             var totalPrice = request.Items.Sum(item => item.FinalPriceTicket);
 
-            // Insere o pedido na tabela ORDERS e captura o ID_ORDER gerado
-            var orderQuery = @"INSERT INTO ORDERS (TOTAL_PRICE, PAYMENT_METHOD, ORDER_DATE, ID_USERS) 
+            var orderQuery = @"INSERT INTO ORDERS (TOTAL_PRICE_ORDER, PAYMENT_METHOD_ORDER, ORDER_DATE_ORDER, ID_USERS_FK) 
                                VALUES (@totalPrice, @paymentMethod, NOW(), @idUsers);
                                SELECT LAST_INSERT_ID();";
 
@@ -38,7 +35,6 @@ public class TicketService
 
             var orderId = Convert.ToInt32(await orderCmd.ExecuteScalarAsync());
 
-            // Insere cada poltrona do carrinho na tabela TICKET
             var ticketQuery = @"INSERT INTO TICKET (SEAT_NUMBER_TICKET, TYPE_TICKET, FINAL_PRICE_TICKET, ID_ORDER_FK, ID_SESSION_FK) 
                                 VALUES (@seatNumber, @typeTicket, @finalPrice, @idOrderFk, @idSessionFk)";
 
@@ -54,13 +50,11 @@ public class TicketService
                 await ticketCmd.ExecuteNonQueryAsync();
             }
 
-            // Confirma a gravação do pedido e de todos os ingressos
             await transaction.CommitAsync();
             return orderId;
         }
         catch
         {
-            // Se qualquer poltrona der erro (ex: assento já comprado), desfaz tudo
             await transaction.RollbackAsync();
             throw;
         }
@@ -103,8 +97,8 @@ public class TicketService
                              t.FINAL_PRICE_TICKET, t.ID_ORDER_FK, t.ID_SESSION_FK
                       FROM TICKET t
                       INNER JOIN ORDERS o ON t.ID_ORDER_FK = o.ID_ORDER
-                      WHERE o.ID_USERS = @idUsers
-                      ORDER BY o.ORDER_DATE DESC";
+                      WHERE o.ID_USERS_FK = @idUsers
+                      ORDER BY o.ORDER_DATE_ORDER DESC";
 
         using var command = new MySqlCommand(query, connection);
         command.Parameters.AddWithValue("@idUsers", userId);
@@ -125,5 +119,23 @@ public class TicketService
         }
 
         return tickets;
+    }
+
+    // 4. CANCELAR COMPRA DO PEDIDO (DELETE)
+    public async Task<bool> CancelOrderAsync(int orderId, int userId)
+    {
+        using var connection = new MySqlConnection(_connectionString);
+        await connection.OpenAsync();
+
+        var query = @"DELETE FROM ORDERS 
+                      WHERE ID_ORDER = @idOrder AND ID_USERS_FK = @idUsers";
+
+        using var command = new MySqlCommand(query, connection);
+        command.Parameters.AddWithValue("@idOrder", orderId);
+        command.Parameters.AddWithValue("@idUsers", userId);
+
+        var rowsAffected = await command.ExecuteNonQueryAsync();
+
+        return rowsAffected > 0;
     }
 }
