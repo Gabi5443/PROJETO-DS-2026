@@ -17,14 +17,30 @@
             font-family: "Sniglet", system-ui;
         }
 
-        .tabela {
+        .voltar {
+            display: inline-block;
+            margin: 2%;
+            text-decoration: none;
+            padding: 0.6rem 0.9rem;
+            border-radius: 0.35rem;
+            transition: 0.2s ease;
+            text-align: center;
+            color: #fff;
+            background-color: #B22282;
+        }
+
+        .voltar:hover {
+            filter: brightness(0.92);
+            transform: translateY(-1px);
+        }
+
+      .tabela {
             width: 90%;
-            margin-top: 5%;
             justify-self: center;
             align-items: center;
             border-radius: 0.7rem;
-            
-            background-color: #240461;
+            border: 1px solid #B22282;
+            background-color: #160F29;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
         }
 
@@ -35,7 +51,7 @@
         }
 
         .tabela th {
-            background-color: #3c1d77;
+            background-color: #302158;
             border-radius: 5px;
             color: white;
             font-size: 0.95rem;
@@ -80,6 +96,7 @@
     </style>
 </head>
 <body>
+    <a href="index.html" class="voltar">Voltar</a>
     <table class="tabela">
         <thead>
             <tr>
