@@ -18,8 +18,8 @@ public class MovieService
 
         await connection.OpenAsync();
 
-        var query = @"INSERT INTO MOVIE (TITLE_MOVIE, SYNOPSIS_MOVIE, DURATION_MOVIE, GENRE_MOVIE, AGE_RATING_MOVIE) 
-                      VALUES (@title, @synopsis, @duration, @genre, @ageRating)";
+        var query = @"INSERT INTO MOVIE (TITLE_MOVIE, SYNOPSIS_MOVIE, DURATION_MOVIE, GENRE_MOVIE, AGE_RATING_MOVIE, PHOTO_MOVIE) 
+                      VALUES (@title, @synopsis, @duration, @genre, @ageRating, @photo)";
 
         using var command = new MySqlCommand(query, connection);
 
@@ -28,6 +28,7 @@ public class MovieService
         command.Parameters.AddWithValue("@duration", movie.DurationMovie);
         command.Parameters.AddWithValue("@genre", movie.GenreMovie);
         command.Parameters.AddWithValue("@ageRating", movie.AgeRatingMovie);
+        command.Parameters.AddWithValue("@photo", movie.PhotoMovie);
 
         await command.ExecuteNonQueryAsync();
     }
@@ -41,7 +42,7 @@ public class MovieService
         await connection.OpenAsync();
 
         // Como queremos todos, não tem cláusula WHERE
-        var query = @"SELECT ID_MOVIE, TITLE_MOVIE, SYNOPSIS_MOVIE, DURATION_MOVIE, GENRE_MOVIE, AGE_RATING_MOVIE 
+        var query = @"SELECT ID_MOVIE, TITLE_MOVIE, SYNOPSIS_MOVIE, DURATION_MOVIE, GENRE_MOVIE, AGE_RATING_MOVIE, PHOTO_MOVIE 
                       FROM MOVIE";
 
         using var command = new MySqlCommand(query, connection);
@@ -57,7 +58,8 @@ public class MovieService
                 SynopsisMovie = reader.GetString("SYNOPSIS_MOVIE"),
                 DurationMovie = reader.GetInt32("DURATION_MOVIE"), // Lembre de conferir se é GetString ou GetInt32
                 GenreMovie = reader.GetString("GENRE_MOVIE"),
-                AgeRatingMovie = reader.GetInt32("AGE_RATING_MOVIE")
+                AgeRatingMovie = reader.GetInt32("AGE_RATING_MOVIE"),
+                PhotoMovie = reader.GetString("PHOTO_MOVIE")
             };
 
             // Adiciona o filme montado dentro da lista
@@ -73,7 +75,7 @@ public class MovieService
         using var connection = new MySqlConnection(_connectionString);
         await connection.OpenAsync();
 
-        var query = @"SELECT ID_MOVIE, TITLE_MOVIE, SYNOPSIS_MOVIE, DURATION_MOVIE, GENRE_MOVIE, AGE_RATING_MOVIE 
+        var query = @"SELECT ID_MOVIE, TITLE_MOVIE, SYNOPSIS_MOVIE, DURATION_MOVIE, GENRE_MOVIE, AGE_RATING_MOVIE, PHOTO_MOVIE
                       FROM MOVIE 
                       WHERE ID_MOVIE = @id";
 
@@ -91,7 +93,8 @@ public class MovieService
                 SynopsisMovie = reader.GetString("SYNOPSIS_MOVIE"),
                 DurationMovie = reader.GetInt32("DURATION_MOVIE"),
                 GenreMovie = reader.GetString("GENRE_MOVIE"),
-                AgeRatingMovie = reader.GetInt32("AGE_RATING_MOVIE")
+                AgeRatingMovie = reader.GetInt32("AGE_RATING_MOVIE"),
+                PhotoMovie = reader.GetString("PHOTO_MOVIE")
             };
         }
 
@@ -104,7 +107,7 @@ public class MovieService
         await connection.OpenAsync();
 
         var query = @"UPDATE MOVIE
-                      SET TITLE_MOVIE = @title, SYNOPSIS_MOVIE = @synopsis, DURATION_MOVIE = @duration, GENRE_MOVIE = @genre, AGE_RATING_MOVIE =  @ageRating 
+                      SET TITLE_MOVIE = @title, SYNOPSIS_MOVIE = @synopsis, DURATION_MOVIE = @duration, GENRE_MOVIE = @genre, AGE_RATING_MOVIE =  @ageRating, PHOTO_MOVIE = @photo
                       WHERE ID_MOVIE = @id";
 
         using var command = new MySqlCommand(query, connection);
@@ -114,6 +117,7 @@ public class MovieService
         command.Parameters.AddWithValue("@duration", movie.DurationMovie);
         command.Parameters.AddWithValue("@genre", movie.GenreMovie);
         command.Parameters.AddWithValue("@ageRating", movie.AgeRatingMovie);
+        command.Parameters.AddWithValue("@photo", movie.PhotoMovie);
 
         var rowsAffected = await command.ExecuteNonQueryAsync();
 
