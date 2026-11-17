@@ -48,4 +48,17 @@ public class TicketController : ControllerBase
         var tickets = await _ticketService.GetTicketsByUserAsync(userId);
         return Ok(tickets);
     }
+
+     [HttpDelete("cancelar/{orderId}/{userId}")]
+public async Task<IActionResult> CancelOrder(int orderId, int userId)
+{
+    var cancelado = await _ticketService.CancelOrderAsync(orderId, userId);
+
+    if (!cancelado)
+    {
+        return NotFound(new { message = "Pedido não encontrado ou não pertence a este usuário." });
+    }
+
+    return Ok(new { message = "Pedido cancelado com sucesso!" });
+}
 }
