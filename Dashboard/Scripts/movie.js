@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:5252/CinemaApi/Movie";
+const API_URL = "http://localhost:5252/Movie";
 
 
 async function createMovie() {
