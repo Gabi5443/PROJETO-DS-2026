@@ -10,25 +10,66 @@ namespace CinemaApi.Controllers;
 public class MovieController : ControllerBase
 {
     private readonly MovieService _movieService;
+    private readonly IWebHostEnvironment _environment;
 
-    public MovieController(MovieService movieService)
+    public MovieController(MovieService movieService, IWebHostEnvironment environment)
     {
         _movieService = movieService;
+         _environment = environment;
     }
 
-    [HttpPost]
-    public async Task<IActionResult> CreateMovie([FromBody] Movie movie)
+   [HttpPost]
+public async Task<IActionResult> CreateMovie(
+    [FromForm] MovieCreateRequest request)
+{
+    try
     {
-        try
+        string pasta = Path.Combine(
+            _environment.WebRootPath,
+            "uploads",
+            "movies"
+        );
+
+        Directory.CreateDirectory(pasta);
+
+        string extensao = Path.GetExtension(
+            request.PhotoMovie!.FileName
+        );
+
+        string nomeArquivo = Guid.NewGuid() + extensao;
+
+        string caminho = Path.Combine(pasta, nomeArquivo);
+
+        using (var stream = new FileStream(caminho, FileMode.Create))
         {
-            await _movieService.CreateAsync(movie);
-            return Ok(new { message = "Filme cadastrado com sucesso!" });
+            await request.PhotoMovie.CopyToAsync(stream);
         }
-        catch (Exception ex)
+
+        var movie = new Movie
         {
-            return StatusCode(500, new { message = "Erro no servidor: " + ex.Message });
-        }
+            TitleMovie = request.TitleMovie,
+            SynopsisMovie = request.SynopsisMovie,
+            DurationMovie = request.DurationMovie,
+            GenreMovie = request.GenreMovie,
+            AgeRatingMovie = request.AgeRatingMovie,
+            PhotoMovie = "/uploads/movies/" + nomeArquivo
+        };
+
+        await _movieService.CreateAsync(movie);
+
+        return Ok(new
+        {
+            message = "Filme cadastrado com sucesso!"
+        });
     }
+    catch (Exception ex)
+    {
+        return StatusCode(500, new
+        {
+            message = "Erro no servidor: " + ex.Message
+        });
+    }
+}
 
     [HttpGet]
     public async Task<IActionResult> GetAllMovies()

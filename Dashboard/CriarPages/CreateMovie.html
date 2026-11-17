@@ -6,17 +6,24 @@
     <title>Create Movie</title>
 </head>
 <body>
-    <div class="form">
-        <form id="CreateMovie" >
-            <input type="text" id="TitleMovie" name="TitleMovie">
-            <input type="text" id="SinopsisMovie" name="SinopsysMovie">
-            <input type="number" id="DurationMovie" name="DurationMovie">
-            <input type="text" id="GenreMovie" name="GenreMovie">
-            <input type="number" id="AgeRatingMovie" name="AgeRatingMovie">
-            <input type="text" id="GenreMovie" name="GenreMovie">
-            <input type="file" id="PhotoMovie" name="PhotoMovie" accept="image/*">
-            <button type="submit">Cadastrar Cliente</button>
-        </form>
-    </div>
+   <form id="CreateMovie">
+
+    <input type="text" name="TitleMovie" placeholder="Título" required>
+
+    <input type="text" name="SynopsisMovie" placeholder="Sinopse" required>
+
+    <input type="number" name="DurationMovie" placeholder="Duração em minutos" required>
+
+    <input type="text" name="GenreMovie" placeholder="Gênero" required>
+
+    <input type="number" name="AgeRatingMovie" placeholder="Classificação indicativa" required>
+
+    <input type="file" name="PhotoMovie" accept="image/*" required>
+
+    <button type="submit">Cadastrar Filme</button>
+
+</form>
+
+<script src="../Scripts/movie.js"></script>
 </body>
 </html>

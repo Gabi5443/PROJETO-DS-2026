@@ -1,34 +1,36 @@
-const API_URL = "http://localhost:5252/Movie";
+const API_URL = "https://localhost:5252/api/Movie";
 
+document.getElementById("CreateMovie").addEventListener("submit", async (event) => {
 
-async function createMovie() {
-  // 1. Pega os valores digitados nos inputs do seu HTML
-  const novoFilme = {
-    title: document.getElementById('titulo').value,
-    duration: Number(document.getElementById('duracao').value)
-    // coloque aqui os outros campos do seu Model Movie
-  };
+    event.preventDefault();
 
-  try {
-    // 2. Faz o POST enviando o JSON para a controller
-    const resposta = await fetch('http://localhost:5252/api/Movie', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(novoFilme)
-    });
+    const form = event.target;
 
-    // 3. Lê a resposta (seja o Ok ou o BadRequest/500 da sua controller)
-    const dados = await resposta.json();
+    const dados = new FormData(form);
 
-    if (resposta.ok) {
-      alert(dados.message); // Exibe: "Filme cadastrado com sucesso!"
-    } else {
-      alert('Erro: ' + dados.message);
+    try {
+
+        const resposta = await fetch(API_URL, {
+            method: "POST",
+            body: dados
+        });
+
+        const resultado = await resposta.json();
+
+        if (!resposta.ok) {
+            throw new Error(resultado.message);
+        }
+
+        alert(resultado.message);
+
+        form.reset();
+
+    } catch (erro) {
+
+        console.error(erro);
+
+        alert("Erro ao cadastrar filme: " + erro.message);
+
     }
 
-  } catch (erro) {
-    console.error('Erro de conexão com a API:', erro);
-  }
-}
+});
