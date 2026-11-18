@@ -15,61 +15,61 @@ public class MovieController : ControllerBase
     public MovieController(MovieService movieService, IWebHostEnvironment environment)
     {
         _movieService = movieService;
-         _environment = environment;
+        _environment = environment;
     }
 
-   [HttpPost]
-public async Task<IActionResult> CreateMovie(
-    [FromForm] MovieCreateRequest request)
-{
-    try
+    [HttpPost]
+    public async Task<IActionResult> CreateMovie(
+     [FromForm] MovieCreateRequest request)
     {
-        string pasta = Path.Combine(
-            _environment.WebRootPath,
-            "uploads",
-            "movies"
-        );
-
-        Directory.CreateDirectory(pasta);
-
-        string extensao = Path.GetExtension(
-            request.PhotoMovie!.FileName
-        );
-
-        string nomeArquivo = Guid.NewGuid() + extensao;
-
-        string caminho = Path.Combine(pasta, nomeArquivo);
-
-        using (var stream = new FileStream(caminho, FileMode.Create))
+        try
         {
-            await request.PhotoMovie.CopyToAsync(stream);
+            string pasta = Path.Combine(
+                _environment.WebRootPath,
+                "uploads",
+                "movies"
+            );
+
+            Directory.CreateDirectory(pasta);
+
+            string extensao = Path.GetExtension(
+                request.PhotoMovie!.FileName
+            );
+
+            string nomeArquivo = Guid.NewGuid() + extensao;
+
+            string caminho = Path.Combine(pasta, nomeArquivo);
+
+            using (var stream = new FileStream(caminho, FileMode.Create))
+            {
+                await request.PhotoMovie.CopyToAsync(stream);
+            }
+
+            var movie = new Movie
+            {
+                TitleMovie = request.TitleMovie,
+                SynopsisMovie = request.SynopsisMovie,
+                DurationMovie = request.DurationMovie,
+                GenreMovie = request.GenreMovie,
+                AgeRatingMovie = request.AgeRatingMovie,
+                PhotoMovie = "/uploads/movies/" + nomeArquivo
+            };
+
+            await _movieService.CreateAsync(movie);
+
+            return Ok(new
+            {
+                message = "Filme cadastrado com sucesso!"
+            });
         }
-
-        var movie = new Movie
+        catch (Exception ex)
         {
-            TitleMovie = request.TitleMovie,
-            SynopsisMovie = request.SynopsisMovie,
-            DurationMovie = request.DurationMovie,
-            GenreMovie = request.GenreMovie,
-            AgeRatingMovie = request.AgeRatingMovie,
-            PhotoMovie = "/uploads/movies/" + nomeArquivo
-        };
-
-        await _movieService.CreateAsync(movie);
-
-        return Ok(new
-        {
-            message = "Filme cadastrado com sucesso!"
-        });
+            return StatusCode(500, new
+            {
+                message = "Erro no servidor: " + ex.Message
+            });
+        }
     }
-    catch (Exception ex)
-    {
-        return StatusCode(500, new
-        {
-            message = "Erro no servidor: " + ex.Message
-        });
-    }
-}
 
     [HttpGet]
     public async Task<IActionResult> GetAllMovies()
@@ -90,15 +90,68 @@ public async Task<IActionResult> CreateMovie(
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateMovie(int id, [FromBody] Movie movie)
+    public async Task<IActionResult> UpdateMovie(int id, [FromForm] MovieCreateRequest request)
     {
-        var updated = await _movieService.UpdateAsync(id, movie);
-        if (!updated)
+        try
         {
-            return NotFound(new { message = "Filme não encontrado para atualização." });
+            // 1. Busca o filme atual no banco para saber qual é a foto antiga
+            var filmeExistente = await _movieService.GetByIdAsync(id);
+            if (filmeExistente == null)
+            {
+                return NotFound(new { message = "Filme não encontrado para atualização." });
+            }
+
+            // Por padrão, mantém o caminho da foto antiga
+            string caminhoFotoFinal = filmeExistente.PhotoMovie;
+
+            // 2. Se o usuário escolheu uma nova foto no formulário, salva a nova
+            if (request.PhotoMovie != null && request.PhotoMovie.Length > 0)
+            {
+                string pasta = Path.Combine(_environment.WebRootPath, "uploads", "movies");
+                Directory.CreateDirectory(pasta);
+
+                string extensao = Path.GetExtension(request.PhotoMovie.FileName);
+                string nomeArquivo = Guid.NewGuid() + extensao;
+                string caminhoCompleto = Path.Combine(pasta, nomeArquivo);
+
+                using (var stream = new FileStream(caminhoCompleto, FileMode.Create))
+                {
+                    await request.PhotoMovie.CopyToAsync(stream);
+                }
+
+                // Opcional: apaga a foto antiga do servidor para não acumular lixo
+                if (!string.IsNullOrEmpty(filmeExistente.PhotoMovie))
+                {
+                    string caminhoAntigo = Path.Combine(_environment.WebRootPath, filmeExistente.PhotoMovie.TrimStart('/'));
+                    if (System.IO.File.Exists(caminhoAntigo))
+                    {
+                        System.IO.File.Delete(caminhoAntigo);
+                    }
+                }
+
+                caminhoFotoFinal = "/uploads/movies/" + nomeArquivo;
+            }
+
+            // 3. Atualiza os dados no banco
+            var movieAtualizado = new Movie
+            {
+                TitleMovie = request.TitleMovie,
+                SynopsisMovie = request.SynopsisMovie,
+                DurationMovie = request.DurationMovie,
+                GenreMovie = request.GenreMovie,
+                AgeRatingMovie = request.AgeRatingMovie,
+                PhotoMovie = caminhoFotoFinal
+            };
+
+            await _movieService.UpdateAsync(id, movieAtualizado);
+            return Ok(new { message = "Filme atualizado com sucesso!" });
         }
-        return Ok(new { message = "Filme atualizado com sucesso!" });
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { message = "Erro no servidor: " + ex.Message });
+        }
     }
+
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteMovie(int id)

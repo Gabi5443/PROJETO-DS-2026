@@ -15,12 +15,12 @@
             
             <div class="formGroup">
                 <label for="Sinopse">Sinopse:</label>
-                <input type="text" id="SinopsysMovie" name="SinopsysMovie">
+                <input type="text" id="SynopsisMovie" name="SynopsisMovie">
             </div>
             
             <div class="formGroup">
                 <label for="Duração">Duração:</label>
-                <input type="time" id="DurationMovie" name="DurationMovie">
+                <input type="number" id="DurationMovie" name="DurationMovie">
             </div>
             
             <div class="formGroup">
@@ -34,12 +34,15 @@
             </div>
             
             <div class="formGroup">
-                <label for="Foto">Foto:</label>
+                <label for="Foto">Foto Atual:</label>
+                <img id="PreviewFoto" src="" alt="Capa atual" style="width: 150px; height: 85px; object-fit: cover; display: block; margin-bottom: 8px;">
+                <label for="PhotoMovie">Trocar Foto:</label>
                 <input type="file" id="PhotoMovie" name="PhotoMovie" accept="image/*">
             </div>
             
             <button type="submit">Editar Filme</button>
         </form>
     </div>
+    <script src="../Scripts/movie.js"></script>
 </body>
 </html>
