@@ -1,4 +1,4 @@
-const API_URL = "https://localhost:5252/api/Movie";
+const API_URL = "http://localhost:5252/api/Movie";
 
 document.getElementById("CreateMovie").addEventListener("submit", async (event) => {
 
