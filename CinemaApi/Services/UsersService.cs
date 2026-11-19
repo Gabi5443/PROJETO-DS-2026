@@ -38,9 +38,11 @@ public async Task CreateAsync(Users user)
         
         // Substitui cada @ na query pelos valores reais que vieram no objeto "user"
         // Fazer isso evita ataques de SQL Injection
+        
         command.Parameters.AddWithValue("@name", user.NameUsers);
         command.Parameters.AddWithValue("@email", user.EmailUsers);
-        command.Parameters.AddWithValue("@password", user.PasswordUsers);
+        string senhaHash = BCrypt.Net.BCrypt.HashPassword(user.PasswordUsers);
+        command.Parameters.AddWithValue("@password", senhaHash);
         command.Parameters.AddWithValue("@photo", user.PhotoUsers);
         command.Parameters.AddWithValue("@role", user.RoleUsers.ToString());
 
@@ -60,15 +62,14 @@ public async Task CreateAsync(Users user)
         await connection.OpenAsync();
 
         // Comando SQL para buscar os dados do usuário onde o e-mail E a senha batem com o que foi digitado
-        var query = @"SELECT ID_USERS, NAME_USERS, EMAIL_USERS, PHOTO_USERS, ROLE_USERS 
+        var query = @"SELECT ID_USERS, NAME_USERS, EMAIL_USERS, PASSWORD_USERS, PHOTO_USERS, ROLE_USERS 
                       FROM USERS 
-                      WHERE EMAIL_USERS = @email AND PASSWORD_USERS = @password";
+                      WHERE EMAIL_USERS = @email";
 
         // Prepara o comando SQL na conexão
         using var command = new MySqlCommand(query, connection);
         // Preenche os parâmetros com o e-mail e senha recebidos no método
         command.Parameters.AddWithValue("@email", email);
-        command.Parameters.AddWithValue("@password", password);
 
         // Executa a busca e guarda o resultado dentro de um "leitor" (reader)
         // "ExecuteReaderAsync" é usado para comandos SELECT (quando esperamos linhas de volta)
@@ -78,6 +79,8 @@ public async Task CreateAsync(Users user)
         // Se existir uma linha (ou seja, e-mail e senha estavam certos), ele entra no "if"
         if (await reader.ReadAsync())
         {
+            string hashSalvo = reader.GetString("PASSWORD_USERS");
+            if (!BCrypt.Net.BCrypt.Verify(password, hashSalvo)) return null;
             // Cria um novo objeto Users em C# e preenche lendo coluna por coluna do banco
             return new Users
             {
@@ -197,7 +200,7 @@ public async Task<List<Users>> GetAllAsync()
 
         // Comando SQL para alterar nome, e-mail e senha de um usuário específico (WHERE ID_USERS = @id)
         var query = @"UPDATE USERS 
-                      SET NAME_USERS = @name, EMAIL_USERS = @email, PASSWORD_USERS = @password, PHOTO_USERS = @photo, ROLE_USERS = @role
+                      SET NAME_USERS = @name, EMAIL_USERS = @email, PHOTO_USERS = @photo, ROLE_USERS = @role
                       WHERE ID_USERS = @id";
 
         // Cria o comando e preenche todos os valores novos + o ID de quem será alterado
@@ -205,9 +208,8 @@ public async Task<List<Users>> GetAllAsync()
         command.Parameters.AddWithValue("@id", id);
         command.Parameters.AddWithValue("@name", user.NameUsers);
         command.Parameters.AddWithValue("@email", user.EmailUsers);
-        command.Parameters.AddWithValue("@password", user.PasswordUsers);
+        command.Parameters.AddWithValue("@role", user.RoleUsers.ToString().ToUpper());
         command.Parameters.AddWithValue("@photo", user.PhotoUsers);
-        command.Parameters.AddWithValue("@role", user.RoleUsers.ToString());
 
         // Executa o UPDATE e guarda quantas linhas foram modificadas no banco
         var rowsAffected = await command.ExecuteNonQueryAsync();

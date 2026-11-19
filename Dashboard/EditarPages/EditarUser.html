@@ -20,19 +20,26 @@
                 <input type="text" name="EmailUsers" id="EmailUsers">
             </div>
 
-            <div class="formGroup">
-                <label for="Senha">Senha:</label>
-                <input type="text" name="PasswordUsers" id="PasswordUsers">
+             <div class="formGroup">
+                <label for="RoleUsers">Cargo:</label>
+                <select name="RoleUsers" id="RoleUsers" required>
+                    <option value="1">Cliente</option>
+                    <option value="2">Funcionário</option>
+                </select>
             </div>
 
             <div class="formGroup">
-                <label for="Foto">Foto de Perfil:</label>
+                <label>Foto Atual:</label>
+                <img id="PreviewFoto" src="" alt="Foto de perfil" style="width: 100px; height: 85px; object-fit: cover; border-radius: 50%; display: block; margin-bottom: 8px;">
+                
+                <label for="PhotoUsers">Trocar Foto de Perfil:</label>
                 <input type="file" id="PhotoUsers" name="PhotoUsers" accept="image/*">
             </div>
 
             <button type="submit">Editar Cliente</button>
         </form>
     </div>
+    <script src="../Scripts/user.js"></script>
 </body>
 
 </html>

@@ -63,6 +63,14 @@
             font-size: 0.9rem;
         }
 
+        .foto-usuarios {
+            width: 100px;
+            height: 85px;
+            object-fit: cover;
+            border-radius: 0.3rem;
+            display: block;
+        }
+
         .botoes {
             display: flex;
             gap: 15%;
@@ -106,20 +114,12 @@
                 <th></th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="lista-usuarios">
             <tr>
-                <td>Nome</td>
-                <td>Email</td>
-                <td>Tipo</td>
-                <td>Foto</td>
-                <td>
-                    <div class="botoes">
-                        <div class="botaoAlter">Alterar</div>
-                        <div class="botaoDelete">Deletar</div>
-                    </div>
-                </td>
+                <td colspan="7" style="text-align: center;">Carregando usuários...</td>
             </tr>
         </tbody>
     </table>
+    <script src="../Scripts/user.js"></script>
 </body>
 </html>
