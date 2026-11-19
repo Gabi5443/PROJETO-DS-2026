@@ -59,3 +59,16 @@ CREATE TABLE TICKET (
     FOREIGN KEY (ID_SESSION_FK) REFERENCES SESSION(ID_SESSION),
     UNIQUE KEY UQ_SESSION_SEAT (ID_SESSION_FK, SEAT_NUMBER_TICKET) 
 );
+
+
+INSERT INTO ROOM (NAME_ROOM, TOTAL_ROWS_ROOM, SEATS_PER_ROW_ROOM) VALUES
+('Sala 01 - IMAX', 15, 20),
+('Sala 02 - 3D', 12, 16),
+('Sala 03 - VIP', 6, 8),
+('Sala 04 - Convencional', 10, 14),
+('Sala 05 - Convencional', 10, 14),
+('Sala 06 - Macro XE', 14, 18),
+('Sala 07 - D-BOX', 8, 12),
+('Sala 08 - Lounge', 5, 10),
+('Sala 09 - 4DX', 9, 12),
+('Sala 10 - Premier', 7, 10);
