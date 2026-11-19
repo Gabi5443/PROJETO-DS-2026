@@ -22,9 +22,14 @@
                 <input type="number" name="PriceSession" id="PriceSession">
             </div>
 
-            <div class="formGroup">
-                <label for="Data">Data:</label>
-                <input type="datetime" name="ShowTimeSession" id="ShowTimeSession">
+          <div class="formItem">
+                <label for="ShowTimeSession">Data </label>
+                <input type="date" name="dataSession" id="dataSession" required>
+            </div>
+
+             <div class="formItem">
+                <label for="ShowTimeSession">Horário</label>
+                <input type="time" name="timeSession" id="timeSession" required>
             </div>
 
             <div class="formGroup">
@@ -38,5 +43,5 @@
         </form>
     </div>
 </body>
-
+<script src="../Scripts/session.js"></script>
 </html>

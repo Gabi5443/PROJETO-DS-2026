@@ -24,6 +24,7 @@ builder.Services.AddScoped<RoomService>();
 builder.Services.AddScoped<TicketService>();
 
 var app = builder.Build();
+
 app.UseStaticFiles();
 
 // Aplica a política de CORS
