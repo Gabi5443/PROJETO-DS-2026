@@ -1,48 +1,154 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Filme</title>
+    <title>Cadastrar Filme</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sniglet:wght@400;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            
+        }
+
+        body {
+            background-color: #0F0A1C;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: #ffffff;
+        }
+
+        .form-container {
+             background-color: #160F29;
+            padding: 32px;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 30rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 24px;
+            font-size: 1.5rem;
+             font-family: "Orbitron", sans-serif;
+            color: #f3f4f6;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            font-family: "Sniglet", system-ui;
+        }
+
+        .formItem {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        label {
+             color: #ffffff;
+            font-size: 0.9rem;
+           
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            border-radius: 6px;
+           border: 1px solid #2D1E54;
+            background: linear-gradient(145deg, #1A1230, #130C24);
+            color: #ffffff;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input:focus, textarea:focus {
+              transform: translateY(-4px);
+            border-color: #B22282;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        input[type="file"] {
+            padding: 8px;
+            cursor: pointer;
+        }
+
+        button {
+            margin-top: 8px;
+            padding: 14px;
+            border: none;
+            border-radius: 6px;
+            background-color: #B22282;
+            color: #ffffff;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+           background-color: #2D1E54;
+        }
+    </style>
 </head>
 <body>
-    <div class="createCard">
+    <div class="form-container">
+        <h2>Cadastrar Novo Filme</h2>
         <form id="EditarMovie">
-            <div class="formGroup">
-                <label for="Titulo">Título:</label>
-                <input type="text" id="TitleMovie" name="TitleMovie">
+            <div class="formItem">
+                <label for="TitleMovie">Título</label>
+                <input type="text" id="TitleMovie" name="TitleMovie" required>
             </div>
-            
-            <div class="formGroup">
-                <label for="Sinopse">Sinopse:</label>
-                <input type="text" id="SynopsisMovie" name="SynopsisMovie">
+
+            <div class="formItem">
+                <label for="SynopsisMovie">Sinopse</label>
+                <textarea id="SynopsisMovie" name="SynopsisMovie"  required></textarea>
             </div>
-            
-            <div class="formGroup">
-                <label for="Duração">Duração:</label>
-                <input type="number" id="DurationMovie" name="DurationMovie">
+
+            <div class="formItem">
+                <label for="DurationMovie">Duração (em minutos)</label>
+                <input type="number" id="DurationMovie" name="DurationMovie"   required>
             </div>
-            
-            <div class="formGroup">
-                <label for="Genero">Gênero:</label>
-                <input type="text" id="GenreMovie" name="GenreMovie">
+
+            <div class="formItem">
+                <label for="GenreMovie">Gênero</label>
+                <input type="text" id="GenreMovie" name="GenreMovie"  required>
             </div>
-            
-            <div class="formGroup">
-                <label for="Classificacao">Classificação:</label>
-                <input type="number" id="AgeRatingMovie" name="AgeRatingMovie">
+
+            <div class="formItem">
+                <label for="AgeRatingMovie">Classificação indicativa</label>
+                <input type="number" id="AgeRatingMovie" name="AgeRatingMovie"  min="0" max="18" required>
             </div>
-            
-            <div class="formGroup">
-                <label for="Foto">Foto Atual:</label>
-                <img id="PreviewFoto" src="" alt="Capa atual" style="width: 150px; height: 85px; object-fit: cover; display: block; margin-bottom: 8px;">
-                <label for="PhotoMovie">Trocar Foto:</label>
-                <input type="file" id="PhotoMovie" name="PhotoMovie" accept="image/*">
+
+            <div class="formItem">
+
+                <label>Foto Atual:</label>
+                <img id="PreviewFoto" src="" alt="Foto do filme" style="width: 100px; height: 85px; object-fit: cover; border-radius: 30%; display: block; margin-bottom: 8px;">
+                
+
+
+                <label for="PhotoMovie">Capa do Filme</label>
+                <input type="file" id="PhotoMovie" name="PhotoMovie" accept="image/*" >
             </div>
-            
-            <button type="submit">Editar Filme</button>
+
+            <button type="submit">Cadastrar Filme</button>
         </form>
     </div>
+
     <script src="../Scripts/movie.js"></script>
 </body>
 </html>

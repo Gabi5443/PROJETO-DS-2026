@@ -50,8 +50,8 @@ async function carregarFilmes() { //cria uma função assincrona (função que e
         tabelaBody.innerHTML = "";//limpa o conteúdo da tabela
 
         filmes.forEach(filme => { //laçõ de repetição do elemento
-            const caminho = filme.photoMovie?.startsWith("/") ? filme.photoMovie : `/${filme.photoMovie}`;
-            const urlImagem = `${API_BASE}${caminho}`; // adiciona a url de uma imagem a uma variável
+             const urlImagem = `${API_BASE}${filme.photoMovie}`; 
+           // adiciona a url de uma imagem a uma variável
 
             const linha = document.createElement("tr"); //cria variavel "linha cujo o valor é literalmente uma tag de linha em uma tabela em html"
 
