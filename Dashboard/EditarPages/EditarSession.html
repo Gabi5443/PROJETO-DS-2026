@@ -6,8 +6,105 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Sessão</title>
 </head>
+<style>
+       * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #0F0A1C;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: #ffffff;
+        }
+
+        .form-container {
+            background-color: #160F29;
+            padding: 32px;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 30rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 24px;
+            font-size: 1.5rem;
+            font-family: "Orbitron", sans-serif;
+            color: #f3f4f6;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            font-family: "Sniglet", system-ui;
+        }
+
+        .formItem {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        label {
+            color: #ffffff;
+            font-size: 0.9rem;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid #2D1E54;
+            background: linear-gradient(145deg, #1A1230, #130C24);
+            color: #ffffff;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input:focus, select:focus {
+            transform: translateY(-4px);
+            border-color: #B22282;
+        }
+
+        select {
+            cursor: pointer;
+        }
+
+        select option {
+            background-color: #160F29;
+            color: #ffffff;
+        }
+
+        button {
+            margin-top: 8px;
+            padding: 14px;
+            border: none;
+            border-radius: 6px;
+            background-color: #B22282;
+            color: #ffffff;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: #2D1E54;
+           
+        }
+</style>
 
 <body>
+    <div class="form-container">
     <div class="createCard">
         <form id="EditarSession">
             <div class="formGroup">
@@ -41,6 +138,7 @@
 
             <button type="submit">Editar Sessão</button>
         </form>
+    </div>
     </div>
 </body>
 <script src="../Scripts/session.js"></script>
