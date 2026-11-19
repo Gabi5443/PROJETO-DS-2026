@@ -8,118 +8,226 @@
     <link href="https://fonts.googleapis.com/css2?family=Sniglet:wght@400;800&display=swap" rel="stylesheet">
     <style>
         * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-        body {
-            background-color: #0F0A1C;
-            font-family: "Sniglet", system-ui;
-        }
+body {
+    background-color: #0F0A1C;
+    font-family: "Sniglet", system-ui, sans-serif;
+    padding-bottom: 2rem;
+}
 
-        header {
-            display: flex;
-            justify-content: space-between;
-        }
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    max-width: 1200px;
+    margin: 1.5rem auto;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
 
-        .voltar {
-            display: inline-block;
-            margin: 2%;
-            text-decoration: none;
-            padding: 0.6rem 0.9rem;
-            border-radius: 0.35rem;
-            transition: 0.2s ease;
-            text-align: center;
-            color: #fff;
-            background-color: #B22282;
-        }
+.voltar,
+.criar {
+    display: inline-block;
+    text-decoration: none;
+    padding: 0.6rem 1rem;
+    border-radius: 0.35rem;
+    transition: 0.2s ease;
+    text-align: center;
+    color: #fff;
+    font-size: 0.95rem;
+}
 
-        .criar {
-            display: inline-block;
-            margin: 2%;
-            margin-right: 5%;
-            text-decoration: none;
-            padding: 0.6rem 0.9rem;
-            border-radius: 0.35rem;
-            transition: 0.2s ease;
-            text-align: center;
-            color: #fff;
-            background-color: #338a0a;
-        }
+.voltar {
+    background-color: #B22282;
+}
 
-        .criar:hover,
-        .voltar:hover {
-            filter: brightness(0.92);
-            transform: translateY(-1px);
-        }
+.criar {
+    background-color: #338a0a;
+}
 
-        .tabela {
-            width: 90%;
-            justify-self: center;
-            align-items: center;
-            border-radius: 0.4rem;
-            border: 1px solid #B22282;
-            background-color: #160F29;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
-        }
+.criar:hover,
+.voltar:hover {
+    filter: brightness(0.92);
+    transform: translateY(-1px);
+}
 
-        .tabela th,
-        .tabela td {
-            padding: 1.2rem;
-            text-align: left;
-        }
+/*As tabelas são elementos rigidos = se o conteúdo delas for maior que as própria ela empurra a pagina inteira (não é um elemento adaptavel). Essa propriedade liga o scroll com "overflow-x: auto;"*/
+.tabelaQuebrada{
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    overflow-x: auto;
+    border-radius: 0.4rem;
+    border: 1px solid #B22282;
+    background-color: #160F29;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
 
-        .tabela th {
-            background-color: #302158;
-            color: white;
-            font-size: 0.95rem;
-            font-weight: 400;
-        }
+.tabela {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px; /* Garante que as colunas não fiquem esmagadas antes de rolar */
+}
 
-        .tabela td {
-            border-bottom: 1px solid #910296;
-            color: #c2c1c1;
-            font-size: 0.9rem;
-        }
+.tabela th,
+.tabela td {
+    padding: 1rem 1.2rem;
+    text-align: left;
+    vertical-align: middle;
+}
 
-        .foto-filme {
-            width: 9.5rem;
-            height: 5.5rem;
-            object-fit: cover;
-            border-radius: 0.3rem;
-            display: block;
-        }
+.tabela th {
+    background-color: #302158;
+    color: white;
+    font-size: 0.95rem;
+    font-weight: 400;
+    white-space: nowrap;
+}
 
-        .botoes {
-            display: flex;
-            gap: 15%;
-            align-items: center;
-            justify-self: center;
-        }
+.tabela td {
+    border-bottom: 1px solid #910296;
+    color: #c2c1c1;
+    font-size: 0.9rem;
+}
 
-        .botaoAlter,
-        .botaoDelete {
-            padding: 0.6rem 0.9rem;
-            border-radius: 0.35rem;
-            transition: 0.2s ease;
-            text-align: center;
-            color: #fff;
-        }
+.tabela tr:last-child td {
+    border-bottom: none;
+}
 
-        .botaoAlter {
-            background-color: #ffbe33;
-        }
+.foto-filme {
+    width: 8rem;
+    height: 4.8rem;
+    object-fit: cover;
+    border-radius: 0.3rem;
+    display: block;
+}
 
-        .botaoDelete {
-            background-color: #e92f3b;
-        }
+.botoes {
+    display: flex;
+    gap: 0.6rem;
+    align-items: center;
+    justify-content: flex-start;
+}
 
-        .botaoAlter:hover,
-        .botaoDelete:hover {
-            filter: brightness(0.92);
-            transform: translateY(-1px);
-        }
+.botaoAlter,
+.botaoDelete {
+    padding: 0.5rem 0.85rem;
+    border-radius: 0.35rem;
+    transition: 0.2s ease;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    color: #fff;
+    font-family: inherit;
+    font-size: 0.85rem;
+    white-space: nowrap;
+}
+
+.botaoAlter {
+    background-color: #ffbe33;
+    color: white;
+    
+}
+
+.botaoDelete {
+    background-color: #e92f3b;
+}
+
+.botaoAlter:hover,
+.botaoDelete:hover {
+    filter: brightness(0.92);
+    transform: translateY(-1px);
+}
+
+/* Ajustes para Celulares (telas menores que 600px) */
+@media (max-width: 600px) {
+    header {
+        width: 94%;
+        margin: 1rem auto;
+    }
+
+    .voltar,
+    .criar {
+        flex: 1; /* Faz os dois botões dividirem a largura igualmente no celular */
+        padding: 0.7rem;
+    }
+
+    .tabelaQuebrada {
+        width: 94%;
+    }
+
+    .tabela th,
+    .tabela td {
+        padding: 0.8rem;
+        font-size: 0.85rem;
+    }
+
+    .foto-filme {
+        width: 6rem;
+        height: 3.6rem;
+    }
+
+    .botoes {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.4rem;
+    }
+}
+
+/* Ajustes para TVs e Telas Grandes (Full HD 1920px e 4K) */
+@media (min-width: 1920px) {
+    body {
+        padding: 2rem 0;
+    }
+
+    header,
+    .tabela-wrapper {
+        width: 85%;
+        max-width: 2000px; /* Evita que a tabela fique esticada demais no 4K */
+    }
+
+    .voltar,
+    .criar {
+        padding: 1rem 1.8rem;
+        font-size: 1.3rem;
+        border-radius: 0.5rem;
+    }
+
+    .tabela th {
+        font-size: 1.35rem;
+        padding: 1.6rem 2rem;
+    }
+
+    .tabela td {
+        font-size: 1.25rem;
+        padding: 1.6rem 2rem;
+    }
+
+    .foto-filme {
+        width: 13rem;
+        height: 7.5rem;
+        border-radius: 0.5rem;
+    }
+
+    .botoes {
+        gap: 1rem;
+    }
+
+    .botaoAlter,
+    .botaoDelete {
+        padding: 1rem 2rem;
+        font-size: 1.15rem;
+        border-radius: 0.5rem;
+    }
+
+}
+
     </style>
 </head>
 
@@ -128,6 +236,7 @@
         <a href="../index.html" class="voltar">Voltar</a>
         <a href="../CriarPages/CreateMovie.html" class="criar"> + Adicionar Filme</a>
     </header>
+    <div class="tabelaQuebrada">
     <table class="tabela">
         <thead>
             <tr>
@@ -146,6 +255,7 @@
             </tr>
         </tbody>
     </table>
+    </div>
     <script src="../Scripts/movie.js"></script>
 </body>
 

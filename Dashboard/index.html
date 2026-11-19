@@ -206,6 +206,30 @@
                 font-size: 1.75rem;
             }
         }
+
+/* TVs Full HD e Monitores Grandes */
+        @media (min-width: 1600px) {
+            html {
+                font-size: 20px;
+            }
+
+            .grid {
+                max-width: 1800px;
+                gap: 2rem;
+            }
+
+            .cardsGrid {
+                grid-auto-rows: minmax(180px, 24vh);
+            }
+
+            .card-value {
+                font-size: 2.8rem;
+            }
+
+            
+        }
+
+
  @media (min-width: 2500px) { /*Setando o max-widht bem grande para a tv*/
             html {
                 font-size: 26px;
