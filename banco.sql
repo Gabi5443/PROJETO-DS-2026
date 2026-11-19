@@ -72,3 +72,8 @@ INSERT INTO ROOM (NAME_ROOM, TOTAL_ROWS_ROOM, SEATS_PER_ROW_ROOM) VALUES
 ('Sala 08 - Lounge', 5, 10),
 ('Sala 09 - 4DX', 9, 12),
 ('Sala 10 - Premier', 7, 10);
+
+INSERT INTO MOVIE (TITLE_MOVIE, SYNOPSIS_MOVIE, DURATION_MOVIE, GENRE_MOVIE, AGE_RATING_MOVIE, PHOTO_MOVIE)
+VALUES 
+('Interestelar', 'Uma equipe de exploradores viaja através de um buraco de minhoca...', 169, 'Ficção Científica', 10, '/uploads/movies/interestelar.jpeg'),
+('Batman', 'Após dois anos espreitando as ruas como Batman...', 176, 'Ação', 14, '/uploads/movies/batman.jpg');
