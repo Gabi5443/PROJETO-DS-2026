@@ -85,3 +85,8 @@ INSERT INTO MOVIE (TITLE_MOVIE, SYNOPSIS_MOVIE, DURATION_MOVIE, GENRE_MOVIE, AGE
 ('Toy Story', 'Um boneco caubói fica profundamente ameaçado e com ciúmes quando um novo boneco astronauta o substitui como favorito.', 81, 'Animação, Comédia', 0, 'wwwroot/uploads/movies/toy_story.jpg'),
 ('Pulp Fiction: Tempo de Violência', 'As vidas de dois assassinos da máfia, um boxeador e um gângster se entrelaçam em quatro histórias de violência.', 154, 'Crime, Drama', 18, 'wwwroot/uploads/movies/pulp_fiction.jpg'),
 ('O Senhor dos Anéis: A Sociedade do Anel', 'Um manso hobbit do Condado e oito companheiros partem em uma jornada para destruir o poderoso Um Anel.', 178, 'Aventura, Fantasia', 12, 'wwwroot/uploads/movies/senhor_dos_aneis_1.jpg');
+
+INSERT INTO MOVIE (TITLE_MOVIE, SYNOPSIS_MOVIE, DURATION_MOVIE, GENRE_MOVIE, AGE_RATING_MOVIE, PHOTO_MOVIE)
+VALUES 
+('Interestelar', 'Uma equipe de exploradores viaja através de um buraco de minhoca...', 169, 'Ficção Científica', 10, '/uploads/movies/interestelar.jpeg'),
+('Batman', 'Após dois anos espreitando as ruas como Batman...', 176, 'Ação', 14, '/uploads/movies/batman.jpg');
