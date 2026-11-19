@@ -50,7 +50,8 @@ async function carregarFilmes() { //cria uma função assincrona (função que e
         tabelaBody.innerHTML = "";//limpa o conteúdo da tabela
 
         filmes.forEach(filme => { //laçõ de repetição do elemento
-            const urlImagem = `${API_BASE}${filme.photoMovie}`; // adiciona a url de uma imagem a uma variável
+            const caminho = filme.photoMovie?.startsWith("/") ? filme.photoMovie : `/${filme.photoMovie}`;
+            const urlImagem = `${API_BASE}${caminho}`; // adiciona a url de uma imagem a uma variável
 
             const linha = document.createElement("tr"); //cria variavel "linha cujo o valor é literalmente uma tag de linha em uma tabela em html"
 
@@ -92,7 +93,7 @@ if (formEdit) { //se essa variavel existir
             if (!resposta.ok) throw new Error("Filme não encontrado.");// se não sucedido: objeto de erro com mensagem
 
             const filme = await resposta.json();// transforma a resposta em json
-// Capura todos os elementos pelos ids e preenche a api 
+            // Capura todos os elementos pelos ids e preenche a api 
             document.getElementById("TitleMovie").value = filme.titleMovie;
             document.getElementById("SynopsisMovie").value = filme.synopsisMovie;
             document.getElementById("DurationMovie").value = filme.durationMovie;
@@ -143,7 +144,7 @@ async function deletarFilme(id) { // cria uma função assincrona
         alert(resultado.message); // e carrega uma mensagem
         carregarFilmes(); //senão, opera a função
     } catch (erro) {
-        alert("Erro ao excluir: " + erro.message); 
+        alert("Erro ao excluir: " + erro.message);
     }
 }
 
