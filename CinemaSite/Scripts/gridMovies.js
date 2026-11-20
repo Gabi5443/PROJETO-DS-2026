@@ -38,8 +38,9 @@ async function carregarFilmes() { //cria uma função assincrona (função que e
             card.innerHTML = ` 
             <div class = "card">
                 <img src="${urlImagem}" alt="${filme.titleMovie}" class="foto-filme">
-                <div class ="title"> ${filme.titleMovie} </div>
+                
                 </div>
+                <div class ="title"> ${filme.titleMovie} </div>
             `;
             const filmeId = filme.idMovie ?? filme.IdMovie;
 

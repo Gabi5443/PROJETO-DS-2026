@@ -35,7 +35,18 @@
      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 1rem 16px;
   margin-top: 2rem;
+  
 }
+.GridFilmes .title {
+  margin-top: 8px;
+  color: #E25583;
+  font-size: 1rem;
+}
+.GridFilmes .cardFilme {
+  display: flex;
+  flex-direction: column; /* Empilha: imagem em cima, título embaixo */
+}
+
 
 .cardFilme {
   display: flex;
@@ -61,6 +72,7 @@
   object-fit: cover;
   transition: transform 0.3s ease;
 }
+
 
 
     </style>
