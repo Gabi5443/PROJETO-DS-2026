@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Sniglet:wght@400;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            font-family: "Montserrat", sans-serif;
+        }
+
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .box {
+            width: 35%;
+            height: 40%;
+            border: 1px solid #B22282;
+            background-color: #160F29;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+            padding: 2.5rem 2rem;
+            border-radius: 0.5rem;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 2rem;
+        }
+
+        .perfil-topo {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+        }
+
+        .dados {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            font-size: 1.1rem;
+        }
+
+        .dados strong {
+            color: #B22282;
+        }
+
+        #foto {
+            grid-area: foto;
+            justify-self: center;
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 10%;
+            cursor: pointer;
+        }
+
+        .perfil-rodape {
+            border-top: 1px solid #302158;
+            padding-top: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .badge-conta {
+            background-color: #302158;
+            color: #E25583;
+            padding: 0.4rem 0.9rem;
+            border-radius: 1rem;
+            font-size: 0.85rem;
+        }
+
+        .btn-logout {
+            background-color: transparent;
+            border: 1px solid #e92f3b;
+            color: #e92f3b;
+            padding: 0.5rem 1.2rem;
+            border-radius: 0.4rem;
+            cursor: pointer;
+            font-family: inherit;
+            transition: 0.2s ease;
+        }
+
+        .btn-logout:hover {
+            background-color: #e92f3b;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <div class="perfil-topo">
+            <div class="dados">
+                <h2 style="color: #fff; margin-bottom: 0.5rem;">Informações da Conta</h2>
+                <p><strong>Nome:</strong> <span id="nome"></span></p>
+                <p><strong>Email:</strong> <span id="email"></span></p>
+            </div>
+            <img id="foto" src="" alt="Foto de perfil">
+        </div>
+        <div class="perfil-rodape">
+            <span class="badge-conta">Cliente Estrela ★</span>
+            <button class="btn-logout" onclick="sairDaConta()">Sair da Conta</button>
+        </div>
+    </div>
+    <script>
+        const usuario = JSON.parse(localStorage.getItem("usuarioLogado"));
+        const id = usuario.idUsers;
+
+        async function carregarDados() {
+            try {
+                const resposta = await fetch(`http://localhost:5252/api/Users/${id}`);
+                if (!resposta.ok) throw new Error("Erro ao buscar dados");
+
+                const dados = await resposta.json();
+
+                document.getElementById("nome").textContent = dados.nameUsers;
+                document.getElementById("email").textContent = dados.emailUsers;
+                document.getElementById("foto").src = `http://localhost:5252${dados.photoUsers}`;
+            } catch (erro) {
+                console.error(erro);
+            }
+        }
+
+        carregarDados();
+
+        function sairDaConta() {
+            localStorage.removeItem("usuarioLogado");
+            window.top.location.href = "../index.html";
+        }
+    </script>
+</body>
+
+</html>

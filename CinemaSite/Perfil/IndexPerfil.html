@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Sniglet:wght@400;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body,
+        html {
+            background-color: #0F0A1C;
+            display: flex;
+            height: 100vh;
+            width: 100%;
+            overflow: hidden;
+            font-family: "Montserrat", sans-serif;
+        }
+
+        header {
+            width: 330px;
+            height: 100vh;
+            background-color: #160F29;
+            border-right: 1px solid #B22282;
+            display: flex;
+            flex-direction: column;
+            padding: 1.5rem 1rem;
+            flex-shrink: 0;
+            /* Impede a sidebar de encolher */
+        }
+
+        .btn-sair {
+            text-decoration: none;
+            background-color: transparent;
+            border: 1px solid #e92f3b;
+            color: #e92f3b;
+            width: 30%;
+            padding: 0.5rem 1.2rem;
+            border-radius: 0.4rem;
+            cursor: pointer;
+            font-family: inherit;
+            transition: 0.2s ease;
+        }
+
+        .btn-sair:hover {
+            background-color: #e92f3b;
+            color: #fff;
+        }
+
+        .perfilPhoto {
+            text-align: center;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #302158;
+            margin-bottom: 1.5rem;
+        }
+
+        #FotoUsuario {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 1px solid #CE47A2;
+            margin-top: 7%;
+            transition: 0.2s ease;
+        }
+
+        #FotoUsuario:hover {
+            transform: translateY(-2px);
+        }
+
+        .linksMain {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .linksMain a {
+            text-decoration: none;
+            color: #c2c1c1;
+            padding: 0.85rem 1rem;
+            border-radius: 0.4rem;
+            transition: 0.2s ease;
+            display: block;
+        }
+
+        .linksMain a:hover {
+            background-color: #302158;
+            color: #fff;
+        }
+
+        .linksMain a.ativo {
+            background-color: #B22282;
+            color: #fff;
+        }
+
+        main {
+            flex: 1;
+            height: 100vh;
+        }
+
+        main iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <a href="../index.html" class="btn-sair">Voltar</a>
+        <div>
+            <div class="perfilPhoto">
+                <img id="FotoUsuario" src="" alt="Foto de perfil">
+            </div>
+            <div class="linksMain">
+                <a href="MeuPerfil.html" target="conteudo-main" class="ativo" onclick="marcarAtivo(this)">Meu Perfil</a>
+                <a href="EditarPerfil.html" target="conteudo-main" onclick="marcarAtivo(this)">Editar Perfil</a>
+                <a href="HistoricoIngressos.html" target="conteudo-main" onclick="marcarAtivo(this)">Meu Histórico</a>
+            </div>
+        </div>
+    </header>
+    <main>
+        <iframe name="conteudo-main" src="MeuPerfil.html"></iframe>
+    </main>
+
+    <script>
+        // Apenas troca a cor do botão ativo na sidebar
+        function marcarAtivo(elementoClicado) {
+            document.querySelectorAll('.linksMain a').forEach(link => {
+                link.classList.remove('ativo');
+            });
+            elementoClicado.classList.add('ativo');
+        }
+    </script>
+
+    <script>
+        //pra pegar a foto atual do usuário
+        const usuario = JSON.parse(localStorage.getItem("usuarioLogado"));
+
+        fetch(`http://localhost:5252/api/Users/${usuario.idUsers}`)
+            .then(res => res.json())
+            .then(dados => {
+                document.getElementById("FotoUsuario").src = `http://localhost:5252${dados.photoUsers}`;
+            });
+    </script>
+</body>
+
+</html>

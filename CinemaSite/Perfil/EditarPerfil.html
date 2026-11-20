@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Perfil</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Sniglet:wght@400;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+
+        }
+
+        body {
+            background-color: #0F0A1C;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: #ffffff;
+            font-family: "Montserrat", sans-serif;
+        }
+
+        .form-container {
+            background-color: #160F29;
+            padding: 32px;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 30rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 24px;
+            font-size: 1.5rem;
+            font-family: "Orbitron", sans-serif;
+            color: #f3f4f6;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            font-family: "Sniglet", system-ui;
+        }
+
+        .formGroup {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        label {
+            color: #ffffff;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid #2D1E54;
+            background: linear-gradient(145deg, #1A1230, #130C24);
+            color: #ffffff;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input:focus,
+        textarea:focus {
+            transform: translateY(-4px);
+            border-color: #B22282;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        input[type="file"] {
+            padding: 8px;
+            cursor: pointer;
+        }
+
+        button {
+            margin-top: 8px;
+            padding: 14px;
+            border: none;
+            border-radius: 6px;
+            background-color: #B22282;
+            color: #ffffff;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: #2D1E54;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="form-container">
+        <form id="FormEditarPerfil">
+            <div class="formGroup">
+                <label for="Nome">Nome:</label>
+                <input type="text" name="NameUsers" id="NameUsers">
+            </div>
+
+            <div class="formGroup">
+                <label for="Email">Email:</label>
+                <input type="text" name="EmailUsers" id="EmailUsers">
+            </div>
+
+            <input type="hidden" name="RoleUsers" id="RoleUsers">
+
+            <div class="formGroup">
+                <label>Foto Atual:</label>
+                <img id="PreviewFoto" src="" alt="Foto de perfil"
+                    style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%; display: block; margin-bottom: 8px;">
+
+                <label for="PhotoUsers">Trocar Foto de Perfil:</label>
+                <input type="file" id="PhotoUsers" name="PhotoUsers" accept="image/*">
+            </div>
+
+            <button type="submit">Editar Cliente</button>
+        </form>
+    </div>
+    <script>
+        const usuario = JSON.parse(localStorage.getItem("usuarioLogado"));
+        const id = usuario.idUsers;
+        const API_BASE = "http://localhost:5252";
+
+        // ETAPA 1: Carrega os dados atuais nos inputs
+        async function carregarPerfil() {
+            const resposta = await fetch(`${API_BASE}/api/Users/${id}`);
+            const dados = await resposta.json();
+
+            document.getElementById("NameUsers").value = dados.nameUsers;
+            document.getElementById("EmailUsers").value = dados.emailUsers;
+            document.getElementById("RoleUsers").value = dados.roleUsers;
+            document.getElementById("PreviewFoto").src = `${API_BASE}${dados.photoUsers}`;
+        }
+
+        carregarPerfil();
+
+        // ETAPA 2: Salva as alterações ao enviar o formulário
+        document.getElementById("FormEditarPerfil").addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            const formData = new FormData(event.target);
+
+            try {
+                const resposta = await fetch(`${API_BASE}/api/Users/${id}`, {
+                    method: "PUT",
+                    body: formData
+                });
+
+                const resultado = await resposta.json();
+                if (!resposta.ok) throw new Error(resultado.message);
+
+                alert(resultado.message);
+                window.parent.location.reload();
+            } catch (erro) {
+                alert("Erro ao atualizar: " + erro.message);
+            }
+        });
+    </script>
+</body>
+
+</html>

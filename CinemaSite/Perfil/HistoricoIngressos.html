@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Histórico</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Sniglet:wght@400;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            font-family: "Montserrat", sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card-ingresso {
+            padding: 2.5rem 2rem;
+            background-color: #160F29;
+            border: 1px solid #B22282;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="lista-ingressos"></div>
+    <script>
+        const usuario = JSON.parse(localStorage.getItem("usuarioLogado"));
+        const userId = usuario.idUsers;
+        const API_URL = `http://localhost:5252/api/Ticket/user/${userId}`;
+
+        async function carregarHistorico() {
+            const container = document.getElementById("lista-ingressos");
+
+            try {
+                const resposta = await fetch(API_URL);
+                if (!resposta.ok) throw new Error("Não foi possível carregar seus ingressos.");
+
+                const ingressos = await resposta.json();
+
+                // Dica: abra o F12 -> Console para conferir os nomes exatos das propriedades
+                console.log("Ingressos retornados:", ingressos);
+
+                if (ingressos.length === 0) {
+                    container.innerHTML = "<p style='color: #c2c1c1;'>Você ainda não comprou nenhum ingresso.</p>";
+                    return;
+                }
+
+                container.innerHTML = "";
+
+                ingressos.forEach(ticket => {
+                    // Formata a data e hora da sessão para o padrão brasileiro
+                    const dataFormatada = ticket.dateTimeSession
+                        ? new Date(ticket.dateTimeSession).toLocaleString("pt-BR")
+                        : "";
+
+                    const card = document.createElement("div");
+                    card.className = "card-ingresso"; // Classe para você estilizar no seu CSS
+
+                    card.innerHTML = `
+                    <div>
+                        <h3>${ticket.titleMovie ?? "Filme"}</h3>
+                        <p><strong>Pedido:</strong> #${ticket.idOrder ?? ticket.orderIdFk}</p>
+                        <p><strong>Sala:</strong> ${ticket.nameRoom ?? ticket.idRoomFk} | <strong>Poltrona:</strong> ${ticket.seatTicket}</p>
+                        <p><strong>Data/Hora:</strong> ${dataFormatada}</p>
+                        <p><strong>Tipo:</strong> ${ticket.typeTicket} | <strong>Valor:</strong> R$ ${ticket.priceTicket}</p>
+                    </div>
+                    <button onclick="cancelarPedido(${ticket.idOrder ?? ticket.orderIdFk})">Cancelar Pedido</button>
+                `;
+
+                    container.appendChild(card);
+                });
+
+            } catch (erro) {
+                console.error(erro);
+                container.innerHTML = `<p style="color: #e92f3b;">Erro: ${erro.message}</p>`;
+            }
+        }
+
+        // Função já conectada com a sua rota DELETE api/Ticket/cancelar/{orderId}/{userId}
+        async function cancelarPedido(orderId) {
+            if (!confirm("Deseja realmente cancelar este pedido e liberar os assentos?")) return;
+
+            try {
+                const resposta = await fetch(`http://localhost:5252/api/Ticket/cancelar/${orderId}/${userId}`, {
+                    method: "DELETE"
+                });
+
+                const resultado = await resposta.json();
+                if (!resposta.ok) throw new Error(resultado.message);
+
+                alert(resultado.message);
+                carregarHistorico(); // Atualiza a lista na tela após cancelar
+            } catch (erro) {
+                alert("Erro ao cancelar: " + erro.message);
+            }
+        }
+
+        carregarHistorico();
+    </script>
+</body>
+
+</html>
