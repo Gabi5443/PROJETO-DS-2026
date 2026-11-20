@@ -7,99 +7,14 @@
     <title>Filmes</title>
     <link href="https://fonts.googleapis.com/css2?family=Sniglet:wght@400;800&display=swap" rel="stylesheet">
     <style>
+    
         * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-body {
-    background-color: #0F0A1C;
-    font-family: "Sniglet", system-ui, sans-serif;
-    padding-bottom: 2rem;
-}
-
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 90%;
-    max-width: 1200px;
-    margin: 1.5rem auto;
-    gap: 1rem;
-    flex-wrap: wrap;
-}
-
-.voltar,
-.criar {
-    display: inline-block;
-    text-decoration: none;
-    padding: 0.6rem 1rem;
-    border-radius: 0.35rem;
-    transition: 0.2s ease;
-    text-align: center;
-    color: #fff;
-    font-size: 0.95rem;
-}
-
-.voltar {
-    background-color: #B22282;
-}
-
-.criar {
-    background-color: #338a0a;
-}
-
-.criar:hover,
-.voltar:hover {
-    filter: brightness(0.92);
-    transform: translateY(-1px);
-}
-
-/*As tabelas são elementos rigidos = se o conteúdo delas for maior que as própria ela empurra a pagina inteira (não é um elemento adaptavel). Essa propriedade liga o scroll com "overflow-x: auto;"*/
-.tabelaQuebrada{
-    width: 90%;
-    max-width: 1200px;
-    margin: 0 auto;
-    overflow-x: auto;
-    border-radius: 0.4rem;
-    border: 1px solid #B22282;
-    background-color: #160F29;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-}
-
-.tabela {
-    width: 100%;
-    border-collapse: collapse;
-    min-width: 600px; /* Garante que as colunas não fiquem esmagadas antes de rolar */
-}
-
-.tabela th,
-.tabela td {
-    padding: 1rem 1.2rem;
-    text-align: left;
-    vertical-align: middle;
-}
-
-.tabela th {
-    background-color: #302158;
-    color: white;
-    font-size: 0.95rem;
-    font-weight: 400;
-    white-space: nowrap;
-}
-
-.tabela td {
-    border-bottom: 1px solid #910296;
-    color: #c2c1c1;
-    font-size: 0.9rem;
-}
-
-.tabela tr:last-child td {
-    border-bottom: none;
-}
-
-.foto-filme {
+        .foto-filme {
     width: 8rem;
     height: 4.8rem;
     object-fit: cover;
@@ -107,44 +22,109 @@ header {
     display: block;
 }
 
-.botoes {
-    display: flex;
-    gap: 0.6rem;
-    align-items: center;
-    justify-content: flex-start;
-}
 
-.botaoAlter,
-.botaoDelete {
-    padding: 0.5rem 0.85rem;
-    border-radius: 0.35rem;
-    transition: 0.2s ease;
-    text-align: center;
-    text-decoration: none;
-    border: none;
-    cursor: pointer;
-    color: #fff;
-    font-family: inherit;
-    font-size: 0.85rem;
-    white-space: nowrap;
-}
+        body {
+            background-color: #0F0A1C;
+            font-family: "Sniglet", system-ui;
+        }
 
-.botaoAlter {
-    background-color: #ffbe33;
-    color: white;
-    
-}
+        header {
+            display: flex;
+            justify-content: space-between;
+        }
 
-.botaoDelete {
-    background-color: #e92f3b;
-}
+        .voltar {
+            display: inline-block;
+            margin: 2%;
+            text-decoration: none;
+            padding: 0.6rem 0.9rem;
+            border-radius: 0.35rem;
+            transition: 0.2s ease;
+            text-align: center;
+            color: #fff;
+            background-color: #B22282;
+        }
 
-.botaoAlter:hover,
-.botaoDelete:hover {
-    filter: brightness(0.92);
-    transform: translateY(-1px);
-}
+        .criar {
+            display: inline-block;
+            margin: 2%;
+            margin-right: 5%;
+            text-decoration: none;
+            padding: 0.6rem 0.9rem;
+            border-radius: 0.35rem;
+            transition: 0.2s ease;
+            text-align: center;
+            color: #fff;
+            background-color: #338a0a;
+        }
 
+        .criar:hover,
+        .voltar:hover {
+            filter: brightness(0.92);
+            transform: translateY(-1px);
+        }
+
+        .tabela {
+            width: 90%;
+            justify-self: center;
+            align-items: center;
+            border-radius: 0.4rem;
+            border: 1px solid #B22282;
+            background-color: #160F29;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+        }
+
+        .tabela th,
+        .tabela td {
+            padding: 1.2rem;
+            text-align: left;
+        }
+
+        .tabela th {
+            background-color: #302158;
+            color: white;
+            font-size: 0.95rem;
+            font-weight: 400;
+        }
+
+        .tabela td {
+            border-bottom: 1px solid #910296;
+            color: #c2c1c1;
+            font-size: 0.9rem;
+        }
+
+        .botoes {
+            display: flex;
+            gap: 15%;
+            align-items: center;
+            justify-self: center;
+        }
+
+        .botaoAlter,
+        .botaoDelete {
+            padding: 0.6rem 0.9rem;
+            border-radius: 0.35rem;
+            transition: 0.2s ease;
+            text-align: center;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .botaoAlter {
+            background-color: #ffbe33;
+        }
+
+        .botaoDelete {
+            background-color: #e92f3b;
+        }
+
+        .botaoAlter:hover,
+        .botaoDelete:hover {
+            filter: brightness(0.92);
+            transform: translateY(-1px);
+        }
+
+        
 /* Ajustes para Celulares (telas menores que 600px) */
 @media (max-width: 600px) {
     header {
