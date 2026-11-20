@@ -40,16 +40,17 @@ class MovieBanner extends HTMLElement { //Cria um elemnto HTML no modelo Shadow 
 
   renderBase() { //função para a definição do estilo base do elemento
     this.shadowRoot.innerHTML = `
+
       <style>
         :host {
           display: block;
           width: 100%;
           --bg-color: #090a0f;
-          --accent-color: #e50914;
+          --accent-color: #E25583;
           --text-primary: #ffffff;
-          --text-secondary: #cccccc;
+          --text-secondary: #A799C7;
           --slide-duration: ${this.slideTime}ms;
-          font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+          font-family: "Orbitron", sans-serif;
         }
 
         * {
