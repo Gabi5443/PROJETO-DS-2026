@@ -2,6 +2,11 @@ using CinemaApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.ListenAnyIP(5252);
+});
+
 // 1. Ativa o suporte às Controllers, não estava ativado antes
 builder.Services.AddControllers();
 

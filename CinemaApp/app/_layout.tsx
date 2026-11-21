@@ -11,7 +11,6 @@ export default function RootLayout() {
         screenOptions={{
           // Esconde o cabeçalho nativo branco para aparecer só o seu Header personalizado
           headerShown: false,
-          // Deixa o fundo padrão escuro na transição entre telas
           contentStyle: { backgroundColor: '#0F0A1C' },
         }}
       />

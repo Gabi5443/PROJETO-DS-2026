@@ -2,9 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ScrollView, Text, TouchableOpacity, Image } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
+import { API_SERVIDOR } from '../services/api';
 
-//a rota da api no arquivo .env
-const API_SERVIDOR = process.env.EXPO_PUBLIC_API_URL;
 const FOTO_PADRAO = `${API_SERVIDOR}/uploads/users/default-avatar.jpg`;
 
 interface Usuario {
@@ -14,11 +13,36 @@ interface Usuario {
 }
 
 export default function Index() {
-    //aqui é pra chamar a foto certa lá no header.No react a gnt n mexe nas fotos, ele só atualiza elas. O nome 'fotoPerfil' é uma variavel de memória, e o setFotoPerfil é pra atualizar ela (caso o usuário tenha mudado)
-    //o useRouter, pra navegar nas paginas
+  //aqui é pra chamar a foto certa lá no header.No react a gnt n mexe nas fotos, ele só atualiza elas. O nome 'fotoPerfil' é uma variavel de memória, e o setFotoPerfil é pra atualizar ela (caso o usuário tenha mudado)
+  //o useRouter, pra navegar nas paginas
   const router = useRouter();
   const [fotoPerfil, setFotoPerfil] = useState(FOTO_PADRAO);
-  const [usuario, setUsuario] = useState<Usuario | null>(null);
+  const [usuario, setUsuario] = useState<any>(null);
+
+  //o grid de filmes 
+  const [filmes, setFilmes] = useState<any[]>([]);
+  const [carregandoFilmes, setCarregandoFilmes] = useState(true);
+  const [erroFilmes, setErroFilmes] = useState('');
+
+  useEffect(() => {
+    atualizarFotoHeader();
+    carregarFilmes(); // <-- Chama a busca de filmes junto com a foto
+  }, []);
+
+  async function carregarFilmes() {
+    try {
+      const resposta = await fetch(`${API_SERVIDOR}/api/Movie`);
+      if (!resposta.ok) throw new Error('Não foi possível carregar os filmes.');
+
+      const lista = await resposta.json();
+      setFilmes(lista);
+    } catch (erro: any) {
+      console.error(erro);
+      setErroFilmes(erro.message || 'Erro ao buscar filmes.');
+    } finally {
+      setCarregandoFilmes(false);
+    }
+  }
 
   //Os colchetes vazios [] no final significam: "Rode essa função uma única vez assim que o usuário abrir essa tela"
   useEffect(() => {
@@ -47,7 +71,7 @@ export default function Index() {
 
       // 3. Busca na API pelo ID para pegar a foto mais atual
       const resposta = await fetch(`${API_SERVIDOR}/api/Users/${userCache.idUsers}`);
-      
+
       if (resposta.ok) {
         const usuarioAtualizado = await resposta.json();
         setUsuario(usuarioAtualizado);
@@ -60,7 +84,7 @@ export default function Index() {
         await AsyncStorage.setItem('usuarioLogado', JSON.stringify(usuarioAtualizado));
       }
     } catch (erro) {
-      console.warn('Não foi possível atualizar a foto pela API, mantendo a do cache:', erro);
+      console.warn('Não foi possível atualizar a foto, mantendo a do cache:', erro);
     }
   }
 
@@ -94,13 +118,53 @@ export default function Index() {
         {/*onPress={handleCliquePerfil}: é o antigo addEventListener("click"). Quando toca na foto, ele checa se usuario existe; se existir manda para /perfil, senão manda para /login.*/}
         <TouchableOpacity onPress={handleCliquePerfil} activeOpacity={0.7}>
           <Image
-          //em source={{ uri: fotoPerfil }}: a imagem está "amarrada" à variável de estado fotoPerfil.
+            //em source={{ uri: fotoPerfil }}: a imagem está "amarrada" à variável de estado fotoPerfil.
             source={{ uri: fotoPerfil }}
             style={styles.avatar}
             // onError={...}: se o link da foto quebrar, volta para a FOTO_PADRAO.
             onError={() => setFotoPerfil(FOTO_PADRAO)}
           />
         </TouchableOpacity>
+      </View>
+
+      {/* Grid de Filmes (equivalente ao <div class="GridFilmes">) */}
+      <View style={styles.secaoFilmes}>
+
+        {carregandoFilmes ? (
+          <Text style={styles.mensagem}>Carregando filmes...</Text>
+        ) : erroFilmes ? (
+          <Text style={[styles.mensagem, { color: '#e92f3b' }]}>{erroFilmes}</Text>
+        ) : filmes.length === 0 ? (
+          <Text style={styles.mensagem}>Nenhum filme cadastrado.</Text>
+        ) : (
+          <View style={styles.gridFilmes}>
+            {filmes.map((filme) => {
+              const filmeId = filme.idMovie ?? filme.IdMovie;
+              const urlImagem = filme.photoMovie
+                ? `${API_SERVIDOR}${filme.photoMovie}`
+                : `${API_SERVIDOR}/uploads/movies/default.jpg`;
+
+              return (
+                <TouchableOpacity
+                  key={filmeId}
+                  style={styles.cardFilme}
+                  activeOpacity={0.8}
+                  onPress={() =>
+                    router.push({
+                      pathname: '/detalhes',
+                      params: { id: filmeId },
+                    })
+                  }
+                >
+                  <Image source={{ uri: urlImagem }} style={styles.posterFilme} />
+                  <Text style={styles.tituloFilme} numberOfLines={2}>
+                    {filme.titleMovie}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
+          </View>
+        )}
       </View>
     </ScrollView>
   );
@@ -136,5 +200,43 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     borderWidth: 1,
     borderColor: '#CE47A2',
+  },
+
+  secaoFilmes: {
+    padding: 16,
+  },
+  mensagem: {
+    color: '#c2c1c1',
+    textAlign: 'center',
+    marginTop: 20,
+    fontSize: 16,
+  },
+  gridFilmes: {
+    flexDirection: 'row',
+    flexWrap: 'wrap', // Faz os cards quebrarem linha igual ao CSS Grid!
+    justifyContent: 'space-between',
+    gap: 14,
+  },
+  cardFilme: {
+    width: '47%', // 2 colunas perfeitas no celular
+    maxWidth: 220, // Não fica gigante no PC
+    backgroundColor: '#160F29',
+    borderRadius: 8,
+    padding: 10,
+    borderWidth: 0.5,
+    borderColor: '#302158',
+  },
+  posterFilme: {
+    width: '100%',
+    height: 220,
+    borderRadius: 6,
+    backgroundColor: '#252525',
+  },
+  tituloFilme: {
+    color: '#FFF',
+    fontSize: 15,
+    fontWeight: 'bold',
+    marginTop: 10,
+    textAlign: 'center',
   },
 });
