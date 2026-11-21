@@ -1,153 +1,251 @@
 
-
-  <!DOCTYPE html>
-  <html lang="en">
-  <head>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Selecionar Assentos</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            box-sizing: border-box;
+        }
+
         body {
-    font-family: Arial, sans-serif;
-    padding: 30px;
-    text-align: center;
-}
+            min-height: 100vh;
+            background-color: #0F0A1C;
+            font-family: "Montserrat", sans-serif;
+            color: #FFFFFF;
+            text-align: center;
+        }
 
-.tela {
-    background-color: #ddd;
-    padding: 12px;
-    margin: 30px auto;
-    max-width: 500px;
-    border-radius: 50% 50% 10px 10px;
-    font-weight: bold;
-}
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 50px 25px;
+        }
 
-.legenda {
-    display: flex;
-    justify-content: center;
-    gap: 25px;
-    margin: 25px 0;
-    flex-wrap: wrap;
-}
+        h1 {
+            color: #CE47A2;
+            font-size: 34px;
+            font-weight: 800;
+            margin-bottom: 15px;
+        }
 
-.legenda span {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-}
+        #informacoesSessao {
+            margin: 25px 0;
+            color: #ddd;
+            line-height: 1.8;
+        }
 
-.legenda i {
-    width: 18px;
-    height: 18px;
-    display: inline-block;
-    border-radius: 5px;
-}
+        #informacoesSessao h3 {
+            color: #FFFFFF;
+            font-size: 21px;
+        }
 
-.disponivel {
-    background-color: #ddd;
-}
+        .legenda {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 25px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
 
-.selecionado {
-    background-color: #e65c25;
-}
+        .legenda span {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #ccc;
+            font-size: 13px;
+        }
 
-.ocupado {
-    background-color: #777;
-}
+        .legenda i {
+            width: 17px;
+            height: 17px;
+            display: inline-block;
+            border-radius: 5px;
+        }
 
-.mapa-assentos {
-    display: grid;
-    gap: 8px;
-    justify-content: center;
-    margin: 30px auto;
-    max-width: 100%;
-    overflow-x: auto;
-}
+        .disponivel {
+            background-color: #352342;
+        }
 
-.assento {
-    width: 35px;
-    height: 35px;
-    border: none;
-    border-radius: 7px;
-    background-color: #ddd;
-    cursor: pointer;
-}
+        .selecionado {
+            background-color: #CE47A2;
+        }
 
-.assento:hover:not(:disabled) {
-    background-color: #bbb;
-}
+        .ocupado {
+            background-color: #777;
+        }
 
-.assento.selecionado {
-    background-color: #e65c25;
-    color: white;
-}
+        .tela {
+            max-width: 550px;
+            margin: 50px auto 40px;
+            padding: 13px;
+            background-color: #CE47A2;
+            color: white;
+            border-radius: 50% 50% 8px 8px;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 5px;
+            box-shadow: 0 5px 25px rgba(206, 71, 162, 0.25);
+        }
 
-.assento:disabled {
-    background-color: #777;
-    cursor: not-allowed;
-}
+        .mapa-assentos {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            justify-content: center;
+            margin: 30px auto;
+            max-width: 100%;
+            overflow-x: auto;
+            padding: 10px;
+        }
 
-#continuar {
-    padding: 12px 25px;
-    background-color: #e65c25;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-}
+        .fileira {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+        }
 
-#continuar:disabled {
-    background-color: #aaa;
-    cursor: not-allowed;
-}
+        .letra-fileira {
+            width: 20px;
+            font-weight: 700;
+            color: #CE47A2;
+            font-size: 14px;
+        }
 
+        .assento {
+            width: 35px;
+            height: 35px;
+            flex-shrink: 0;
+            border-radius: 7px 7px 4px 4px;
+            background-color: #352342;
+            color: white;
+            font-family: inherit;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
 
+        .assento:hover:not(:disabled) {
+            background-color: #AD3186;
+            transform: scale(1.1);
+        }
 
+        .assento.selecionado {
+            background-color: #CE47A2;
+            color: white;
+        }
 
-.mapa-assentos {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
+        .assento:disabled {
+            background-color: #555;
+            color: #999;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
 
-.fileira {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-}
+        #quantidadeSelecionada {
+            margin: 30px 0 20px;
+            color: #ccc;
+            font-size: 14px;
+            min-height: 20px;
+        }
 
-.letra-fileira {
-    width: 20px;
-    font-weight: bold;
-}
+        #continuar {
+            padding: 14px 45px;
+            background-color: #CE47A2;
+            color: white;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        #continuar:hover:not(:disabled) {
+            background-color: #AD3186;
+            transform: translateY(-2px);
+        }
+
+        #continuar:disabled {
+            background-color: #514052;
+            color: #aaa;
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 650px) {
+            .container {
+                padding: 35px 10px;
+            }
+
+            h1 {
+                font-size: 27px;
+            }
+
+            .mapa-assentos {
+                align-items: flex-start;
+            }
+
+            .fileira {
+                gap: 5px;
+            }
+
+            .assento {
+                width: 29px;
+                height: 29px;
+                font-size: 10px;
+            }
+
+            .legenda {
+                gap: 15px;
+            }
+
+            .tela {
+                margin-top: 35px;
+            }
+        }
     </style>
-  </head>
-  <body>
-      <h1>Escolha seus assentos</h1>
+</head>
 
-    <div id="informacoesSessao"></div>
+<body>
 
-    <div class="legenda">
-        <span><i class="disponivel"></i> Disponível</span>
-        <span><i class="selecionado"></i> Selecionado</span>
-        <span><i class="ocupado"></i> Ocupado</span>
-    </div>
+    <main class="container">
 
-    <div class="tela">TELA</div>
+        <h1>Escolha seus assentos</h1>
 
-    <div id="mapaAssentos" class="mapa-assentos">
-        <!-- Os assentos serão gerados pelo JavaScript -->
-    </div>
+        <div id="informacoesSessao"></div>
 
-    <p id="quantidadeSelecionada">Nenhum assento selecionado.</p>
+        <div class="legenda">
+            <span><i class="disponivel"></i> Disponível</span>
+            <span><i class="selecionado"></i> Selecionado</span>
+            <span><i class="ocupado"></i> Ocupado</span>
+        </div>
 
-    <button id="continuar" disabled>
-        Continuar
-    </button>
+        <div class="tela">TELA</div>
 
-   
-  </body>
-   <script src="Scripts/selecionarAssentos.js"></script>
-  </html>
+        <div id="mapaAssentos" class="mapa-assentos">
+            <!-- Os assentos serão gerados pelo JavaScript -->
+        </div>
 
+        <p id="quantidadeSelecionada">Nenhum assento selecionado.</p>
+
+        <button id="continuar" disabled>
+            Continuar
+        </button>
+
+    </main>
+
+    <script src="Scripts/selecionarAssentos.js"></script>
+
+</body>
+</html>

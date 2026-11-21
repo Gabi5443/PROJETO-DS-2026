@@ -5,49 +5,172 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Finalizar Compra</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            box-sizing: border-box;
+        }
 
-.container {
-    max-width: 700px;
-    margin: 40px auto;
-    padding: 20px;
-}
+        body {
+            min-height: 100vh;
+            background-color: #0F0A1C;
+            font-family: "Montserrat", sans-serif;
+            color: #FFFFFF;
+        }
 
-.resumo, .pagamento, .total {
-    padding: 20px;
-    margin-bottom: 20px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-}
+        .container {
+            max-width: 750px;
+            margin: 0 auto;
+            padding: 50px 25px;
+        }
 
-.card-ingresso {
-    padding: 15px;
-    margin: 15px 0;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-}
+        h1 {
+            color: #CE47A2;
+            font-size: 34px;
+            font-weight: 800;
+            margin-bottom: 35px;
+            text-align: center;
+        }
 
-.card-ingresso select,
-.pagamento select {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    margin-top: 8px;
-}
+        .resumo,
+        .pagamento,
+        .total {
+            background-color: #1C142B;
+            border: 1px solid #352342;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 22px;
+        }
 
-#finalizarCompra {
-    width: 100%;
-    padding: 14px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-}
+        .resumo h2,
+        .pagamento h2 {
+            font-size: 19px;
+            color: #CE47A2;
+            margin-bottom: 22px;
+        }
 
+        .card-ingresso {
+            background-color: #251B35;
+            padding: 20px;
+            margin: 15px 0;
+            border: 1px solid #44304F;
+            border-radius: 9px;
+        }
+
+        .card-ingresso h3 {
+            font-size: 17px;
+            margin-bottom: 15px;
+            color: white;
+        }
+
+        .card-ingresso label {
+            display: block;
+            font-size: 14px;
+            color: #ccc;
+            margin-bottom: 8px;
+        }
+
+        .card-ingresso select,
+        .pagamento select {
+            display: block;
+            width: 100%;
+            padding: 13px;
+            margin-top: 8px;
+            background-color: #352342;
+            color: white;
+            border: 1px solid #594064;
+            border-radius: 7px;
+            font-family: inherit;
+            font-size: 14px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .card-ingresso select:focus,
+        .pagamento select:focus {
+            border-color: #CE47A2;
+        }
+
+        .card-ingresso p {
+            margin-top: 15px;
+            color: #ccc;
+            font-size: 14px;
+        }
+
+        .card-ingresso strong {
+            color: #CE47A2;
+        }
+
+        .total {
+            border-color: #CE47A2;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .total h2 {
+            font-size: 21px;
+            color: white;
+        }
+
+        #valorTotal {
+            color: #CE47A2;
+            font-weight: 800;
+        }
+
+        #finalizarCompra {
+            width: 100%;
+            padding: 16px;
+            background-color: #CE47A2;
+            color: white;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        #finalizarCompra:hover {
+            background-color: #AD3186;
+            transform: translateY(-2px);
+        }
+
+        #finalizarCompra:active {
+            transform: scale(0.98);
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 35px 18px;
+            }
+
+            h1 {
+                font-size: 27px;
+            }
+
+            .resumo,
+            .pagamento,
+            .total {
+                padding: 18px;
+            }
+
+            .total h2 {
+                font-size: 18px;
+            }
+        }
     </style>
 </head>
+
 <body>
 
     <main class="container">
+
         <h1>Finalizar compra</h1>
 
         <section class="resumo">
@@ -67,14 +190,17 @@
         </section>
 
         <section class="total">
-            <h2>Total: <span id="valorTotal">R$ 0,00</span></h2>
+            <h2>Total:</h2>
+            <h2 id="valorTotal">R$ 0,00</h2>
         </section>
 
         <button id="finalizarCompra">
             Confirmar compra
         </button>
+
     </main>
 
     <script src="Scripts/finalizarCompra.js"></script>
+
 </body>
 </html>

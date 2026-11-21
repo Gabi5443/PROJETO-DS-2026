@@ -1,65 +1,149 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Selecionar Sessão</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
     <style>
+        * {
+            border: 0;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-.lista-sessoes {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-}
+        body {
+            min-height: 100vh;
+            background-color: #0F0A1C;
+            font-family: "Montserrat", sans-serif;
+            color: #FFFFFF;
+        }
 
-.card-sessao {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
-}
+        .container {
+            max-width: 1150px;
+            margin: 0 auto;
+            padding: 60px 30px;
+        }
 
-.card-sessao h3 {
-    font-size: 20px;
-    margin-bottom: 15px;
-}
+        .cabecalho {
+            margin-bottom: 40px;
+        }
 
-.info-sessao {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 12px;
-}
+        .cabecalho h1 {
+            font-size: 36px;
+            font-weight: 800;
+            color: #CE47A2;
+            margin-bottom: 10px;
+        }
 
-.info-sessao span {
-    color: #666;
-}
+        .cabecalho p {
+            color: #aaa;
+            font-size: 15px;
+        }
 
-.btn-assentos {
-    width: 100%;
-    padding: 12px;
-    border: none;
-    border-radius: 8px;
-    background-color: #e65c25;
-    color: white;
-    font-size: 15px;
-    cursor: pointer;
-    margin-top: 10px;
-}
+        .lista-sessoes {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
 
-.btn-assentos:hover {
-    background-color: #c94b1c;
-}
+        .card-sessao {
+            background-color: #1C142B;
+            border: 1px solid #352342;
+            border-radius: 14px;
+            padding: 25px;
+            transition: transform 0.3s, border-color 0.3s;
+        }
 
+        .card-sessao:hover {
+            transform: translateY(-5px);
+            border-color: #CE47A2;
+        }
+
+        .card-sessao h3 {
+            font-size: 21px;
+            font-weight: 700;
+            color: #CE47A2;
+            margin-bottom: 22px;
+        }
+
+        .info-sessao {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 17px;
+        }
+
+        .info-sessao span {
+            color: #aaa;
+            font-size: 14px;
+        }
+
+        .info-sessao strong {
+            color: #fff;
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .btn-assentos {
+            width: 100%;
+            padding: 14px;
+            border-radius: 8px;
+            background-color: #CE47A2;
+            color: white;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 12px;
+            transition: 0.3s;
+        }
+
+        .btn-assentos:hover {
+            background-color: #AD3186;
+            transform: translateY(-2px);
+        }
+
+        .btn-assentos:active {
+            transform: scale(0.97);
+        }
+
+        @media (max-width: 650px) {
+            .container {
+                padding: 40px 20px;
+            }
+
+            .cabecalho h1 {
+                font-size: 28px;
+            }
+
+            .lista-sessoes {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
+
 <body>
-    <h1>Escolha uma sessão</h1>
 
-<div id="listaSessoes">
-    <!-- Os cards serão adicionados pelo JavaScript -->
-</div>
+    <main class="container">
 
-<script src="Scripts/selecionarSession.js"></script>
+        <header class="cabecalho">
+            <h1>Escolha sua sessão</h1>
+            <p>Confira os horários disponíveis e escolha a melhor opção para você.</p>
+        </header>
+
+        <div id="listaSessoes" class="lista-sessoes">
+            <!-- Os cards serão adicionados pelo JavaScript -->
+        </div>
+
+    </main>
+
+    <script src="Scripts/selecionarSession.js"></script>
+
 </body>
 </html>

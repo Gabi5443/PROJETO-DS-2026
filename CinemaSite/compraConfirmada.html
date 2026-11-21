@@ -1,21 +1,117 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Compra Confirmada</title>
-    <link rel="stylesheet" href="css/compraConfirmada.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background-color: #0F0A1C;
+            font-family: "Montserrat", sans-serif;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 550px;
+            padding: 50px 35px;
+            background-color: #1C142B;
+            border: 1px solid #352342;
+            border-radius: 16px;
+            text-align: center;
+        }
+
+        .icone-sucesso {
+            width: 85px;
+            height: 85px;
+            margin: 0 auto 25px;
+            border-radius: 50%;
+            background-color: #352342;
+            color: #CE47A2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 45px;
+            font-weight: bold;
+        }
+
+        h1 {
+            color: #CE47A2;
+            font-size: 27px;
+            font-weight: 800;
+            margin-bottom: 18px;
+        }
+
+        p {
+            color: #ccc;
+            font-size: 15px;
+            line-height: 1.7;
+            margin-bottom: 30px;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background-color: #CE47A2;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background-color: #AD3186;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 500px) {
+            .container {
+                padding: 35px 22px;
+            }
+
+            h1 {
+                font-size: 23px;
+            }
+        }
+    </style>
 </head>
+
 <body>
 
     <main class="container">
+
+        <div class="icone-sucesso">✓</div>
+
         <h1>Compra realizada com sucesso!</h1>
 
-        <p>Seu pedido foi confirmado e seus ingressos já foram registrados.</p>
+        <p>
+            Seu pedido foi confirmado e seus ingressos já foram registrados.
+            Aproveite o filme!
+        </p>
 
         <button onclick="window.location.href='index.html'">
             Voltar ao início
         </button>
+
     </main>
 
 </body>
