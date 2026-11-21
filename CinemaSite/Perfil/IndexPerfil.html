@@ -111,13 +111,68 @@
             border: none;
             display: block;
         }
+
+        @media (max-width: 768px)  {
+            body,
+            html {
+                flex-direction: column; /* Empilha header em cima e main embaixo */
+                height: auto;
+                min-height: 100vh;
+                overflow-y: auto; /* Libera a rolagem no celular */
+            }
+
+            header {
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid #B22282;
+            }
+
+            .btn-sair {
+                width: fit-content;
+                padding: 0.5rem 1rem;
+                text-align: center;
+            }
+
+            .content {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+            }
+
+            .perfilPhoto {
+                margin: 0;
+                padding-bottom: 1rem;
+                border: none;
+            }
+
+            .linksMain {
+                width: 100%;
+                justify-content: center;
+                border-top: 1px solid #302158;
+                padding-top: 1rem;
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+
+            main {
+                width: 100%;
+                min-height: 65vh;
+                height: auto;
+            }
+
+            main iframe {
+                min-height: 65vh;
+            }
+         }
     </style>
 </head>
 
 <body>
     <header>
         <a href="../index.html" class="btn-sair">Voltar</a>
-        <div>
+        <div class="content">
             <div class="perfilPhoto">
                 <img id="FotoUsuario" src="" alt="Foto de perfil">
             </div>

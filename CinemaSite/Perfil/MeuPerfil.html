@@ -15,10 +15,11 @@
 
         html,
         body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100vh;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 7px;
             overflow: hidden;
             font-family: "Montserrat", sans-serif;
         }
@@ -30,9 +31,7 @@
         }
 
         .box {
-            width: 35%;
-            height: 40%;
-            border: 1px solid #B22282;
+            width: 100%;
             background-color: #160F29;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
             padding: 2.5rem 2rem;
@@ -102,6 +101,15 @@
         .btn-logout:hover {
             background-color: #e92f3b;
             color: #fff;
+        }
+
+        @media (max-width: 768px) {
+            .box {
+                height: auto;
+                padding: 32px;
+                width: 100%;
+                max-width: 30rem;
+            }
         }
     </style>
 </head>

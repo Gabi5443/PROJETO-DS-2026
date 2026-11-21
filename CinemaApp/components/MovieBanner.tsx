@@ -122,7 +122,8 @@ export function MovieBanner({ filmes }: MovieBannerProps) {
                             />
 
                             {/* Camada escura para dar leitura ao texto */}
-                            <View style={styles.overlayEscuro} /> {/*overlayEscuro + slideContent: Uma máscara escura para dar contraste e os textos por cima (EM CARTAZ, título, badge colorido de idade, duração, gênero e sinopse cortada em 3 linhas com numberOfLines={3}). */}
+                            <View style={styles.overlayEscuro} /> 
+                            {/*overlayEscuro + slideContent: Uma máscara escura para dar contraste e os textos por cima (EM CARTAZ, título, badge colorido de idade, duração, gênero e sinopse cortada em 3 linhas com numberOfLines={3}). */}
 
                             {/* Conteúdo do slide */}
                             <View style={styles.slideContent}>

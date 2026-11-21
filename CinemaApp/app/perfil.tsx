@@ -116,7 +116,7 @@ export default function Perfil() {
 
       const resultado = await resposta.json();
       if (!resposta.ok) throw new Error(resultado.message || 'Erro ao atualizar');
-      
+
       //Limpa novaFoto, recarrega os dados do usuário (carregarDadosUsuario()), mostra o aviso verde/rosa e volta para a aba 'perfil'
       setNovaFoto(null);
       await carregarDadosUsuario();
@@ -146,17 +146,31 @@ export default function Perfil() {
   }
 
   //cancelarPedido: Envia DELETE /api/Ticket/cancelar/{orderId}/{userId} e, se der certo, recarrega a lista de ingressos.
-  async function cancelarPedido(orderId: number) {
+  async function cancelarTodosPedidos() {
+    // Pega apenas os números únicos de pedidos (ex: idOrderFk)
+    const pedidosUnicos = [...new Set(ingressos.map((t) => t.idOrderFk))];
+
     try {
-      const resposta = await fetch(
-        `${API_SERVIDOR}/api/Ticket/cancelar/${orderId}/${usuario.idUsers}`,
-        { method: 'DELETE' }
-      );
-      if (resposta.ok) {
-        carregarHistorico(usuario.idUsers);
+      for (const orderId of pedidosUnicos) {
+        if (!orderId) continue;
+
+        const resposta = await fetch(
+          `${API_SERVIDOR}/api/Ticket/cancelar/${orderId}/${usuario.idUsers}`,
+          { method: 'DELETE' }
+        );
+
+        if (!resposta.ok) {
+          const erro = await resposta.json();
+          setAviso(erro.message || `Erro ao cancelar pedido #${orderId}`);
+          return;
+        }
       }
+
+      setAviso('Pedidos cancelados com sucesso!');
+      carregarHistorico(usuario.idUsers);
     } catch (erro) {
       console.error('Erro ao cancelar:', erro);
+      setAviso('Erro de conexão ao cancelar pedidos.');
     }
   }
 
@@ -200,7 +214,7 @@ export default function Perfil() {
 
       {/*PARA ENTENDER O RESTO DO CÓDIGO: Troca de Abas ({abaAtiva === 'perfil' && (...)}): É o if visual do React. Apenas o bloco correspondente à aba selecionada no menu é desenhado na tela. */}
       {/* Menu de Abas (substitui os links do sidebar + iframe) */}
-      
+
       <View style={styles.menuAbas}>
         <TouchableOpacity
           style={[styles.aba, abaAtiva === 'perfil' && styles.abaAtiva]}
@@ -292,7 +306,7 @@ export default function Perfil() {
 
       {/* CONTEÚDO 3: HISTÓRICO DE INGRESSOS */}
       {abaAtiva === 'historico' && (
-        <View style={{ paddingHorizontal: 20 }}>
+        <View style={{ width: '90%', maxWidth: 600, alignSelf: 'center' }}>
           {carregandoIngressos ? (
             <ActivityIndicator color="#CE47A2" />
           ) : ingressos.length === 0 ? (
@@ -300,41 +314,42 @@ export default function Perfil() {
               Você ainda não comprou nenhum ingresso.
             </Text>
           ) : (
-            ingressos.map((ticket, index) => {
-              const orderId = ticket.idOrder ?? ticket.orderIdFk;
-              const dataFormatada = ticket.dateTimeSession
-                ? new Date(ticket.dateTimeSession).toLocaleString('pt-BR')
-                : '';
+            <>
+              {ingressos.map((ticket, index) => {
+                const tipoIngresso = ticket.typeTicket === 2 ? 'Meia-Entrada' : 'Inteira';
+                const valorFormatado = Number(ticket.finalPriceTicket || 0)
+                  .toFixed(2)
+                  .replace('.', ',');
 
-              return (
-                <View key={index} style={[styles.box, { marginHorizontal: 0, marginBottom: 14 }]}>
-                  <Text style={styles.tituloBox}>{ticket.titleMovie ?? 'Filme'}</Text>
-                  <Text style={styles.dado}>
-                    <Text style={styles.destaque}>Pedido: </Text>#{orderId}
-                  </Text>
-                  <Text style={styles.dado}>
-                    <Text style={styles.destaque}>Sala: </Text>
-                    {ticket.nameRoom ?? ticket.idRoomFk} |{' '}
-                    <Text style={styles.destaque}>Poltrona: </Text>
-                    {ticket.seatTicket}
-                  </Text>
-                  <Text style={styles.dado}>
-                    <Text style={styles.destaque}>Data/Hora: </Text>
-                    {dataFormatada}
-                  </Text>
-                  <Text style={styles.dado}>
-                    <Text style={styles.destaque}>Valor: </Text>R$ {ticket.priceTicket}
-                  </Text>
+                return (
+                  <View key={index} style={[styles.box, { width: '100%', marginBottom: 14 }]}>
+                    <Text style={styles.tituloBox}>
+                      Ingresso #{ticket.idTicket} (Pedido #{ticket.idOrderFk})
+                    </Text>
+                    <Text style={styles.dado}>
+                      <Text style={styles.destaque}>Sessão: </Text>#{ticket.idSessionFk} |{' '}
+                      <Text style={styles.destaque}>Poltrona: </Text>
+                      {ticket.seatNumberTicket}
+                    </Text>
+                    <Text style={styles.dado}>
+                      <Text style={styles.destaque}>Tipo: </Text>
+                      {tipoIngresso}
+                    </Text>
+                    <Text style={styles.dado}>
+                      <Text style={styles.destaque}>Valor Pago: </Text>R$ {valorFormatado}
+                    </Text>
+                  </View>
+                );
+              })}
 
-                  <TouchableOpacity
-                    style={[styles.btnSair, { marginTop: 12, alignSelf: 'flex-start' }]}
-                    onPress={() => cancelarPedido(orderId)}
-                  >
-                    <Text style={styles.textoSair}>Cancelar Pedido</Text>
-                  </TouchableOpacity>
-                </View>
-              );
-            })
+              {/* Botão único lá embaixo */}
+              <TouchableOpacity
+                style={[styles.btnSair, { alignSelf: 'center', marginTop: 10, paddingHorizontal: 24, paddingVertical: 12 }]}
+                onPress={cancelarTodosPedidos}
+              >
+                <Text style={styles.textoSair}>Cancelar Pedidos</Text>
+              </TouchableOpacity>
+            </>
           )}
         </View>
       )}
@@ -386,9 +401,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     backgroundColor: '#160F29',
-    width: '90%',        
-    maxWidth: 600,       
-    alignSelf: 'center', 
+    width: '90%',
+    maxWidth: 600,
+    alignSelf: 'center',
     marginVertical: 20,
     padding: 6,
     borderRadius: 8,
@@ -418,9 +433,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   box: {
-    width: '90%',        
-    maxWidth: 600,       
-    alignSelf: 'center', 
+    width: '90%',
+    maxWidth: 600,
+    alignSelf: 'center',
     backgroundColor: '#160F29',
     borderWidth: 1,
     borderColor: '#B22282',

@@ -59,11 +59,11 @@ export default function Login() {
         router.replace('/');
         //Se a API devolveu 401 Unauthorized (else) ou se a rede caiu (catch), exibe a mensagem de erro.
       } else {
-        Alert.alert('Erro', 'E-mail ou senha inválidos.');
+        setMensagemErro('E-mail ou senha inválidos.');
       }
     } catch (erro) {
       console.error('Erro no login:', erro);
-      Alert.alert('Erro de conexão', 'Não foi possível conectar ao servidor.');
+      setMensagemErro('Não foi possível conectar ao servidor.');
       //O finally sempre desliga o carregamento (setCarregando(false)).
     } finally {
       setCarregando(false);
@@ -139,6 +139,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    padding: 24,
   },
 
   box: {

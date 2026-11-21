@@ -5,7 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Histórico</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Sniglet:wght@400;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Sniglet:wght@400;800&display=swap"
+        rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -13,75 +15,144 @@
             box-sizing: border-box;
         }
 
-        body,
-        html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100vh;
-            overflow: hidden;
+        body {
+            background-color: #0F0A1C;
+            color: #FFFFFF;
             font-family: "Montserrat", sans-serif;
+            padding: 2rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        #lista-ingressos {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            max-width: 1100px;
+            margin: 0 auto;
         }
 
         .card-ingresso {
-            padding: 2.5rem 2rem;
             background-color: #160F29;
             border: 1px solid #B22282;
+            border-radius: 0.6rem;
+            padding: 1.5rem;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 1.2rem;
+        }
+
+        .card-ingresso h3 {
+            color: #E25583;
+            font-size: 1.25rem;
+            margin-bottom: 0.8rem;
+            border-bottom: 1px solid #302158;
+            padding-bottom: 0.5rem;
+        }
+
+        .card-ingresso p {
+            font-size: 0.95rem;
+            color: #DDD;
+            margin-bottom: 0.4rem;
+        }
+
+        .card-ingresso strong {
+            color: #B22282;
+        }
+
+        .btn-cancelar-todos {
+            background-color: transparent;
+            border: 1px solid #e92f3b;
+            color: #e92f3b;
+            padding: 0.8rem 6rem;
+            border-radius: 0.4rem;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .btn-cancelar-todos:hover {
+            background-color: #e92f3b;
+            color: #FFFFFF;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1.2rem;
+            }
+
+            #lista-ingressos {
+                grid-template-columns: 1fr;
+                width: 100%;
+            }
+
+            .btn-cancelar-todos {
+                width: 100%;
+                padding: 0.8rem 1rem;
+            }
         }
     </style>
+
 </head>
 
 <body>
     <div id="lista-ingressos"></div>
+
+    <div style="text-align: center; margin-top: 2rem;">
+        <button id="btnCancelarTodos" class="btn-cancelar-todos" onclick="cancelarTodosPedidos()"
+            style="display: none;">
+            Cancelar Pedidos
+        </button>
+    </div>
     <script>
         const usuario = JSON.parse(localStorage.getItem("usuarioLogado"));
         const userId = usuario.idUsers;
         const API_URL = `http://localhost:5252/api/Ticket/user/${userId}`;
 
+        // Guarda os ingressos carregados para sabermos quais pedidos cancelar
+        let listaIngressosAtual = [];
+
         async function carregarHistorico() {
             const container = document.getElementById("lista-ingressos");
+            const btnCancelarTodos = document.getElementById("btnCancelarTodos");
 
             try {
                 const resposta = await fetch(API_URL);
                 if (!resposta.ok) throw new Error("Não foi possível carregar seus ingressos.");
 
                 const ingressos = await resposta.json();
-
-                // Dica: abra o F12 -> Console para conferir os nomes exatos das propriedades
-                console.log("Ingressos retornados:", ingressos);
+                listaIngressosAtual = ingressos;
 
                 if (ingressos.length === 0) {
                     container.innerHTML = "<p style='color: #c2c1c1;'>Você ainda não comprou nenhum ingresso.</p>";
+                    btnCancelarTodos.style.display = "none"; // Esconde o botão se não houver ingressos
                     return;
                 }
 
                 container.innerHTML = "";
+                btnCancelarTodos.style.display = "inline-block"; // Mostra o botão único lá embaixo
 
                 ingressos.forEach(ticket => {
-                    // Formata a data e hora da sessão para o padrão brasileiro
-                    const dataFormatada = ticket.dateTimeSession
-                        ? new Date(ticket.dateTimeSession).toLocaleString("pt-BR")
-                        : "";
+                    const orderId = ticket.idOrderFk;
+                    const tipoIngresso = ticket.typeTicket === 2 ? "Meia-Entrada" : "Inteira";
+                    const valorFormatado = Number(ticket.finalPriceTicket).toFixed(2).replace(".", ",");
 
                     const card = document.createElement("div");
-                    card.className = "card-ingresso"; // Classe para você estilizar no seu CSS
+                    card.className = "card-ingresso";
 
+                    // Sem botão individual dentro do card!
                     card.innerHTML = `
                     <div>
-                        <h3>${ticket.titleMovie ?? "Filme"}</h3>
-                        <p><strong>Pedido:</strong> #${ticket.idOrder ?? ticket.orderIdFk}</p>
-                        <p><strong>Sala:</strong> ${ticket.nameRoom ?? ticket.idRoomFk} | <strong>Poltrona:</strong> ${ticket.seatTicket}</p>
-                        <p><strong>Data/Hora:</strong> ${dataFormatada}</p>
-                        <p><strong>Tipo:</strong> ${ticket.typeTicket} | <strong>Valor:</strong> R$ ${ticket.priceTicket}</p>
+                        <h3>Ingresso #${ticket.idTicket} (Pedido #${orderId})</h3>
+                        <p><strong>Sessão:</strong> #${ticket.idSessionFk} | <strong>Poltrona:</strong> ${ticket.seatNumberTicket}</p>
+                        <p><strong>Tipo:</strong> ${tipoIngresso}</p>
+                        <p><strong>Valor Pago:</strong> R$ ${valorFormatado}</p>
                     </div>
-                    <button onclick="cancelarPedido(${ticket.idOrder ?? ticket.orderIdFk})">Cancelar Pedido</button>
                 `;
 
                     container.appendChild(card);
@@ -93,20 +164,27 @@
             }
         }
 
-        // Função já conectada com a sua rota DELETE api/Ticket/cancelar/{orderId}/{userId}
-        async function cancelarPedido(orderId) {
-            if (!confirm("Deseja realmente cancelar este pedido e liberar os assentos?")) return;
+        // Cancela todos os pedidos distintos encontrados no histórico
+        async function cancelarTodosPedidos() {
+            if (!confirm("Deseja realmente cancelar TODOS os seus pedidos e liberar os assentos?")) return;
+
+            // Pega apenas os números de pedidos únicos (ex: se tem 3 ingressos no pedido #1, chama o DELETE só 1 vez para o #1)
+            const pedidosUnicos = [...new Set(listaIngressosAtual.map(t => t.idOrderFk))];
 
             try {
-                const resposta = await fetch(`http://localhost:5252/api/Ticket/cancelar/${orderId}/${userId}`, {
-                    method: "DELETE"
-                });
+                for (const orderId of pedidosUnicos) {
+                    const resposta = await fetch(`http://localhost:5252/api/Ticket/cancelar/${orderId}/${userId}`, {
+                        method: "DELETE"
+                    });
 
-                const resultado = await resposta.json();
-                if (!resposta.ok) throw new Error(resultado.message);
+                    if (!resposta.ok) {
+                        const erro = await resposta.json();
+                        throw new Error(erro.message || `Erro ao cancelar pedido #${orderId}`);
+                    }
+                }
 
-                alert(resultado.message);
-                carregarHistorico(); // Atualiza a lista na tela após cancelar
+                alert("Pedidos cancelados com sucesso!");
+                carregarHistorico(); // Atualiza a tela
             } catch (erro) {
                 alert("Erro ao cancelar: " + erro.message);
             }

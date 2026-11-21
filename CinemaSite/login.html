@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Sniglet:wght@400;800&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body,
+        html {
+            width: 100%;
+            height: 100vh;
+            background-color: #0F0A1C;
+            font-family: "Montserrat", sans-serif;
+            color: #FFFFFF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .box {
+            width: 20%;
+            padding: 2.5rem 2rem;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #B22282;
+            background-color: #160F29;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+            border-radius: 0.5rem;
+            gap: 2rem;
+        }
+
+        h3 {
+            align-self: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .formGroup {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        label {
+            color: #ffffff;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid #2D1E54;
+            background: linear-gradient(145deg, #1A1230, #130C24);
+            color: #ffffff;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input:focus,
+        textarea:focus {
+            transform: translateY(-4px);
+            border-color: #B22282;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        input[type="file"] {
+            padding: 8px;
+            cursor: pointer;
+        }
+
+        button {
+            margin-top: 8px;
+            padding: 14px;
+            border: none;
+            border-radius: 6px;
+            background-color: #B22282;
+            color: #ffffff;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: #2D1E54;
+        }
+
+        .btn-cad {
+            text-align: center;
+            text-decoration: none;
+            background-color: transparent;
+            color: #E25583;
+            width: 100%;
+            border-radius: 0.4rem;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: 0.2s ease;
+        }
+
+        .btn-cad:hover {
+            color: #d61f5c;
+        }
+
+        .btn-sair {
+            text-align: center;
+            text-decoration: none;
+            background-color: transparent;
+            color: #E25583;
+            width: 100%;
+            border-radius: 0.4rem;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: 0.2s ease;
+        }
+
+        .btn-sair:hover {
+            color: #d61f5c;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <form>
+            <h3>Entrar no Movieing</h3>           
+
+            <div class="formGroup">
+                <label for="email">Email:</label>
+                <input type="text" id="emailUsers" name="emailUsers" placeholder="Digite seu e-mail" required>
+            </div>
+
+            <div class="formGroup">
+                <label for="senha">Senha:</label>
+                <input type="password" id="senhaUsers" name="senhaUsers" placeholder="Digite sua senha" required>
+            </div>
+
+            <button type="submit">Entrar</button>
+            <a href="cadastro.html" class="btn-cad">Não tem conta? Cadastre-se</a>
+            <a href="index.html" class="btn-sair">Voltar para o inicio</a>
+        </form>
+    </div>
+
+    <script>
+    const API_SERVIDOR = "http://localhost:5252";
+    const formLogin = document.querySelector("form");
+
+    formLogin.addEventListener("submit", async (event) => {
+        // Impede a página de recarregar ao enviar o formulário
+        event.preventDefault();
+
+        const email = document.getElementById("emailUsers").value.trim();
+        const password = document.getElementById("senhaUsers").value;
+
+        try {
+            const resposta = await fetch(`${API_SERVIDOR}/api/Users/login`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                // Envia exatamente os campos "email" e "password" do seu LoginRequest no C#
+                body: JSON.stringify({ email, password })
+            });
+
+            if (resposta.ok) {
+                const usuario = await resposta.json();
+
+                // Salva no navegador para o headerPerfil.js e o MeuPerfil.html lerem depois
+                localStorage.setItem("usuarioLogado", JSON.stringify(usuario));
+
+                // Redireciona para a página inicial do site
+                window.location.href = "index.html";
+            } else {
+                const erro = await resposta.json();
+                alert(erro.message || "E-mail ou senha inválidos.");
+            }
+        } catch (erro) {
+            console.error("Erro ao fazer login:", erro);
+            alert("Não foi possível conectar ao servidor.");
+        }
+    });
+</script>
+</body>
+
+</html>

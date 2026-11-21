@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
   logoText: {
     fontSize: 22,
     fontWeight: '800',
-    letterSpacing: 2,
+    letterSpacing: 9,
   },
   avatar: {
     width: 50,

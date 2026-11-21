@@ -118,7 +118,8 @@ export default function Cadastro() {
                     //disabled={carregando}: Trava o toque enquanto está enviando.
                     disabled={carregando}
 
-                >   {/*Dentro do botão, alterna entre a bolinha girando (<ActivityIndicator>) e o texto "Cadastrar". */}
+                >   
+                {/*Dentro do botão, alterna entre a bolinha girando (<ActivityIndicator>) e o texto "Cadastrar". */}
                     {carregando ? (
                         <ActivityIndicator color="#FFF" />
                     ) : (
@@ -128,7 +129,7 @@ export default function Cadastro() {
 
                 {/* Botão para voltar sem logar, botão secundário que usa router.back() para voltar para a tela anterior. */}
                 <TouchableOpacity onPress={() => router.back()} style={styles.voltar}>
-                    <Text style={styles.textoVoltar}>Voltar para o início</Text>
+                    <Text style={styles.textoVoltar}>Voltar</Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -140,6 +141,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        padding: 24,
     },
 
     box: {
