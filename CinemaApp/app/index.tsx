@@ -3,6 +3,7 @@ import { View, StyleSheet, ScrollView, Text, TouchableOpacity, Image } from 'rea
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
 import { API_SERVIDOR } from '../services/api';
+import { MovieBanner } from '../components/MovieBanner';
 
 const FOTO_PADRAO = `${API_SERVIDOR}/uploads/users/default-avatar.jpg`;
 
@@ -126,6 +127,8 @@ export default function Index() {
           />
         </TouchableOpacity>
       </View>
+    {/*o carrossel*/}
+      <MovieBanner filmes={filmes} />
 
       {/* Grid de Filmes (equivalente ao <div class="GridFilmes">) */}
       <View style={styles.secaoFilmes}>
