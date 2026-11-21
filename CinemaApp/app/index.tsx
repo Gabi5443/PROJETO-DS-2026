@@ -1,30 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ScrollView, Text, TouchableOpacity, Image } from 'react-native';
+//AsyncStorage: É o equivalente ao localStorage do navegador, usado para ler quem está logado no celular.
 import AsyncStorage from '@react-native-async-storage/async-storage';
+//useRouter: Ferramenta do Expo Router para navegar entre telas (substitui window.location.href).
 import { useRouter } from 'expo-router';
+//API_SERVIDOR e MovieBanner: Trazem o endereço dinâmico da sua API C# e o componente do carrossel.
 import { API_SERVIDOR } from '../services/api';
 import { MovieBanner } from '../components/MovieBanner';
 
+//FOTO_PADRAO: Guarda a URL da imagem cinza padrão caso o usuário não esteja logado ou a foto falhe.
 const FOTO_PADRAO = `${API_SERVIDOR}/uploads/users/default-avatar.jpg`;
 
-interface Usuario {
-  idUsers: number;
-  nameUsers: string;
-  photoUsers?: string;
-}
 
 export default function Index() {
-  //aqui é pra chamar a foto certa lá no header.No react a gnt n mexe nas fotos, ele só atualiza elas. O nome 'fotoPerfil' é uma variavel de memória, e o setFotoPerfil é pra atualizar ela (caso o usuário tenha mudado)
-  //o useRouter, pra navegar nas paginas
+
   const router = useRouter();
+
+  //fotoPerfil / setFotoPerfil: Guarda a URL da foto exibida no Header (começa com FOTO_PADRAO). Quando setFotoPerfil é chamado, a imagem no topo muda sozinha.
   const [fotoPerfil, setFotoPerfil] = useState(FOTO_PADRAO);
+  //usuario / setUsuario: Guarda os dados do usuário logado (ou null se ninguém estiver logado).
   const [usuario, setUsuario] = useState<any>(null);
 
   //o grid de filmes 
+  //filmes / setFilmes: Guarda a lista (array) de filmes que vem da API. Começa vazia [].
   const [filmes, setFilmes] = useState<any[]>([]);
+  //carregandoFilmes: Começa true para mostrar "Carregando filmes..." enquanto a API não responde.
   const [carregandoFilmes, setCarregandoFilmes] = useState(true);
+  //erroFilmes: Guarda uma mensagem de texto caso a API falhe.
   const [erroFilmes, setErroFilmes] = useState('');
 
+
+//Os colchetes vazios [] no final significam: "Rode essa função uma única vez assim que o usuário abrir essa tela"
   useEffect(() => {
     atualizarFotoHeader();
     carregarFilmes(); // <-- Chama a busca de filmes junto com a foto
@@ -32,25 +38,23 @@ export default function Index() {
 
   async function carregarFilmes() {
     try {
+      //fetch(...): Faz uma requisição GET na sua MovieController do C#.
       const resposta = await fetch(`${API_SERVIDOR}/api/Movie`);
       if (!resposta.ok) throw new Error('Não foi possível carregar os filmes.');
 
       const lista = await resposta.json();
+      //setFilmes(lista): Guarda o JSON de filmes na memória do React, fazendo o Carrossel e o Grid desenharem os filmes na tela.
       setFilmes(lista);
     } catch (erro: any) {
       console.error(erro);
       setErroFilmes(erro.message || 'Erro ao buscar filmes.');
+      //finally: Roda sempre no final (dando certo ou erro) para desligar o aviso de "Carregando filmes..." (setCarregandoFilmes(false)).
     } finally {
       setCarregandoFilmes(false);
     }
   }
 
-  //Os colchetes vazios [] no final significam: "Rode essa função uma única vez assim que o usuário abrir essa tela"
-  useEffect(() => {
-    //setFotoPerfil(...) → Se achou alguém salvo no celular, já mostra a foto antiga imediatamente para o usuário não ficar olhando para uma bolinha vazia enquanto a internet carrega.
-    atualizarFotoHeader();
-  }, []);
-
+  //Leitura do Cache: Verifica se há um usuário salvo no celular. Se não houver, garante a FOTO_PADRAO e para a função (return).
   async function atualizarFotoHeader() {
     try {
       // await fetch(...) → Bate na sua API C# (/api/Users/{id}) em segundo plano. Se o usuário mudou a foto recentemente, ele baixa o dado novo, atualiza a tela (setFotoPerfil) e salva no celular de novo (AsyncStorage.setItem).
@@ -89,7 +93,8 @@ export default function Index() {
     }
   }
 
-  // 4. Equivalente ao imgPerfil.addEventListener("click")
+  //Navegação Condicional: Chamada quando o usuário toca na foto redonda. Se usuario existir, abre /perfil; se for null, abre /login.
+  //Equivalente ao imgPerfil.addEventListener("click")
   function handleCliquePerfil() {
     if (usuario) {
       // Navega para a tela de perfil passando o idUsers
