@@ -18,6 +18,7 @@ class MovieBanner extends HTMLElement { //Cria um elemnto HTML no modelo Shadow 
   //esse bloco será desativado assim que  elemto sair da tela:
   disconnectedCallback() {
     if (this.intervalId) clearInterval(this.intervalId); //o temporizador para de contar (isso serve para que ele pare de comer memória)
+    this.intervalId = null;
   }
 
 
@@ -353,6 +354,10 @@ class MovieBanner extends HTMLElement { //Cria um elemnto HTML no modelo Shadow 
 
     //seta o tempo de cada filme no banner a
     this.intervalId = setInterval(() => {
+      if (!this.shadowRoot.isConnected || !this.track) {
+        clearInterval(this.intervalId);
+        return;
+      }
       this.currentIndex++;
       this.moveTrack(true);
       this.activateSlide(this.currentIndex);

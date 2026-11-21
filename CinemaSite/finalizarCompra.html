@@ -1,0 +1,80 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finalizar Compra</title>
+    <style>
+
+.container {
+    max-width: 700px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.resumo, .pagamento, .total {
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+}
+
+.card-ingresso {
+    padding: 15px;
+    margin: 15px 0;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.card-ingresso select,
+.pagamento select {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-top: 8px;
+}
+
+#finalizarCompra {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+    </style>
+</head>
+<body>
+
+    <main class="container">
+        <h1>Finalizar compra</h1>
+
+        <section class="resumo">
+            <h2>Resumo dos ingressos</h2>
+            <div id="listaIngressos"></div>
+        </section>
+
+        <section class="pagamento">
+            <h2>Forma de pagamento</h2>
+
+            <select id="formaPagamento">
+                <option value="">Selecione uma forma de pagamento</option>
+                <option value="Cartão">Cartão</option>
+                <option value="Pix">Pix</option>
+                <option value="Dinheiro">Dinheiro</option>
+            </select>
+        </section>
+
+        <section class="total">
+            <h2>Total: <span id="valorTotal">R$ 0,00</span></h2>
+        </section>
+
+        <button id="finalizarCompra">
+            Confirmar compra
+        </button>
+    </main>
+
+    <script src="Scripts/finalizarCompra.js"></script>
+</body>
+</html>

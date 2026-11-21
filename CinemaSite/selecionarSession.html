@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+.lista-sessoes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.card-sessao {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+.card-sessao h3 {
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+.info-sessao {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.info-sessao span {
+    color: #666;
+}
+
+.btn-assentos {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background-color: #e65c25;
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.btn-assentos:hover {
+    background-color: #c94b1c;
+}
+
+    </style>
+</head>
+<body>
+    <h1>Escolha uma sessão</h1>
+
+<div id="listaSessoes">
+    <!-- Os cards serão adicionados pelo JavaScript -->
+</div>
+
+<script src="Scripts/selecionarSession.js"></script>
+</body>
+</html>

@@ -1,0 +1,153 @@
+
+
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    padding: 30px;
+    text-align: center;
+}
+
+.tela {
+    background-color: #ddd;
+    padding: 12px;
+    margin: 30px auto;
+    max-width: 500px;
+    border-radius: 50% 50% 10px 10px;
+    font-weight: bold;
+}
+
+.legenda {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    margin: 25px 0;
+    flex-wrap: wrap;
+}
+
+.legenda span {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.legenda i {
+    width: 18px;
+    height: 18px;
+    display: inline-block;
+    border-radius: 5px;
+}
+
+.disponivel {
+    background-color: #ddd;
+}
+
+.selecionado {
+    background-color: #e65c25;
+}
+
+.ocupado {
+    background-color: #777;
+}
+
+.mapa-assentos {
+    display: grid;
+    gap: 8px;
+    justify-content: center;
+    margin: 30px auto;
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+.assento {
+    width: 35px;
+    height: 35px;
+    border: none;
+    border-radius: 7px;
+    background-color: #ddd;
+    cursor: pointer;
+}
+
+.assento:hover:not(:disabled) {
+    background-color: #bbb;
+}
+
+.assento.selecionado {
+    background-color: #e65c25;
+    color: white;
+}
+
+.assento:disabled {
+    background-color: #777;
+    cursor: not-allowed;
+}
+
+#continuar {
+    padding: 12px 25px;
+    background-color: #e65c25;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+#continuar:disabled {
+    background-color: #aaa;
+    cursor: not-allowed;
+}
+
+
+
+
+.mapa-assentos {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.fileira {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.letra-fileira {
+    width: 20px;
+    font-weight: bold;
+}
+    </style>
+  </head>
+  <body>
+      <h1>Escolha seus assentos</h1>
+
+    <div id="informacoesSessao"></div>
+
+    <div class="legenda">
+        <span><i class="disponivel"></i> Disponível</span>
+        <span><i class="selecionado"></i> Selecionado</span>
+        <span><i class="ocupado"></i> Ocupado</span>
+    </div>
+
+    <div class="tela">TELA</div>
+
+    <div id="mapaAssentos" class="mapa-assentos">
+        <!-- Os assentos serão gerados pelo JavaScript -->
+    </div>
+
+    <p id="quantidadeSelecionada">Nenhum assento selecionado.</p>
+
+    <button id="continuar" disabled>
+        Continuar
+    </button>
+
+   
+  </body>
+   <script src="Scripts/selecionarAssentos.js"></script>
+  </html>
+

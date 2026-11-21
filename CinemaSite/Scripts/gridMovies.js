@@ -3,7 +3,7 @@ const API_URL = `${API_BASE}/api/Movie`; //define a url da api como o endereço 
 
 
 
-// 2. LISTAGEM NA TABELA (listarMovies.html)
+// 2. LISTAGEM NP GRID
 const gridBody = document.getElementById("GridFilmes"); //adiciona a uma variavel o elemento html cujo id é igual ao que esta entre parenteses
 if (gridBody) { // se essa variavel existir
     carregarFilmes(); //carrega tal função
