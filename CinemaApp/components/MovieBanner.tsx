@@ -1,27 +1,30 @@
+//useRef: Cria uma referência direta ao componente <FlatList> para conseguirmos dar comandos nele via código (como mandar ele rolar para o próximo slide).
 import React, { useState, useEffect, useRef } from 'react';
 import {
     View,
     Text,
     Image,
     StyleSheet,
-    FlatList,
-    useWindowDimensions,
+    FlatList, //FlatList: Componente de lista otimizada do React Native, usado aqui na horizontal (horizontal) para fazer o carrossel.
+    useWindowDimensions, //useWindowDimensions: Hook que descobre em tempo real a largura exata (width) da tela do celular ou navegador, garantindo que cada slide ocupe 100% da largura.
     TouchableOpacity,
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { API_SERVIDOR } from '../services/api';
 
+//MovieBannerProps: Define que quem chamar <MovieBanner filmes={...} /> precisa passar a lista filmes como propriedade (prop).
 interface MovieBannerProps {
     filmes: any[];
 }
 
+//flatListRef e indiceAtual: Guardam o controle da lista e qual slide (0, 1, 2...) está visível no momento.
 export function MovieBanner({ filmes }: MovieBannerProps) {
     const router = useRouter();
     const { width } = useWindowDimensions(); // Pega a largura exata da tela atual
     const flatListRef = useRef<FlatList>(null);
     const [indiceAtual, setIndiceAtual] = useState(0);
 
-    // Mapeia os dados igual ao seu fetchMovies
+    //moviesList: Percorre o array vindo da API e padroniza os nomes dos campos (usando ?? para aceitar tanto letra minúscula quanto maiúscula).
     const moviesList = filmes.map((item) => ({
         id: item.idMovie ?? item.IdMovie,
         title: item.titleMovie ?? item.TitleMovie,
@@ -34,22 +37,23 @@ export function MovieBanner({ filmes }: MovieBannerProps) {
 
     // Equivalente ao setInterval de 6 segundos
     useEffect(() => {
+        //if (moviesList.length <= 1) return;: Se só existir 1 filme, não inicia o temporizador.
         if (moviesList.length <= 1) return;
 
-        const intervalo = setInterval(() => {
+        const intervalo = setInterval(() => { //setInterval(..., 6000): A cada 6 segundos:
             setIndiceAtual((prev) => {
-                const proximo = (prev + 1) % moviesList.length;
-                flatListRef.current?.scrollToIndex({ index: proximo, animated: true });
-                return proximo;
+                const proximo = (prev + 1) % moviesList.length; //(prev + 1) % moviesList.length: Soma 1 ao índice atual e, quando chega no último filme, o operador % (resto da divisão) faz voltar para 0 automaticamente (loop infinito!).
+                flatListRef.current?.scrollToIndex({ index: proximo, animated: true }); //flatListRef.current?.scrollToIndex(...): Ordena que o FlatList deslize suavemente (animated: true) até o próximo slide.
+                return proximo; 
             });
         }, 6000);
 
-        return () => clearInterval(intervalo); // Limpa memória ao sair da tela (disconnectedCallback)
+        return () => clearInterval(intervalo); //return () => clearInterval(intervalo);: Limpa o relógio quando o usuário sai da tela para não gastar memória.
     }, [moviesList.length]);
 
-    if (moviesList.length === 0) return null;
+    if (moviesList.length === 0) return null; //if (moviesList.length === 0) return null;: Enquanto os filmes não carregam da API, não desenha nada.
 
-    // Mesma função formatDuration do seu script
+    //formatDuration: Converte minutos totais (ex: 135) em horas e minutos ("2h 15m").
     function formatDuration(minutes: number) {
         if (!minutes) return '';
         const h = Math.floor(minutes / 60);
@@ -57,7 +61,7 @@ export function MovieBanner({ filmes }: MovieBannerProps) {
         return h > 0 ? `${h}h ${m}m` : `${m}m`;
     }
 
-    // Mesma função getAgeColor do seu script
+    // Mesma função getAgeColor do script
     function getAgeColor(age: number) {
         if (age <= 0) return '#00a859';  // Livre
         if (age <= 10) return '#0088cc'; // 10 anos
@@ -74,20 +78,20 @@ export function MovieBanner({ filmes }: MovieBannerProps) {
                 data={moviesList}
                 extraData={indiceAtual}
                 keyExtractor={(item) => String(item.id)}
-                horizontal
+                horizontal //horizontal e pagingEnabled: Coloca os itens lado a lado e faz a rolagem "travar" de página em página (sem parar no meio de dois filmes).
                 pagingEnabled
                 showsHorizontalScrollIndicator={false}
-                getItemLayout={(_, index) => ({
+                getItemLayout={(_, index) => ({ //getItemLayout: Informa o tamanho exato (width) e a posição (width * index) de cada slide, permitindo que scrollToIndex funcione tanto no celular quanto na Web.
                     length: width,
                     offset: width * index,
                     index,
                 })}
                 onMomentumScrollEnd={(e) => {
-                    // Atualiza o índice se o usuário arrastar com o dedo
+                    //onMomentumScrollEnd: Se o usuário arrastar o banner manualmente com o dedo, calcula a posição parada (contentOffset.x / width) e atualiza indiceAtual para a bolinha acompanhar.
                     const novoIndice = Math.round(e.nativeEvent.contentOffset.x / width);
                     setIndiceAtual(novoIndice);
                 }}
-                renderItem={({ item }) => {
+                renderItem={({ item }) => { //Dentro do renderItem: Desenha cada slide como um <TouchableOpacity> (que leva para /detalhes ao tocar) contendo 3 camadas empilhadas:
                     const ageLabel = item.ageRating <= 0 ? 'L' : item.ageRating;
                     const ageColor = getAgeColor(item.ageRating);
                     const formattedDuration = formatDuration(item.duration);
@@ -106,19 +110,19 @@ export function MovieBanner({ filmes }: MovieBannerProps) {
                             {/* Fundo desfocado cobrindo tudo (slide-bg-blur) */}
                             <Image
                                 source={{ uri: photoUrl }}
-                                style={styles.slideBgBlur}
+                                style={styles.slideBgBlur} //slideBgBlur: A foto do filme esticada com blurRadius={20} no fundo.
                                 blurRadius={20}
                             />
 
                             {/* Imagem principal inteira sem cortes (slide-bg-contain) */}
                             <Image
                                 source={{ uri: photoUrl }}
-                                style={styles.slideBgContain}
+                                style={styles.slideBgContain} //slideBgContain: A mesma foto inteira sem cortes (resizeMode="contain") no centro.
                                 resizeMode="contain"
                             />
 
                             {/* Camada escura para dar leitura ao texto */}
-                            <View style={styles.overlayEscuro} />
+                            <View style={styles.overlayEscuro} /> {/*overlayEscuro + slideContent: Uma máscara escura para dar contraste e os textos por cima (EM CARTAZ, título, badge colorido de idade, duração, gênero e sinopse cortada em 3 linhas com numberOfLines={3}). */}
 
                             {/* Conteúdo do slide */}
                             <View style={styles.slideContent}>
@@ -150,6 +154,7 @@ export function MovieBanner({ filmes }: MovieBannerProps) {
             />
 
             {/* Bolinhas indicadoras na base */}
+            {/*Desenha uma bolinha para cada filme da lista. Quando o índice da bolinha (idx) for igual ao indiceAtual, aplica o estilo pontoAtivo (alonga e pinta de rosa #E25583). */}
             <View style={styles.indicadores}>
                 {moviesList.map((_, idx) => (
                     <View

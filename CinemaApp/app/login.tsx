@@ -1,58 +1,70 @@
-import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, ScrollView, Text, TouchableOpacity, TextInput, Alert, ActivityIndicator, } from 'react-native';
+//Trazem o useState (memória)
+import React, { useState } from 'react';
+import { View, StyleSheet, Text, TouchableOpacity, TextInput, Alert, ActivityIndicator, } from 'react-native';
+//o AsyncStorage (para salvar os dados do usuário no celular após o login)
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
+//API_SERVIDOR (endereço automático da API)
 import { API_SERVIDOR } from '../services/api';
 
 
 export default function Login() {
   const router = useRouter();
 
-  //para guardar oq o usuário digita
+  //email / senha: Guardam em tempo real o que o usuário digita nos dois campos.
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
+  //carregando: Começa false; vira true enquanto a API verifica a senha para travar o botão e mostrar o ícone girando.
   const [carregando, setCarregando] = useState(false);
+  //mensagemErro: Guarda o texto de erro que aparece em vermelho acima do botão Entrar.
   const [mensagemErro, setMensagemErro] = useState('');
 
   // 2. Função que envia os dados para a API C#
   async function handleLogin() {
+    //Limpa qualquer erro antigo antes de tentar logar de novo.
     setMensagemErro('');
 
+    //Verifica se os campos estão vazios.
     if (!email || !senha) {
-      Alert.alert('Atenção', 'Preencha o e-mail e a senha.');
+      setMensagemErro('Preencha o e-mail e a senha.');
       return;
     }
-
+    //Liga o indicador de carregamento (true).
     setCarregando(true);
 
     try {
-      // ⚠️ Confira se a rota e os nomes dos campos (emailUsers/passwordUsers)
-      // são exatamente esses na sua UsersController do C#
+      //Faz uma requisição POST para /api/Users/login
       const resposta = await fetch(`${API_SERVIDOR}/api/Users/login`, {
         method: 'POST',
+        //headers: Avisa a API C# que estamos enviando um texto no formato JSON (diferente do cadastro, que usou FormData).
         headers: {
           'Content-Type': 'application/json',
         },
+        //body: Converte o objeto { email, password } em texto JSON (JSON.stringify) usando exatamente os nomes esperados pelo LoginRequest da sua UsersController.cs. O .trim() remove espaços acidentais no e-mail.
         body: JSON.stringify({
           email: email.trim(),
           password: senha,
         }),
       });
 
+      //Se a API devolveu status 200 OK
       if (resposta.ok) {
+        //Lê o objeto usuario retornado (idUsers, nameUsers, photoUsers, etc.).
         const usuario = await resposta.json();
 
-        // Salva no celular (igual ao localStorage.setItem do seu site)
+        // Salva esse objeto no AsyncStorage com a chave 'usuarioLogado' (igual ao localStorage.setItem do site), para que o Header do 'index.tsx' e a tela de 'perfil.tsx' saibam quem está logado.
         await AsyncStorage.setItem('usuarioLogado', JSON.stringify(usuario));
 
-        // Volta para a tela inicial (Index), que já vai carregar a foto do usuário!
+        //  redireciona para a tela inicial substituindo o histórico (assim o botão "Voltar" do celular não volta para a tela de login).
         router.replace('/');
+        //Se a API devolveu 401 Unauthorized (else) ou se a rede caiu (catch), exibe a mensagem de erro.
       } else {
         Alert.alert('Erro', 'E-mail ou senha inválidos.');
       }
     } catch (erro) {
       console.error('Erro no login:', erro);
       Alert.alert('Erro de conexão', 'Não foi possível conectar ao servidor.');
+      //O finally sempre desliga o carregamento (setCarregando(false)).
     } finally {
       setCarregando(false);
     }
@@ -68,6 +80,7 @@ export default function Login() {
           style={styles.input}
           placeholder="Digite seu e-mail"
           placeholderTextColor="#888"
+          //Liga o campo ao estado email (value + onChangeText), ativa o teclado com @ (keyboardType="email-address") e desliga a primeira letra maiúscula (autoCapitalize="none").
           keyboardType="email-address"
           autoCapitalize="none"
           value={email}
@@ -76,6 +89,7 @@ export default function Login() {
 
         {/* Campo de Senha */}
         <Text style={styles.label}>Senha</Text>
+        {/*Liga o campo ao estado senha*/}
         <TextInput
           style={styles.input}
           placeholder="Digite sua senha"
@@ -85,6 +99,7 @@ export default function Login() {
           onChangeText={setSenha}
         />
 
+        {/*Renderiza o <Text> vermelho somente se houver alguma mensagem de erro guardada. */}
         {mensagemErro ? (
           <Text style={{ color: '#EC696A', marginBottom: 10, textAlign: 'center' }}>
             {mensagemErro}
@@ -94,6 +109,7 @@ export default function Login() {
         {/* Botão Entrar */}
         <TouchableOpacity
           style={styles.botao}
+          //Chama handleLogin ao clicar, bloqueia cliques repetidos (disabled={carregando}) e alterna entre <ActivityIndicator> e o texto "Entrar".
           onPress={handleLogin}
           disabled={carregando}
         >
@@ -104,11 +120,12 @@ export default function Login() {
           )}
         </TouchableOpacity>
 
+        {/*router.push('/cadastro'): Empilha a tela de cadastro por cima do login. */}
         <TouchableOpacity onPress={() => router.push('/cadastro')} style={styles.voltar}>
           <Text style={styles.textoVoltar}>Não tem conta? Cadastre-se</Text>
         </TouchableOpacity>
 
-        {/* Botão para voltar sem logar */}
+        {/* Botão para voltar sem logar, para o index */}
         <TouchableOpacity onPress={() => router.back()} style={styles.voltar}>
           <Text style={styles.textoVoltar}>Voltar para o início</Text>
         </TouchableOpacity>

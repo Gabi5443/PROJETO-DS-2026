@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+//Platform: Permite detectar se o app está rodando no navegador ('web') ou no celular ('android' / 'ios'), pois o envio de arquivos no FormData funciona diferente nos dois.
 import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, ScrollView, ActivityIndicator, Platform, } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
+//ImagePicker: Biblioteca do Expo que abre a galeria de fotos do celular ou o seletor de arquivos do PC.
 import * as ImagePicker from 'expo-image-picker';
 import { API_SERVIDOR } from '../services/api';
 
@@ -10,29 +12,30 @@ const FOTO_PADRAO = `${API_SERVIDOR}/uploads/users/default-avatar.jpg`;
 export default function Perfil() {
   const router = useRouter();
 
-  // Controla qual "iframe" está visível na tela
+  //abaAtiva: Substitui o antigo <iframe>. Só pode assumir um dos 3 valores ('perfil', 'editar' ou 'historico'), começando em 'perfil'.
   const [abaAtiva, setAbaAtiva] = useState<'perfil' | 'editar' | 'historico'>('perfil');
 
-  // Dados do usuário
+  //usuario / carregando: Guardam os dados do usuário logado e controlam o loading inicial da tela.
   const [usuario, setUsuario] = useState<any>(null);
   const [carregando, setCarregando] = useState(true);
 
-  // Estados da aba Editar Perfil
+  //nome, email, novaFoto, salvando, aviso: Guardam os campos do formulário da aba Editar e a mensagem de sucesso/erro.
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [novaFoto, setNovaFoto] = useState<any>(null);
   const [salvando, setSalvando] = useState(false);
   const [aviso, setAviso] = useState('');
 
-  // Estados da aba Histórico
+  //ingressos / carregandoIngressos: Guardam a lista de compras da aba Histórico.
   const [ingressos, setIngressos] = useState<any[]>([]);
   const [carregandoIngressos, setCarregandoIngressos] = useState(false);
 
+  //useEffect(..., []): Roda uma vez ao abrir a tela para buscar os dados do usuário logado.
   useEffect(() => {
     carregarDadosUsuario();
   }, []);
 
-  // Quando clicar na aba Histórico, busca os ingressos
+  //useEffect(..., [abaAtiva]): Fica "vigiando" a variável abaAtiva. Toda vez que você toca na aba 'historico', ele dispara carregarHistorico automaticamente para buscar os ingressos atualizados na API.
   useEffect(() => {
     if (abaAtiva === 'historico' && usuario) {
       carregarHistorico(usuario.idUsers);
@@ -41,12 +44,14 @@ export default function Perfil() {
 
   async function carregarDadosUsuario() {
     try {
+      //(!dadosSalvos): Se alguém tentar acessar /perfil sem estar logado, é redirecionado na hora para /login.
       const dadosSalvos = await AsyncStorage.getItem('usuarioLogado');
       if (!dadosSalvos) {
         router.replace('/login');
         return;
       }
 
+      //Busca os dados mais recentes em GET /api/Users/{id}, preenche usuario, nome e email (para os inputs de edição já virem preenchidos) e atualiza o AsyncStorage.
       const userCache = JSON.parse(dadosSalvos);
       const resposta = await fetch(`${API_SERVIDOR}/api/Users/${userCache.idUsers}`);
       const dados = resposta.ok ? await resposta.json() : userCache;
@@ -64,6 +69,7 @@ export default function Perfil() {
 
   // Abre a galeria para escolher a nova foto
   async function escolherFoto() {
+    //launchImageLibraryAsync: Abre a galeria aceitando apenas imagens (['images']), libera o recorte quadrado (aspect: [1, 1]) e reduz levemente o tamanho do arquivo (quality: 0.8) para subir rápido. Se o usuário não cancelar, guarda a foto escolhida em novaFoto.
     const resultado = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ['images'],
       allowsEditing: true,
@@ -82,11 +88,13 @@ export default function Perfil() {
     setSalvando(true);
 
     try {
+      //FormData: Prepara os campos exatamente como o UpdateUser da sua UsersController.cs espera.
       const formData = new FormData();
       formData.append('NameUsers', nome.trim());
       formData.append('EmailUsers', email.trim());
       formData.append('RoleUsers', String(usuario.roleUsers ?? 'Client'));
 
+      //Na Web, o fetch precisa converter o link da imagem em um arquivo binário real (blob()); no celular (Android/iOS), basta passar o objeto { uri, name, type }.
       if (novaFoto) {
         if (Platform.OS === 'web') {
           const respBlob = await fetch(novaFoto.uri);
@@ -108,7 +116,8 @@ export default function Perfil() {
 
       const resultado = await resposta.json();
       if (!resposta.ok) throw new Error(resultado.message || 'Erro ao atualizar');
-
+      
+      //Limpa novaFoto, recarrega os dados do usuário (carregarDadosUsuario()), mostra o aviso verde/rosa e volta para a aba 'perfil'
       setNovaFoto(null);
       await carregarDadosUsuario();
       setAviso('Perfil atualizado com sucesso!');
@@ -120,7 +129,7 @@ export default function Perfil() {
     }
   }
 
-  // Equivalente ao carregarHistorico() do HistoricoIngressos.html
+  //carregarHistorico: Bate em GET /api/Ticket/user/{userId} e salva a lista no estado ingressos.
   async function carregarHistorico(userId: number) {
     setCarregandoIngressos(true);
     try {
@@ -136,7 +145,7 @@ export default function Perfil() {
     }
   }
 
-  // Equivalente ao cancelarPedido()
+  //cancelarPedido: Envia DELETE /api/Ticket/cancelar/{orderId}/{userId} e, se der certo, recarrega a lista de ingressos.
   async function cancelarPedido(orderId: number) {
     try {
       const resposta = await fetch(
@@ -151,12 +160,13 @@ export default function Perfil() {
     }
   }
 
-  // Equivalente ao sairDaConta()
+  //sairDaConta: Apaga 'usuarioLogado' do AsyncStorage e manda o usuário de volta para a Home (router.replace('/')).
   async function sairDaConta() {
     await AsyncStorage.removeItem('usuarioLogado');
     router.replace('/');
   }
 
+  //Enquanto carregando for true, mostra apenas a bolinha girando centralizada.
   if (carregando || !usuario) {
     return (
       <View style={[styles.container, { justifyContent: 'center' }]}>
@@ -165,12 +175,18 @@ export default function Perfil() {
     );
   }
 
+  //uriFotoAtual: Decide qual imagem mostrar no círculo grande do topo em ordem de prioridade:
+  //1. Se acabou de escolher uma novaFoto na galeria (mesmo antes de clicar em Salvar), já mostra a prévia dela!
+  //2. Senão, mostra a foto atual do usuário vinda da API.
+  //3. Senão, mostra a FOTO_PADRAO.
   const uriFotoAtual = novaFoto
     ? novaFoto.uri
     : usuario.photoUsers
       ? `${API_SERVIDOR}${usuario.photoUsers}`
       : FOTO_PADRAO;
+
   return (
+
     <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 40 }}>
       {/* Topo com botão Voltar e Foto */}
       <View style={styles.topo}>
@@ -182,7 +198,9 @@ export default function Perfil() {
         <Text style={styles.nomeTopo}>{usuario.nameUsers}</Text>
       </View>
 
+      {/*PARA ENTENDER O RESTO DO CÓDIGO: Troca de Abas ({abaAtiva === 'perfil' && (...)}): É o if visual do React. Apenas o bloco correspondente à aba selecionada no menu é desenhado na tela. */}
       {/* Menu de Abas (substitui os links do sidebar + iframe) */}
+      
       <View style={styles.menuAbas}>
         <TouchableOpacity
           style={[styles.aba, abaAtiva === 'perfil' && styles.abaAtiva]}
@@ -214,6 +232,7 @@ export default function Perfil() {
 
       {aviso ? <Text style={styles.aviso}>{aviso}</Text> : null}
 
+
       {/* CONTEÚDO 1: MEU PERFIL */}
       {abaAtiva === 'perfil' && (
         <View style={styles.box}>
@@ -238,6 +257,7 @@ export default function Perfil() {
           </View>
         </View>
       )}
+
 
       {/* CONTEÚDO 2: EDITAR PERFIL */}
       {abaAtiva === 'editar' && (
@@ -268,6 +288,7 @@ export default function Perfil() {
           </TouchableOpacity>
         </View>
       )}
+
 
       {/* CONTEÚDO 3: HISTÓRICO DE INGRESSOS */}
       {abaAtiva === 'historico' && (
