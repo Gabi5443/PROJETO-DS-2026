@@ -41,3 +41,9 @@ app.MapControllers();
 app.MapGet("/", () => "CinemaApi rodando perfeitamente!");
 
 app.Run();
+
+app.UseDefaultFiles();
+app.UseStaticFiles();
+
+app.UseAuthorization();
+

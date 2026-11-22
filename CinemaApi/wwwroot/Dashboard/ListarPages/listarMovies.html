@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filmes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sniglet:wght@400;800&display=swap" rel="stylesheet">
+    <style>
+    
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .foto-filme {
+    width: 8rem;
+    height: 4.8rem;
+    object-fit: cover;
+    border-radius: 0.3rem;
+    display: block;
+}
+
+
+        body {
+            background-color: #0F0A1C;
+            font-family: "Sniglet", system-ui;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .voltar {
+            display: inline-block;
+            margin: 2%;
+            text-decoration: none;
+            padding: 0.6rem 0.9rem;
+            border-radius: 0.35rem;
+            transition: 0.2s ease;
+            text-align: center;
+            color: #fff;
+            background-color: #B22282;
+        }
+
+        .criar {
+            display: inline-block;
+            margin: 2%;
+            margin-right: 5%;
+            text-decoration: none;
+            padding: 0.6rem 0.9rem;
+            border-radius: 0.35rem;
+            transition: 0.2s ease;
+            text-align: center;
+            color: #fff;
+            background-color: #338a0a;
+        }
+
+        .criar:hover,
+        .voltar:hover {
+            filter: brightness(0.92);
+            transform: translateY(-1px);
+        }
+
+        .tabela {
+            width: 90%;
+            justify-self: center;
+            align-items: center;
+            border-radius: 0.4rem;
+            border: 1px solid #B22282;
+            background-color: #160F29;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+        }
+
+        .tabela th,
+        .tabela td {
+            padding: 1.2rem;
+            text-align: left;
+        }
+
+        .tabela th {
+            background-color: #302158;
+            color: white;
+            font-size: 0.95rem;
+            font-weight: 400;
+        }
+
+        .tabela td {
+            border-bottom: 1px solid #910296;
+            color: #c2c1c1;
+            font-size: 0.9rem;
+        }
+
+        .botoes {
+            display: flex;
+            gap: 15%;
+            align-items: center;
+            justify-self: center;
+        }
+
+        .botaoAlter,
+        .botaoDelete {
+            padding: 0.6rem 0.9rem;
+            border-radius: 0.35rem;
+            transition: 0.2s ease;
+            text-align: center;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .botaoAlter {
+            background-color: #ffbe33;
+        }
+
+        .botaoDelete {
+            background-color: #e92f3b;
+        }
+
+        .botaoAlter:hover,
+        .botaoDelete:hover {
+            filter: brightness(0.92);
+            transform: translateY(-1px);
+        }
+
+        
+/* Ajustes para Celulares (telas menores que 600px) */
+@media (max-width: 600px) {
+    header {
+        width: 94%;
+        margin: 1rem auto;
+    }
+
+    .voltar,
+    .criar {
+        flex: 1; /* Faz os dois botões dividirem a largura igualmente no celular */
+        padding: 0.7rem;
+    }
+
+    .tabelaQuebrada {
+        width: 94%;
+    }
+
+    .tabela th,
+    .tabela td {
+        padding: 0.8rem;
+        font-size: 0.85rem;
+    }
+
+    .foto-filme {
+        width: 6rem;
+        height: 3.6rem;
+    }
+
+    .botoes {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.4rem;
+    }
+}
+
+/* Ajustes para TVs e Telas Grandes (Full HD 1920px e 4K) */
+@media (min-width: 1920px) {
+    body {
+        padding: 2rem 0;
+    }
+
+    header,
+    .tabela-wrapper {
+        width: 85%;
+        max-width: 2000px; /* Evita que a tabela fique esticada demais no 4K */
+    }
+
+    .voltar,
+    .criar {
+        padding: 1rem 1.8rem;
+        font-size: 1.3rem;
+        border-radius: 0.5rem;
+    }
+
+    .tabela th {
+        font-size: 1.35rem;
+        padding: 1.6rem 2rem;
+    }
+
+    .tabela td {
+        font-size: 1.25rem;
+        padding: 1.6rem 2rem;
+    }
+
+    .foto-filme {
+        width: 13rem;
+        height: 7.5rem;
+        border-radius: 0.5rem;
+    }
+
+    .botoes {
+        gap: 1rem;
+    }
+
+    .botaoAlter,
+    .botaoDelete {
+        padding: 1rem 2rem;
+        font-size: 1.15rem;
+        border-radius: 0.5rem;
+    }
+
+}
+
+    </style>
+</head>
+
+<body>
+    <header>
+        <a href="../index.html" class="voltar">Voltar</a>
+        <a href="../CriarPages/CreateMovie.html" class="criar"> + Adicionar Filme</a>
+    </header>
+    <div class="tabelaQuebrada">
+    <table class="tabela">
+        <thead>
+            <tr>
+                <th>Titulo</th>
+                <th>Sinopse</th>
+                <th>Duração</th>
+                <th>Gênero</th>
+                <th>Classificação</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="lista-filmes">
+            <tr>
+                <td colspan="7" style="text-align: center;">Carregando filmes...</td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
+    <script src="/Dashboard/Scripts/movie.js"></script>
+</body>
+
+</html>
