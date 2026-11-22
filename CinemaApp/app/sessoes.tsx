@@ -7,14 +7,14 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from 'react-native';
-import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router'; //useLocalSearchParams: Lê o id do filme enviado pela tela detalhes.tsx.
 import { API_SERVIDOR } from '../services/api';
 
 export default function SelecionarSessao() {
   const router = useRouter();
   const { id } = useLocalSearchParams(); // id do filme vindo de detalhes.tsx
 
-  const [sessoes, setSessoes] = useState<any[]>([]);
+  const [sessoes, setSessoes] = useState<any[]>([]); //sessoes e salas: Guardam as listas que vêm da API (começam vazias []).
   const [salas, setSalas] = useState<any[]>([]);
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState('');
@@ -25,7 +25,7 @@ export default function SelecionarSessao() {
 
   async function carregarSessoes() {
     try {
-      // Busca sessões e salas em paralelo
+      // Busca sessões e salas em paralelo, em vez de esperar uma terminar para começar a outra — deixando a tela mais rápida.
       const [respSessoes, respSalas] = await Promise.all([
         fetch(`${API_SERVIDOR}/api/Session`),
         fetch(`${API_SERVIDOR}/api/Room`),
@@ -43,6 +43,7 @@ export default function SelecionarSessao() {
         (session: any) => Number(session.idMovieFk) === Number(id)
       );
 
+      //setSessoes / setSalas: Salva os dados na memória do React para desenhar os cards.
       setSessoes(sessoesFilme);
       setSalas(todasSalas);
     } catch (e: any) {
@@ -53,6 +54,7 @@ export default function SelecionarSessao() {
     }
   }
 
+  //Abre a tela app/assentos.tsx enviando o idSession da sessão clicada.
   function selecionarAssentos(idSession: number) {
     router.push({
       pathname: '/assentos' as any,
@@ -76,6 +78,10 @@ export default function SelecionarSessao() {
       </View>
 
       {/* Lista de Sessões */}
+      {/*1. Se carregando for true → mostra o ícone girando.
+        2. Senão, se erro existir → mostra a mensagem em vermelho.
+        3. Senão, se sessoes.length === 0 → avisa que não há sessões para aquele filme.
+        4. Senão → percorre cada sessão com .map() para montar os cards. */}
       {carregando ? (
         <ActivityIndicator size="large" color="#CE47A2" style={{ marginTop: 40 }} />
       ) : erro ? (
@@ -85,11 +91,12 @@ export default function SelecionarSessao() {
       ) : (
         <View style={styles.listaSessoes}>
           {sessoes.map((session) => {
-            // Procura a sala correspondente à sessão
+            // salas.find(...): Procura na lista de salas aquela que tem o idRoom igual ao idRoomFk da sessão, para exibir o nome da sala (ex: "Sala 1" ou "IMAX").
             const sala = salas.find(
               (room) => Number(room.idRoom) === Number(session.idRoomFk)
             );
 
+            //new Date(session.showTimeSession): Converte a data/hora vinda do C# para o formato brasileiro (dd/mm/aaaa e hh:mm).
             const data = new Date(session.showTimeSession);
             const dataFormatada = data.toLocaleDateString('pt-BR');
             const horarioFormatado = data.toLocaleTimeString('pt-BR', {
@@ -116,6 +123,7 @@ export default function SelecionarSessao() {
                 <View style={styles.infoRow}>
                   <Text style={styles.infoLabel}>Preço</Text>
                   <Text style={styles.infoValor}>
+                    {/*Formata o preço com 2 casas decimais (toFixed(2)) e troca o ponto por vírgula (replace('.', ',')). */}
                     R$ {Number(session.priceSession).toFixed(2).replace('.', ',')}
                   </Text>
                 </View>

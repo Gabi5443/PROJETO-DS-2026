@@ -18,10 +18,10 @@ export default function SelecionarAssentos() {
     const { id } = useLocalSearchParams(); // idSession vindo de sessoes.tsx
     const { width } = useWindowDimensions();
 
-    const [session, setSession] = useState<any>(null);
+    const [session, setSession] = useState<any>(null); //session e room: Guardam os detalhes da sessão (preço/horário) e da sala (quantas fileiras e cadeiras por fileira ela tem).
     const [room, setRoom] = useState<any>(null);
-    const [assentosOcupados, setAssentosOcupados] = useState<string[]>([]);
-    const [assentosSelecionados, setAssentosSelecionados] = useState<string[]>([]);
+    const [assentosOcupados, setAssentosOcupados] = useState<string[]>([]); //assentosOcupados: Lista de poltronas que já foram vendidas (ex: ["I7", "I8"]).
+    const [assentosSelecionados, setAssentosSelecionados] = useState<string[]>([]); //assentosSelecionados: Lista de poltronas que o usuário clicou agora na tela.
 
     const [carregando, setCarregando] = useState(true);
     const [erro, setErro] = useState('');
@@ -36,7 +36,7 @@ export default function SelecionarAssentos() {
                 throw new Error('ID da sessão não informado.');
             }
 
-            // 1. Busca a sessão escolhida
+            // 1. Busca a sessão escolhida, para descobrir qual é o idRoomFk (o ID da sala vinculada a ela).
             const respostaSession = await fetch(`${API_SERVIDOR}/api/Session/${id}`);
             if (!respostaSession.ok) {
                 throw new Error('Não foi possível encontrar a sessão.');
@@ -60,6 +60,7 @@ export default function SelecionarAssentos() {
             const dadosRoom = await respostaRoom.json();
             const dadosOcupados = await respostaOcupados.json();
 
+            //Salva os dados nos estados e converte todos os assentos ocupados para letras maiúsculas (toUpperCase()) para evitar erro de comparação (ex: "a1" vs "A1").
             setSession(dadosSession);
             setRoom(dadosRoom);
             setAssentosOcupados(
@@ -74,6 +75,8 @@ export default function SelecionarAssentos() {
     }
 
     // Equivalente ao selecionarAssento(nomeAssento)
+    //• Se listaAtual.includes(nomeAssento) for verdadeiro (a cadeira já estava selecionada), o .filter(...) cria uma nova lista removendo aquela cadeira.
+    //• Senão, [...listaAtual, nomeAssento] copia as cadeiras anteriores e adiciona a nova no final.
     function alternarAssento(nomeAssento: string) {
         setAssentosSelecionados((listaAtual) => {
             if (listaAtual.includes(nomeAssento)) {
@@ -114,17 +117,21 @@ export default function SelecionarAssentos() {
         );
     }
 
-    // Gera arrays auxiliares para desenhar as fileiras (A, B, C...) e colunas (1, 2, 3...)
+    // Gera arrays auxiliares com base no totalRowsRoom para desenhar as fileiras (A, B, C...) e colunas (1, 2, 3...)
     const fileiras = Array.from({ length: room.totalRowsRoom || 0 }, (_, idx) =>
         String.fromCharCode(65 + idx)
     );
+    //colunas: Cria um array numerado de 1 até seatsPerRowRoom (ex: [1, 2, 3, ..., 15]).
     const colunas = Array.from(
         { length: room.seatsPerRowRoom || 0 },
         (_, idx) => idx + 1
     );
 
+    //totalColunas: Soma o número de cadeiras por fila + 1 espaço para a letra da fileira (A, B, C...).
     const totalColunas = (room.seatsPerRowRoom || 10) + 1; // +1 da letra da fileira
+    //larguraDisponivel: Pega a largura da tela descontando 32px de margem (travando no máximo em 950px no PC).
     const larguraDisponivel = Math.min(width - 32, 950);
+    //tamanhoCadeira: Divide a largura disponível pelo número de colunas (descontando 4px de espaço entre cada botão) para que todas as poltronas caibam na tela sem cortar, limitando a no máximo 34px no PC.
     const tamanhoCadeira = Math.min(34, Math.floor((larguraDisponivel - totalColunas * 4) / totalColunas));
 
 
@@ -174,28 +181,37 @@ export default function SelecionarAssentos() {
                 contentContainerStyle={styles.mapaScroll}
             >
                 <View style={styles.mapaAssentos}>
+                    {/* Laço externo (fileiras.map): Para cada letra (A, B, C...), cria uma linha horizontal (styles.fileira) e escreve a letra na ponta esquerda. */}
                     {fileiras.map((letra) => (
                         <View key={letra} style={styles.fileira}>
                             <Text style={styles.letraFileira}>{letra}</Text>
 
+                            {/*Laço interno (colunas.map): Dentro dessa mesma linha, percorre os números (1, 2, 3...) e monta o código da poltrona (nomeAssento, ex: "A1"). */}
                             {colunas.map((numero) => {
                                 const nomeAssento = `${letra}${numero}`;
+                                {/*Checagem instantânea (.includes): Antes de desenhar cada cadeira, verifica nas duas listas se "A1" já foi vendida (estaOcupado) ou se você clicou nela agora (estaSelecionado). */}
                                 const estaOcupado = assentosOcupados.includes(nomeAssento);
                                 const estaSelecionado = assentosSelecionados.includes(nomeAssento);
 
                                 return (
                                     <TouchableOpacity
                                         key={nomeAssento}
+                                        //disabled={estaOcupado}: Trava fisicamente o toque na cadeira se ela estiver ocupada, impedindo que onPress seja disparado.
                                         disabled={estaOcupado}
                                         activeOpacity={0.7}
                                         onPress={() => alternarAssento(nomeAssento)}
+                                        //Array de estilos ([estilo1, estilo2, ...]): No React Native, quando você passa uma lista de estilos, os últimos sobrescrevem os primeiros:
                                         style={[
+                                            //Começa com a cor padrão roxa (styles.assento) e aplica a largura/altura calculada para caber na tela.
                                             styles.assento,
                                             { width: tamanhoCadeira, height: tamanhoCadeira },
+                                            //2. Se estaSelecionado for true, pinta de rosa (assentoSelecionado).
                                             estaSelecionado && styles.assentoSelecionado,
+                                            //Se estaOcupado for true, pinta de cinza (assentoOcupado).
                                             estaOcupado && styles.assentoOcupado,
                                         ]}
                                     >
+                                        {/*Fonte adaptativa (tamanhoCadeira < 24 ? 9 : 12): Se a sala tiver muitas colunas e a cadeira ficar menor que 24px, reduz o número para tamanho 9 para não quebrar em duas linhas. */}
                                         <Text
                                             style={[
                                                 styles.textoAssento,
@@ -214,6 +230,7 @@ export default function SelecionarAssentos() {
             </ScrollView>
 
             {/* Resumo da seleção */}
+            {/*.join(', '): Junta todos os itens do array em um único texto separado por vírgula e espaço (ex: ["I7", "I8"] vira "I7, I8"). */}
             <Text style={styles.quantidadeSelecionada}>
                 {assentosSelecionados.length === 0
                     ? 'Nenhum assento selecionado.'
@@ -221,6 +238,7 @@ export default function SelecionarAssentos() {
             </Text>
 
             {/* Botão Continuar */}
+            {/*disabled={assentosSelecionados.length === 0}: Mantém o botão Continuar apagado (btnContinuarDesabilitado) e bloqueado até que o usuário escolha pelo menos 1 assento. */}
             <TouchableOpacity
                 disabled={assentosSelecionados.length === 0}
                 onPress={handleContinuar}
