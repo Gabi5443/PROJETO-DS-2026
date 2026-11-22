@@ -72,3 +72,9 @@ using (var scope = app.Services.CreateScope())
 
 
 app.Run();
+
+app.UseDefaultFiles();
+app.UseStaticFiles();
+
+app.UseAuthorization();
+

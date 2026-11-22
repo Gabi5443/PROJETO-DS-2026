@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Sessão</title>
+</head>
+<style>
+       * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #0F0A1C;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: #ffffff;
+        }
+
+        .form-container {
+            background-color: #160F29;
+            padding: 32px;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 30rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 24px;
+            font-size: 1.5rem;
+            font-family: "Orbitron", sans-serif;
+            color: #f3f4f6;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            font-family: "Sniglet", system-ui;
+        }
+
+        .formItem {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        label {
+            color: #ffffff;
+            font-size: 0.9rem;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid #2D1E54;
+            background: linear-gradient(145deg, #1A1230, #130C24);
+            color: #ffffff;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input:focus, select:focus {
+            transform: translateY(-4px);
+            border-color: #B22282;
+        }
+
+        select {
+            cursor: pointer;
+        }
+
+        select option {
+            background-color: #160F29;
+            color: #ffffff;
+        }
+
+        button {
+            margin-top: 8px;
+            padding: 14px;
+            border: none;
+            border-radius: 6px;
+            background-color: #B22282;
+            color: #ffffff;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: #2D1E54;
+           
+        }
+
+
+        /* 1. Ajustes para Celulares (telas menores que 480px) */
+@media (max-width: 480px) {
+    body {
+        padding: 12px;
+    }
+
+    .form-container {
+        padding: 20px 16px;
+        border-radius: 8px;
+    }
+
+    h2 {
+        font-size: 1.25rem;
+        margin-bottom: 18px;
+    }
+
+    input, select {
+        padding: 10px;
+        font-size: 0.95rem;
+    }
+
+    button {
+        padding: 12px;
+    }
+}
+
+/* 2. TVs Full HD e 4K com escala do Windows (1920px) */
+@media (min-width: 1920px) {
+    .form-container {
+        max-width: 45rem; /* Amplia a caixa de 480px para 720px */
+        padding: 48px;
+        border-radius: 16px;
+    }
+
+    h2 {
+        font-size: 2.2rem;
+        margin-bottom: 32px;
+    }
+
+    form {
+        gap: 1.4rem;
+    }
+
+    label {
+        font-size: 1.25rem;
+    }
+
+    input, select {
+        padding: 16px;
+        font-size: 1.3rem;
+        border-radius: 8px;
+    }
+
+    button {
+        padding: 18px;
+        font-size: 1.35rem;
+        border-radius: 8px;
+        margin-top: 12px;
+    }
+}
+
+/* 3. TVs 4K nativas sem zoom do Windows (2560px+) */
+@media (min-width: 2560px) {
+    .form-container {
+        max-width: 65rem; /* Amplia para ~1040px para não ficar pequeno no 4K */
+        padding: 64px;
+        border-radius: 20px;
+    }
+
+    h2 {
+        font-size: 3rem;
+        margin-bottom: 42px;
+    }
+
+    form {
+        gap: 1.8rem;
+    }
+
+    label {
+        font-size: 1.7rem;
+    }
+
+    input, select {
+        padding: 22px;
+        font-size: 1.8rem;
+        border-radius: 10px;
+    }
+
+    button {
+        padding: 24px;
+        font-size: 1.9rem;
+        border-radius: 10px;
+        margin-top: 16px;
+    }
+}
+</style>
+
+<body>
+    <div class="form-container">
+    <div class="createCard">
+        <form id="EditarSession">
+            <div class="formGroup">
+                <label for="Filme">Filme:</label>
+                <select name="idMovieFk" id="idMovieFk">
+                    <option value="" disabled selected>Selecione um filme</option>
+                </select>
+            </div>
+
+            <div class="formGroup">
+                <label for="Preco">Preço:</label>
+                <input type="number" name="PriceSession" id="PriceSession">
+            </div>
+
+          <div class="formItem">
+                <label for="ShowTimeSession">Data </label>
+                <input type="date" name="dataSession" id="dataSession" required>
+            </div>
+
+             <div class="formItem">
+                <label for="ShowTimeSession">Horário</label>
+                <input type="time" name="timeSession" id="timeSession" required>
+            </div>
+
+            <div class="formGroup">
+                <label for="Sala">Sala:</label>
+                <select name="idRoomFk" id="idRoomFk">
+                    <option value="" disabled selected>Selecione uma sala</option>
+                </select>
+            </div>
+
+            <button type="submit">Editar Sessão</button>
+        </form>
+    </div>
+    </div>
+</body>
+<script src="/Dashboard/Scripts/session.js"></script>
+</html>
