@@ -43,6 +43,10 @@ public async Task CreateAsync(Users user)
         command.Parameters.AddWithValue("@email", user.EmailUsers);
         string senhaHash = BCrypt.Net.BCrypt.HashPassword(user.PasswordUsers);
         command.Parameters.AddWithValue("@password", senhaHash);
+        if (string.IsNullOrWhiteSpace(user.PhotoUsers))
+        {
+            user.PhotoUsers = "/uploads/users/default-avatar.jpg";
+        }
         command.Parameters.AddWithValue("@photo", user.PhotoUsers);
         command.Parameters.AddWithValue("@role", user.RoleUsers.ToString());
 
@@ -90,7 +94,7 @@ public async Task CreateAsync(Users user)
                 NameUsers = reader.GetString("NAME_USERS"),
                 // Pega o texto da coluna EMAIL_USERS
                 EmailUsers = reader.GetString("EMAIL_USERS"),
-                PhotoUsers = reader.GetString("PHOTO_USERS"),
+                PhotoUsers = reader.IsDBNull(reader.GetOrdinal("PHOTO_USERS")) ? "/uploads/users/default-avatar.jpg" : reader.GetString("PHOTO_USERS"),
                 // Pega o texto da coluna ROLE_USERS
                // Linha 90 e Linha 128:
               RoleUsers = Enum.Parse<EnumRoleUsers>(reader.GetString("ROLE_USERS"), ignoreCase: true)

@@ -1,3 +1,4 @@
+using CinemaApi.Models;
 using CinemaApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -39,5 +40,35 @@ app.UseCors("AllowAll");
 app.MapControllers();
 
 app.MapGet("/", () => "CinemaApi rodando perfeitamente!");
+
+// Cria usuários iniciais automaticamente ao ligar a API, caso ainda não existam
+using (var scope = app.Services.CreateScope())
+{
+    var userService = scope.ServiceProvider.GetRequiredService<UsersService>();
+    var usuariosExistentes = await userService.GetAllAsync();
+
+    if (!usuariosExistentes.Any(u => u.EmailUsers == "fulana@gmail.com"))
+    {
+        await userService.CreateAsync(new Users
+        {
+            NameUsers = "Fulana",
+            EmailUsers = "fulana@gmail.com",
+            PasswordUsers = "123",
+            RoleUsers = EnumRoleUsers.Client
+        });
+    }
+
+    if (!usuariosExistentes.Any(u => u.EmailUsers == "admin@movieing.com"))
+    {
+        await userService.CreateAsync(new Users
+        {
+            NameUsers = "Admin",
+            EmailUsers = "admin@movieing.com",
+            PasswordUsers = "123",
+            RoleUsers = EnumRoleUsers.Worker
+        });
+    }
+}
+
 
 app.Run();
