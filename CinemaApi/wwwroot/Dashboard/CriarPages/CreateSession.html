@@ -104,6 +104,26 @@
             background-color: #2D1E54;
            
         }
+        .voltar {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            text-decoration: none;
+            text-align: center;
+            background-color: transparent;
+            border: 1px solid #B22282;
+            color: #B22282;
+            padding: 0.6rem 1.1rem;
+            border-radius: 0.4rem;
+            font-family: "Sniglet", system-ui;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .voltar:hover {
+            background-color: #B22282;
+            color: #fff;
+        }
 
 
         @media (max-width: 480px) {
@@ -168,6 +188,12 @@
         border-radius: 8px;
         margin-top: 12px;
     }
+
+     .voltar {
+                padding: 1rem 1.8rem;
+                font-size: 1.3rem;
+                border-radius: 0.5rem;
+            }
 }
 
 /* 3. TVs 4K nativas sem zoom do Windows (2560px+) */
@@ -208,10 +234,32 @@
         margin-top: 16px;
     }
 }
+
+.voltar {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            text-decoration: none;
+            text-align: center;
+            background-color: transparent;
+            border: 1px solid #B22282;
+            color: #B22282;
+            padding: 0.6rem 1.1rem;
+            border-radius: 0.4rem;
+            font-family: "Sniglet", system-ui;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .voltar:hover {
+            background-color: #B22282;
+            color: #fff;
+        }
     </style>
 </head>
 
 <body>
+    <a href="../ListarPages/listarSession.html" class="voltar">Voltar</a>
     <div class="form-container">
 
         <h2>Cadastrar Nova Sessão</h2>
@@ -252,6 +300,6 @@
         </form>
     </div>
 
-    <script src="/Dashboard/Scripts/session.js"></script>
+    <script src="../Scripts/session.js"></script>
 </body>
 </html>

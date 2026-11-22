@@ -1,10 +1,13 @@
+console.log("ARQUIVO MOVIE.JS FOI CARREGADO!");
 const API_BASE = "http://localhost:5252"; //coloca o endereço da api em uma varável que não será reatribuida (const)
 const API_URL = `${API_BASE}/api/Movie`; //define a url da api como o endereço + api/o nome da endpoint responsável pelos filmes (requisição)
 
 // 1. CADASTRO DE FILME (CreateMovie.html)
 const formCreate = document.getElementById("CreateMovie"); //adiciona o elemento cujo id é igual ao que esta entre parenteses que vem de document (document representa o html) em uma variável 
+console.log("Formulário encontrado:", formCreate);
 if (formCreate) { // se a variavel existir, executa o que está dentro das chaves
     formCreate.addEventListener("submit", async (event) => { //adiciona um evento a um elemento cujo id é o que está entre parenteses
+        console.log("EVENTO SUBMIT EXECUTADO!");
         event.preventDefault(); //previne que o navegador execute o comportamento padrão daquele elemento (ex: se o elemento que esta sendo modificado for uma tag de botão, essa função impede que depois de acionado a pagina reinicie, o que é padrão)
         const dados = new FormData(event.target); //a variavel dados será preenchida com um novo objeto de coleta de dados que recebe por parametro os dados enviados após o paramentro evento definido acima
 
@@ -18,7 +21,9 @@ if (formCreate) { // se a variavel existir, executa o que está dentro das chave
             if (!resposta.ok) throw new Error(resultado.message); // se a resposta foi mal sucedida: diferente de status http: entre 200 e 299, cria um objeto de erro utilizando a mensagem mandada pela api
 
             alert(resultado.message);  // exibe uma janela de alerta com essa mensagem de erro
-            event.target.reset(); //limpa os campos do objeto html a ser criado (ex: se foi um form, ele limpa os campos do form)
+            console.log("CHEGOU AQUI: vai redirecionar!");
+
+          window.location.replace("/Dashboard/ListarPages/listarMovies.html");
         } catch (erro) { // captura qualquer erro do try
             console.error(erro);
             alert("Erro ao cadastrar filme: " + erro.message); //exibe o erro na web

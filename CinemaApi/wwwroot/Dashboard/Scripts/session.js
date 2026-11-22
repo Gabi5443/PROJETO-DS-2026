@@ -36,7 +36,7 @@ if (formCreate) { // se a const existir, carrega as funções abaixo
             if (!resposta.ok) throw new Error(resultado.message); //se a resposta for diferente de ok, cria um erro obj
 
             alert(resultado.message); //mostra uma msg de erro
-            event.target.reset(); //e reseta o evento
+            window.location.href = "../ListarPages/listarSession.html"; //redireciona para a página de listagem
 
         } catch (erro) {
             console.error(erro);
@@ -206,7 +206,7 @@ async function carregarSession() {
 
 // 4. ALTERAR SESSÃO
 
-const formEdit = document.getElementById("EditSession"); //o conteudo do elemento cujo id é igual ao que esta dentro dos parenteses será armazenado por uma const
+const formEdit = document.getElementById("EditarSession"); //o conteudo do elemento cujo id é igual ao que esta dentro dos parenteses será armazenado por uma const
 
 if (formEdit) {
     const parametros = new URLSearchParams(window.location.search); //achador de parametros na url
@@ -242,7 +242,7 @@ if (formEdit) {
             }
 
             alert(resultado.message); //mostra  a msg de resultado na listarsession page
-            window.location.href = "../ListarPages/ListarSession.html";
+            window.location.href = "../ListarPages/listarSession.html";
 
         } catch (erro) {  //se achou algum erro, carrega um erro
             console.error(erro);            

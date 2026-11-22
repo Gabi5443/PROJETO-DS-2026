@@ -134,6 +134,13 @@
     button {
         padding: 12px;
     }
+
+     .voltar {
+                position: static;
+                align-self: flex-start;
+                margin: 0;
+                padding: 0.6rem 1rem;
+            }
 }
 
 /* 2. TVs Full HD e 4K com escala do Windows (1920px) */
@@ -223,11 +230,34 @@
         margin-top: 16px;
     }
 }
+
+
+.voltar {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            text-decoration: none;
+            text-align: center;
+            background-color: transparent;
+            border: 1px solid #B22282;
+            color: #B22282;
+            padding: 0.6rem 1.1rem;
+            border-radius: 0.4rem;
+            font-family: "Sniglet", system-ui;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .voltar:hover {
+            background-color: #B22282;
+            color: #fff;
+        }
     </style>
 </head>
 <body>
+     <a href="../ListarPages/listarMovies.html" class="voltar">Voltar</a>
     <div class="form-container">
-        <h2>Cadastrar Novo Filme</h2>
+        <h2>Editar Filme</h2>
         <form id="EditarMovie">
             <div class="formItem">
                 <label for="TitleMovie">Título</label>

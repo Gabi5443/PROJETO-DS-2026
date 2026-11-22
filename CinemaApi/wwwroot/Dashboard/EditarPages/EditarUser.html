@@ -103,8 +103,54 @@
         button:hover {
            background-color: #2D1E54;
         }
+
+        .voltar {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            text-decoration: none;
+            text-align: center;
+            background-color: transparent;
+            border: 1px solid #B22282;
+            color: #B22282;
+            padding: 0.6rem 1.1rem;
+            border-radius: 0.4rem;
+            font-family: "Sniglet", system-ui;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .voltar:hover {
+            background-color: #B22282;
+            color: #fff;
+        }
+
+        
+    @media (max-width: 768px) {
+        body {
+            flex-direction: column;
+            justify-content: flex-start;
+            gap: 1rem;
+        }
+
+        .voltar {
+            position: static;
+            align-self: flex-start;
+            margin: 0;
+            padding: 0.6rem 1rem;
+        }
+    }
+
+    @media (min-width: 1920px) {
+        .voltar {
+            padding: 1rem 1.8rem;
+            font-size: 1.3rem;
+            border-radius: 0.5rem;
+        }
+    }
 </style>
 <body>
+     <a href="../ListarPages/listarUsers.html" class="voltar">Voltar</a>
     <div class="form-container">
     <div class="createCard">
         <form id="EditarUsers">
@@ -138,7 +184,7 @@
         </form>
     </div>
     </div>
-    <script src="/Dashboard/Scripts/user.js"></script>
+    <script src="../Scripts/user.js"></script>
 </body>
 
 </html>
