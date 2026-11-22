@@ -76,6 +76,35 @@ INSERT INTO ROOM (NAME_ROOM, TOTAL_ROWS_ROOM, SEATS_PER_ROW_ROOM) VALUES
 
 
 INSERT INTO MOVIE (TITLE_MOVIE, SYNOPSIS_MOVIE, DURATION_MOVIE, GENRE_MOVIE, AGE_RATING_MOVIE, PHOTO_MOVIE)
-VALUES 
-('Interestelar', 'Uma equipe de exploradores viaja através de um buraco de minhoca...', 169, 'Ficção Científica', 10, '/uploads/movies/interestelar.jpeg'),
-('Batman', 'Após dois anos espreitando as ruas como Batman...', 176, 'Ação', 14, '/uploads/movies/batman.jpg');
+VALUES
+('Duna: Parte Dois', 'Paul Atreides une forças com Chani e os Fremen para buscar vingança contra os conspiradores que destruíram sua família.', 166, 'Ficção Científica', 14, '/uploads/movies/duna2.jpeg'),
+
+('Oppenheimer', 'A história do físico J. Robert Oppenheimer e seu papel no desenvolvimento da primeira bomba atômica durante a Segunda Guerra Mundial.', 180, 'Drama', 16, '/uploads/movies/oppenheimer.jpg'),
+
+
+('Divertida Mente 2', 'Riley está entrando na adolescência e precisa lidar com novas emoções que chegam para transformar sua mente.', 96, 'Animação', 0, '/uploads/movies/divertida_mente_2.jpg'),
+
+('Guerra Civil', 'Em um futuro próximo, jornalistas atravessam os Estados Unidos durante uma violenta guerra civil para registrar os acontecimentos.', 109, 'Ação', 18, '/uploads/movies/guerra_civil.jpg'),
+
+
+('Ainda Estou Aqui', 'Durante a ditadura militar brasileira, uma mulher luta para descobrir o destino de seu marido desaparecido e proteger sua família.', 136, 'Drama', 14, '/uploads/movies/ainda_estou_aqui.jpg'),
+
+
+
+('Robô Selvagem', 'Após um naufrágio, um robô inteligente fica preso em uma ilha desabitada e precisa aprender a conviver com os animais.', 102, 'Animação', 0, '/uploads/movies/robo_selvagem.jpg'),
+
+
+
+
+('Batman', 'Após dois anos combatendo o crime em Gotham, Batman investiga uma série de assassinatos que revela uma rede de corrupção na cidade.', 176, 'Ação', 14, '/uploads/movies/batman.jpg'),
+
+
+
+('Pobres Criaturas', 'Uma jovem é trazida de volta à vida por um cientista e embarca em uma jornada de descobertas pelo mundo.', 141, 'Ficção Científica', 18, '/uploads/movies/pobres_criaturas.jpg'),
+
+
+
+
+('A Substância', 'Uma celebridade insatisfeita com o envelhecimento experimenta um tratamento misterioso que promete criar uma versão mais jovem de si mesma.', 140, 'Terror', 18, '/uploads/movies/a_substancia.jpg'),
+
+('Missão: Impossível - O Acerto Final', 'Ethan Hunt enfrenta uma nova ameaça tecnológica que pode colocar o futuro da humanidade em risco.', 169, 'Ação', 14, '/uploads/movies/missao_impossivel.jpg');

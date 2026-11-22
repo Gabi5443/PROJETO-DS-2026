@@ -11,6 +11,8 @@ import {
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { API_SERVIDOR } from '../services/api';
 
+//importa as coisitas -> Entre elas o "encontrador" de parametros que utilizaremos para chamar a api
+
 export default function SelecionarAssentos() {
     const router = useRouter();
     const { id } = useLocalSearchParams(); // idSession vindo de sessoes.tsx
@@ -42,6 +44,7 @@ export default function SelecionarAssentos() {
             const dadosSession = await respostaSession.json();
 
             // 2. Busca a sala vinculada à sessão e os assentos ocupados em paralelo
+            //promise -> aguarda a finalização de funções assincronas
             const [respostaRoom, respostaOcupados] = await Promise.all([
                 fetch(`${API_SERVIDOR}/api/Room/${dadosSession.idRoomFk}`),
                 fetch(`${API_SERVIDOR}/api/Ticket/occupied-seats/${id}`),

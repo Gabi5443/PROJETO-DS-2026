@@ -19,6 +19,10 @@ export default function Perfil() {
   const [usuario, setUsuario] = useState<any>(null);
   const [carregando, setCarregando] = useState(true);
 
+  //use state explicação - > imagina que eu quero anotar qnts porta eu abro em um dia, pra isso vc pode guardar em uma anotação qnts vc já abriu e adicionar 1 a cada nova porta que vc abre. O problema é ter que anotar toda a vez. Imagina que você tem uma caneta mágiga que vai lá no caderninho e atualiza o numero de portas. Isso é o use state = um hook que guarda o valor atual e atualiza (automaticamente) o valor quando ele mudar
+
+  //o que vem entre parenteses -> use state() é o valor inicial
+
   //nome, email, novaFoto, salvando, aviso: Guardam os campos do formulário da aba Editar e a mensagem de sucesso/erro.
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
