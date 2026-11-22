@@ -1,6 +1,6 @@
-
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,6 +24,27 @@
             justify-content: center;
             padding: 20px;
             color: #ffffff;
+        }
+
+        .voltar {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            text-decoration: none;
+            text-align: center;
+            background-color: transparent;
+            border: 1px solid #B22282;
+            color: #B22282;
+            padding: 0.6rem 1.1rem;
+            border-radius: 0.4rem;
+            font-family: "Sniglet", system-ui;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .voltar:hover {
+            background-color: #B22282;
+            color: #fff;
         }
 
         .form-container {
@@ -61,7 +82,8 @@
             font-size: 0.9rem;
         }
 
-        input, select {
+        input,
+        select {
             width: 100%;
             padding: 12px;
             border-radius: 6px;
@@ -73,7 +95,8 @@
             transition: border-color 0.2s;
         }
 
-        input:focus, select:focus {
+        input:focus,
+        select:focus {
             transform: translateY(-4px);
             border-color: #B22282;
         }
@@ -102,116 +125,144 @@
 
         button:hover {
             background-color: #2D1E54;
-           
+
         }
 
 
         @media (max-width: 480px) {
-    body {
-        padding: 12px;
-    }
+            body {
+                padding: 12px;
+            }
 
-    .form-container {
-        padding: 20px 16px;
-        border-radius: 8px;
-    }
+            .form-container {
+                padding: 20px 16px;
+                border-radius: 8px;
+            }
 
-    h2 {
-        font-size: 1.25rem;
-        margin-bottom: 18px;
-    }
+            h2 {
+                font-size: 1.25rem;
+                margin-bottom: 18px;
+            }
 
-    input, textarea {
-        padding: 10px;
-        font-size: 0.95rem;
-    }
+            input,
+            textarea {
+                padding: 10px;
+                font-size: 0.95rem;
+            }
 
-    button {
-        padding: 12px;
-    }
-}
+            button {
+                padding: 12px;
+            }
+        }
 
-/* 2. TVs Full HD e 4K com escala do Windows (1920px) */
-@media (min-width: 1920px) {
-    .form-container {
-        max-width: 45rem; /* Aumenta de 480px para 720px */
-        padding: 48px;
-        border-radius: 16px;
-    }
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+                justify-content: flex-start;
+                gap: 1rem;
+            }
 
-    h2 {
-        font-size: 2.2rem;
-        margin-bottom: 32px;
-    }
+            .voltar {
+                position: static;
+                align-self: flex-start;
+                margin: 0;
+                padding: 0.6rem 1rem;
+            }
+        }
 
-    form {
-        gap: 1.4rem;
-    }
+        /* 2. TVs Full HD e 4K com escala do Windows (1920px) */
+        @media (min-width: 1920px) {
 
-    label {
-        font-size: 1.25rem;
-    }
+            .voltar {
+                padding: 1rem 1.8rem;
+                font-size: 1.3rem;
+                border-radius: 0.5rem;
+            }
 
-    input, textarea {
-        padding: 16px;
-        font-size: 1.3rem;
-        border-radius: 8px;
-    }
+            .form-container {
+                max-width: 45rem;
+                /* Aumenta de 480px para 720px */
+                padding: 48px;
+                border-radius: 16px;
+            }
 
-    textarea {
-        min-height: 120px;
-    }
+            h2 {
+                font-size: 2.2rem;
+                margin-bottom: 32px;
+            }
 
-    button {
-        padding: 18px;
-        font-size: 1.35rem;
-        border-radius: 8px;
-        margin-top: 12px;
-    }
-}
+            form {
+                gap: 1.4rem;
+            }
 
-/* 3. TVs 4K nativas sem zoom do Windows (2560px+) */
-@media (min-width: 2560px) {
-    .form-container {
-        max-width: 65rem; /* Aumenta para ~1040px para não ficar pequeno no 4K */
-        padding: 64px;
-        border-radius: 20px;
-    }
+            label {
+                font-size: 1.25rem;
+            }
 
-    h2 {
-        font-size: 3rem;
-        margin-bottom: 42px;
-    }
+            input,
+            textarea {
+                padding: 16px;
+                font-size: 1.3rem;
+                border-radius: 8px;
+            }
 
-    form {
-        gap: 1.8rem;
-    }
+            textarea {
+                min-height: 120px;
+            }
 
-    label {
-        font-size: 1.7rem;
-    }
+            button {
+                padding: 18px;
+                font-size: 1.35rem;
+                border-radius: 8px;
+                margin-top: 12px;
+            }
+        }
 
-    input, textarea {
-        padding: 22px;
-        font-size: 1.8rem;
-        border-radius: 10px;
-    }
+        /* 3. TVs 4K nativas sem zoom do Windows (2560px+) */
+        @media (min-width: 2560px) {
+            .form-container {
+                max-width: 65rem;
+                /* Aumenta para ~1040px para não ficar pequeno no 4K */
+                padding: 64px;
+                border-radius: 20px;
+            }
 
-    textarea {
-        min-height: 160px;
-    }
+            h2 {
+                font-size: 3rem;
+                margin-bottom: 42px;
+            }
 
-    button {
-        padding: 24px;
-        font-size: 1.9rem;
-        border-radius: 10px;
-        margin-top: 16px;
-    }
-}
+            form {
+                gap: 1.8rem;
+            }
+
+            label {
+                font-size: 1.7rem;
+            }
+
+            input,
+            textarea {
+                padding: 22px;
+                font-size: 1.8rem;
+                border-radius: 10px;
+            }
+
+            textarea {
+                min-height: 160px;
+            }
+
+            button {
+                padding: 24px;
+                font-size: 1.9rem;
+                border-radius: 10px;
+                margin-top: 16px;
+            }
+        }
     </style>
 </head>
 
 <body>
+    <a href="../ListarPages/listarSession.html" class="voltar">Voltar</a>
     <div class="form-container">
 
         <h2>Cadastrar Nova Sessão</h2>
@@ -235,7 +286,7 @@
                 <input type="date" name="dataSession" id="dataSession" required>
             </div>
 
-             <div class="formItem">
+            <div class="formItem">
                 <label for="ShowTimeSession">Horário</label>
                 <input type="time" name="timeSession" id="timeSession" required>
             </div>
@@ -254,4 +305,5 @@
 
     <script src="../Scripts/session.js"></script>
 </body>
+
 </html>
