@@ -7,14 +7,14 @@ import {
   ScrollView,
   TouchableOpacity,
   ActivityIndicator,
-  useWindowDimensions,
+  useWindowDimensions, //useWindowDimensions: Pega a largura (width) e altura atuais da tela em tempo real, permitindo adaptar o layout para celular ou PC.
 } from 'react-native';
-import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router'; //useLocalSearchParams: Hook do Expo Router que lê os parâmetros enviados pela rota anterior (substitui o new URLSearchParams(window.location.search) do site).
 import { API_SERVIDOR } from '../services/api';
 
 export default function DetalhesFilme() {
   const router = useRouter();
-  const { id } = useLocalSearchParams(); // Equivalente ao params.get('id')
+  const { id } = useLocalSearchParams(); // Equivalente ao params.get('id')/ const { id }: Extrai exatamente o id do filme que foi passado quando você tocou no card da tela inicial ou no banner.
   const { width } = useWindowDimensions();
 
   const [filme, setFilme] = useState<any>(null);
@@ -22,17 +22,17 @@ export default function DetalhesFilme() {
   const [erro, setErro] = useState('');
 
   // Define se a tela é larga (PC/Tablet) ou estreita (Celular)
-  const telaGrande = width >= 650;
+  const telaGrande = width >= 650; //const telaGrande = width >= 650: Substitui o @media (max-width: 650px) do CSS. Se a tela tiver 650px ou mais (como no PC), telaGrande vira true.
 
   useEffect(() => {
-    carregarDetalhes();
+    carregarDetalhes(); //useEffect(..., [id]): Executa carregarDetalhes() assim que a tela abre ou sempre que o id do filme mudar.
   }, [id]);
 
   // Mesma função formatarDuracao do seu script
   function formatarDuracao(minutos: number) {
     if (!minutos) return '';
-    const horas = Math.floor(minutos / 60);
-    const minutosRestantes = minutos % 60;
+    const horas = Math.floor(minutos / 60);//Math.floor(minutos / 60): Divide os minutos totais por 60 e arredonda para baixo para achar as horas inteiras.
+    const minutosRestantes = minutos % 60; //minutos % 60: Pega o resto da divisão para saber quantos minutos sobraram.
 
     if (horas === 0) return `${minutosRestantes} min`;
     if (minutosRestantes === 0) return `${horas}h`;
@@ -47,7 +47,7 @@ export default function DetalhesFilme() {
     }
 
     try {
-      const resposta = await fetch(`${API_SERVIDOR}/api/Movie/${id}`);
+      const resposta = await fetch(`${API_SERVIDOR}/api/Movie/${id}`); //fetch(.../api/Movie/${id}): Busca no backend C# os dados apenas daquele filme específico.
       if (!resposta.ok) {
         throw new Error('Não foi possível encontrar o filme.');
       }
@@ -57,11 +57,13 @@ export default function DetalhesFilme() {
     } catch (e: any) {
       console.error('Erro ao buscar detalhes:', e);
       setErro('Erro ao carregar os detalhes do filme.');
+      //finally: Roda sempre ao final (com sucesso ou erro) para desligar o indicador de carregamento (setCarregando(false)).
     } finally {
       setCarregando(false);
     }
   }
 
+  //Enquanto carregando for true, desenha apenas a bolinha rosa girando. Se der erro ou o filme vier vazio, desenha a mensagem de erro com o botão de voltar.
   if (carregando) {
     return (
       <View style={[styles.container, styles.centralizado]}>
@@ -70,6 +72,7 @@ export default function DetalhesFilme() {
     );
   }
 
+  //aqui a msg do erro, e o btn de voltar
   if (erro || !filme) {
     return (
       <View style={[styles.container, styles.centralizado]}>
@@ -81,6 +84,7 @@ export default function DetalhesFilme() {
     );
   }
 
+  //Monta a URL completa do pôster (com fallback para uma imagem padrão caso o filme não tenha foto) e padroniza o filmeId.
   const urlImagem = filme.photoMovie
     ? `${API_SERVIDOR}${filme.photoMovie}`
     : `${API_SERVIDOR}/uploads/movies/default.jpg`;
@@ -95,7 +99,7 @@ export default function DetalhesFilme() {
         <Text style={styles.textoVoltar}>← Voltar para filmes</Text>
       </TouchableOpacity>
 
-      {/* Conteúdo principal (lado a lado no PC, empilhado no celular) */}
+      {/*  (telaGrande && ...): No celular, usa apenas styles.conteudoDetalhe (empilhado em coluna). Se telaGrande for true, soma o estilo conteudoDetalheRow (colocando pôster e texto lado a lado) e aumenta o tamanho da imagem.*/}
       <View style={[styles.conteudoDetalhe, telaGrande && styles.conteudoDetalheRow]}>
         <Image
           source={{ uri: urlImagem }}
@@ -116,6 +120,7 @@ export default function DetalhesFilme() {
             {filme.synopsisMovie || 'Sinopse não disponível.'}
           </Text>
 
+        {/*router.push(...): Ao tocar no botão Comprar ingresso, abre a tela app/sessoes.tsx levando o id do filme na bagagem (params). */}
           <TouchableOpacity
             style={styles.btnComprar}
             activeOpacity={0.85}
