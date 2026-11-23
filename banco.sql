@@ -113,7 +113,16 @@ VALUES
 ('Toy Story', 'Um boneco caubói chamado Woody sente seu posto de brinquedo favorito ameaçado quando o moderno patrulheiro espacial Buzz Lightyear chega ao quarto.', 81, 'Animação', 0, '/uploads/movies/toyStory.jpg'),
 ('Guerreiras do K-Pop', 'As integrantes de um grupo global de K-pop levam vidas secretas como caçadoras de demônios para proteger seus fãs de ameaças sobrenaturais.', 96, 'Animação', 10, '/uploads/movies/guerreiraskpop.webp'),
 ('Gato de Botas', 'Antes de conhecer Shrek, o famoso felino fora da lei embarca em uma aventura ao lado de Humpty Dumpty e Kitty Pata-Mansa para roubar os ovos de ouro.', 90, 'Animação', 0, '/uploads/movies/gatoBotas.jpg'),
-('Zootopia', 'Em uma metrópole de animais, uma coelha policial recém-formada e uma raposa vigarista precisam trabalhar juntas para desvendar uma conspiração.', 108, 'Animação', 0, '/uploads/movies/Zootopia.jpeg');
+('Zootopia', 'Em uma metrópole de animais, uma coelha policial recém-formada e uma raposa vigarista precisam trabalhar juntas para desvendar uma conspiração.', 108, 'Animação', 0, '/uploads/movies/Zootopia.jpeg'),
+('Godzilla', 'Um monstro pré-histórico gigante desperta das profundezas do oceano e ameaça destruir grandes cidades enquanto enfrenta outras criaturas colossais.', 123, 'Ação', 12, '/uploads/movies/godzilla.webp'),
+('A Fuga das Galinhas', 'Com a ajuda de um galo americano recém-chegado, um grupo de galinhas planeja uma fuga ousada de uma granja antes que virem tortas.', 84, 'Animação', 0, '/uploads/movies/galinha.webp'),
+('Minha Amiga Palma', 'Um cachorro pastor-alemão é deixado para trás no aeroporto por seu dono e cria um forte laço de amizade com um garoto solitário enquanto espera seu retorno.', 110, 'Drama', 0, '/uploads/movies/amiga.webp'),
+('Cartola: Música para os Olhos', 'Documentário que retrata a vida, a obra e o legado poético de Angenor de Oliveira, o mestre Cartola, um dos maiores compositores da história do samba.', 88, 'Documentário', 0, '/uploads/movies/cartola.webp'),
+('Velozes e Furiosos', 'O policial disfarçado Brian OConner se infiltra no mundo das corridas de rua ilegais de Los Angeles para investigar uma série de roubos de carga.', 106, 'Ação', 14, '/uploads/movies/velozes.webp'),
+('Os Farofeiros', 'Quatro colegas de trabalho decidem viajar juntos com suas famílias para passar o feriado na praia, mas enfrentam uma sequência hilária de imprevistos.', 103, 'Comédia', 12, '/uploads/movies/farofeiros.webp'),
+('Jogos Vorazes', 'Em um futuro distópico, a jovem Katniss Everdeen se voluntaria para substituir sua irmã em uma competição televisiva mortal entre distritos.', 142, 'Ficção Científica', 14, '/uploads/movies/jogosVorazes.webp'),
+('Rocky: Um Lutador', 'Um boxeador desconhecido da Filadélfia recebe a oportunidade única de enfrentar o campeão mundial dos pesos-pesados e provar seu próprio valor.', 120, 'Drama', 12, '/uploads/movies/rocky.webp'),
+('Os Vingadores', 'Nick Fury reúne os maiores super-heróis da Terra para formar uma equipe capaz de deter Loki e seu exército alienígena de conquistar o planeta.', 143, 'Ação', 12, '/uploads/movies/vingadores.webp');
 
 INSERT INTO SESSION (SHOW_TIME_SESSION, PRICE_SESSION, ID_MOVIE_FK, ID_ROOM_FK) VALUES
 ('2026-11-22 14:30:00', 32.50, 1, 1),
