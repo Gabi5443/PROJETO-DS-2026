@@ -102,7 +102,18 @@ VALUES
 
 ('A Substância', 'Uma celebridade insatisfeita com o envelhecimento experimenta um tratamento misterioso que promete criar uma versão mais jovem de si mesma.', 140, 'Terror', 18, '/uploads/movies/a_substancia.jpg'),
 
-('Missão: Impossível - O Acerto Final', 'Ethan Hunt enfrenta uma nova ameaça tecnológica que pode colocar o futuro da humanidade em risco.', 169, 'Ação', 14, '/uploads/movies/missao_impossivel.jpg');
+('Missão: Impossível - O Acerto Final', 'Ethan Hunt enfrenta uma nova ameaça tecnológica que pode colocar o futuro da humanidade em risco.', 169, 'Ação', 14, '/uploads/movies/missao_impossivel.jpg'),
+
+('Flow', 'Um gato solitário tem seu lar destruído por uma grande enchente e precisa se unir a outras espécies em um barco para sobreviver.', 85, 'Animação', 0, '/uploads/movies/flow.jpg'),
+('Elio', 'Um garoto sonhador e obcecado por alienígenas é transportado por engano para uma organização intergaláctica e confundido com o embaixador da Terra.', 99, 'Animação', 0, '/uploads/movies/elio.jpg'),
+('Carros', 'O ambicioso carro de corridas Relâmpago McQueen acaba perdido na pacata cidade de Radiator Springs, onde aprende o verdadeiro valor da amizade.', 117, 'Animação', 0, '/uploads/movies/carUm.webp'),
+('Os Caras Malvados', 'Uma gangue de animais fora da lei tenta aplicar seu golpe mais difícil: fingir que se tornaram cidadãos exemplares para evitar a prisão.', 100, 'Animação', 0, '/uploads/movies/carasMalvados.webp'),
+('Minions', 'Os pequenos seres amarelos buscam um novo mestre vilão para servir e acabam encontrando a ambiciosa Scarlet Overkill na década de 1960.', 91, 'Animação', 0, '/uploads/movies/minions.webp'),
+('Gatto', 'Em Veneza, um gato preto endividado com o chefe da máfia felina local é forçado a formar uma amizade improvável para encontrar seu propósito.', 95, 'Animação', 0, '/uploads/movies/gatto.jpeg'),
+('Toy Story', 'Um boneco caubói chamado Woody sente seu posto de brinquedo favorito ameaçado quando o moderno patrulheiro espacial Buzz Lightyear chega ao quarto.', 81, 'Animação', 0, '/uploads/movies/toyStory.jpg'),
+('Guerreiras do K-Pop', 'As integrantes de um grupo global de K-pop levam vidas secretas como caçadoras de demônios para proteger seus fãs de ameaças sobrenaturais.', 96, 'Animação', 10, '/uploads/movies/guerreiraskpop.webp'),
+('Gato de Botas', 'Antes de conhecer Shrek, o famoso felino fora da lei embarca em uma aventura ao lado de Humpty Dumpty e Kitty Pata-Mansa para roubar os ovos de ouro.', 90, 'Animação', 0, '/uploads/movies/gatoBotas.jpg'),
+('Zootopia', 'Em uma metrópole de animais, uma coelha policial recém-formada e uma raposa vigarista precisam trabalhar juntas para desvendar uma conspiração.', 108, 'Animação', 0, '/uploads/movies/Zootopia.jpeg');
 
 INSERT INTO SESSION (SHOW_TIME_SESSION, PRICE_SESSION, ID_MOVIE_FK, ID_ROOM_FK) VALUES
 ('2026-11-22 14:30:00', 32.50, 1, 1),
