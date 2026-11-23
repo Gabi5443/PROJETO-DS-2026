@@ -22,6 +22,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            overflow: hidden;
         }
 
         .box {
@@ -118,6 +119,31 @@
 
         .btn-sair:hover {
             color: #d61f5c;
+        }
+
+        /* Tablets e telas médias */
+        @media (max-width: 1024px) {
+            .box {
+                width: 45%;
+                max-width: 420px;
+            }
+        }
+
+        /* Celulares */
+        @media (max-width: 600px) {
+            body,
+            html {
+                height: auto;
+                min-height: 100vh;
+                padding: 1.5rem 1rem;
+            }
+
+            .box {
+                width: 100%;
+                max-width: 380px;
+                padding: 2rem 1.4rem;
+                gap: 1.5rem;
+            }
         }
     </style>
 </head>
