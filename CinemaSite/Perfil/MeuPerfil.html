@@ -129,32 +129,47 @@
             <button class="btn-logout" onclick="sairDaConta()">Sair da Conta</button>
         </div>
     </div>
-    <script>
-        const usuario = JSON.parse(localStorage.getItem("usuarioLogado"));
-        const id = usuario.idUsers;
+   <script>
+    const usuario = JSON.parse(localStorage.getItem("usuarioLogado"));
+    const id = usuario.idUsers;
 
-        async function carregarDados() {
-            try {
-                const resposta = await fetch(`http://localhost:5252/api/Users/${id}`);
-                if (!resposta.ok) throw new Error("Erro ao buscar dados");
+    async function carregarDados() {
+        try {
+            const resposta = await fetch(`http://localhost:5252/api/Users/${id}`);
+            if (!resposta.ok) throw new Error("Erro ao buscar dados");
 
-                const dados = await resposta.json();
+            const dados = await resposta.json();
 
-                document.getElementById("nome").textContent = dados.nameUsers;
-                document.getElementById("email").textContent = dados.emailUsers;
-                document.getElementById("foto").src = `http://localhost:5252${dados.photoUsers}`;
-            } catch (erro) {
-                console.error(erro);
+            document.getElementById("nome").textContent = dados.nameUsers;
+            document.getElementById("email").textContent = dados.emailUsers;
+
+            const imgFoto = document.getElementById("foto");
+            const fotoDefault = "http://localhost:5252/uploads/users/default-avatar.jpg"; // Ajuste o caminho da sua foto padrão
+
+            if (dados.photoUsers && dados.photoUsers.trim() !== "") {
+                imgFoto.src = `http://localhost:5252${dados.photoUsers}`;
+            } else {
+                imgFoto.src = fotoDefault;
             }
-        }
 
-        carregarDados();
-
-        function sairDaConta() {
-            localStorage.removeItem("usuarioLogado");
-            window.top.location.href = "../index.html";
+            // Fallback caso o arquivo não exista na pasta do servidor
+            imgFoto.onerror = () => {
+                imgFoto.onerror = null; // Evita loop infinito se a foto default também não existir
+                imgFoto.src = fotoDefault;
+            };
+        } catch (erro) {
+            console.error(erro);
         }
-    </script>
+    }
+
+    carregarDados();
+
+    function sairDaConta() {
+        localStorage.removeItem("usuarioLogado");
+        window.top.location.href = "../index.html";
+    }
+</script>
+
 </body>
 
 </html>

@@ -198,15 +198,28 @@
     </script>
 
     <script>
-        //pra pegar a foto atual do usuário
-        const usuario = JSON.parse(localStorage.getItem("usuarioLogado"));
+    // pra pegar a foto atual do usuário
+    const usuario = JSON.parse(localStorage.getItem("usuarioLogado"));
 
-        fetch(`http://localhost:5252/api/Users/${usuario.idUsers}`)
-            .then(res => res.json())
-            .then(dados => {
-                document.getElementById("FotoUsuario").src = `http://localhost:5252${dados.photoUsers}`;
-            });
-    </script>
+    fetch(`http://localhost:5252/api/Users/${usuario.idUsers}`)
+        .then(res => res.json())
+        .then(dados => {
+            const imgUsuario = document.getElementById("FotoUsuario");
+
+            // Verifica se existe foto cadastrada no banco
+            if (dados.photoUsers && dados.photoUsers.trim() !== "") {
+                imgUsuario.src = `http://localhost:5252${dados.photoUsers}`;
+            } else {
+                imgUsuario.src = `http://localhost:5252/uploads/users/default-avatar.jpg`; // Ajuste o caminho da sua foto padrão
+            }
+
+            // Extra: se o caminho existir no banco, mas o arquivo tiver sido apagado da pasta
+            imgUsuario.onerror = () => {
+                imgUsuario.src = `http://localhost:5252/uploads/users/default-avatar.jpg`;
+            };
+        });
+</script>
+
 </body>
 
 </html>
