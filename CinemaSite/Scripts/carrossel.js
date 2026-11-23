@@ -212,11 +212,12 @@ class MovieBanner extends HTMLElement { //Cria um elemnto HTML no modelo Shadow 
         /* Fundo desfocado cobrindo a tela toda */
         .slide-bg-blur {
           position: absolute;
-          inset: 0;
+          inset: -20px;
           background-size: cover;
           background-position: center;
-          filter: blur(20px) brightness(0.4);
-          transform: scale(1.1);
+          filter: blur(28px) brightness(0.35) saturate(1.3);
+          transform: scale(1.05);
+          transition: transform 8s ease-out;
           z-index: 0;
         }
 
@@ -249,7 +250,7 @@ class MovieBanner extends HTMLElement { //Cria um elemnto HTML no modelo Shadow 
       </section>
     `;
 
-    this.track = this.shadowRoot.getElementById('track'); // salava a referenccia da trilha do slide (trilha = em um slide, temos uma literal trilha ou fila de fotos, o que acontece no slid é o deslocamento dessa trilha para a esquerda. Como o slide possui efeitos e é animado, da a impressão que as fotos estão mudando, mas é só a fila que esta se movendo)
+    this.track = this.shadowRoot.getElementById('track'); // salva a referencia da trilha do slide. (Trilha = em um slide, temos uma literal trilha ou fila de fotos, o que acontece no slide é o deslocamento dessa trilha para a esquerda. Como o slide possui efeitos e é animado, dá a impressão que as fotos estão mudando, mas é só a fila que esta se movendo)
     this.progressBar = this.shadowRoot.getElementById('progressBar'); //salva o progresso da barra de progreso
   }
 
@@ -257,7 +258,7 @@ class MovieBanner extends HTMLElement { //Cria um elemnto HTML no modelo Shadow 
     if (!url) return;
     try {
       const response = await fetch(url); //faz a requeisição GET para a api
-      const data = await response.json(); // converte a resposta para uma array me json
+      const data = await response.json(); // converte a resposta para uma array em json
 
       this.moviesList = data.map(item => ({ // mapeia os dados brutos em json trazidos para a api e atribui-os a um formato padronizado. Esse mapeamento (para evita erros) tenta mapear os dados sendo eles min ou maius
         id: item.idMovie ?? item.IdMovie,
