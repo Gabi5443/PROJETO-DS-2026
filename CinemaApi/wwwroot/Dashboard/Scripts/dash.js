@@ -109,5 +109,5 @@ carregarTotalSessions();
 
   document.getElementById("title").addEventListener("click", () => {
    
-    window.location.href = "http://localhost:5252/CinemaSite/index.html";
+    window.location.href = "/CinemaSite/index.html";
   });

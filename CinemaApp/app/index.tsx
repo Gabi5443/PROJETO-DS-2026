@@ -108,20 +108,14 @@ export default function Index() {
 const ehAdmin = usuario?.emailUsers?.toLowerCase().endsWith('movieing.com');
 
 function handleGerenciarClick() {
-    Linking.openURL(`${API_SERVIDOR}/api/Dashboard/Index.html`);
+    Linking.openURL(`${API_SERVIDOR}/Dashboard/index.html`);
   }
   
 
   return (
     <ScrollView style={styles.all}>
       <View style={styles.header}>
-        {/* Deixando a logo clicável se  o user for admin */}
-         {/* Quando clicada, a logo ativa a verificação, se não for admin, o botão fica desativado*/}
-         <TouchableOpacity 
-          onPress={handleGerenciarClick} 
-          disabled={!ehAdmin}
-          activeOpacity={ehAdmin ? 0.7 : 1}
-        ></TouchableOpacity>
+       
         {/* Logo MOVIEING */}
         <View style={styles.logo}>
           <Text style={[styles.logoText, { color: '#5B2C6F' }]}>M</Text>
@@ -133,7 +127,20 @@ function handleGerenciarClick() {
           <Text style={[styles.logoText, { color: '#EC696A' }]}>N</Text>
           <Text style={[styles.logoText, { color: '#F27D52' }]}>G</Text>
         </View>
-       
+
+         {/* Deixando a logo clicável se  o user for admin */}
+         {/* Quando clicada, é ativada a verificação, se não for admin, o botão fica desativado*/}
+           <View style={styles.headerDireita}>
+          {ehAdmin && (
+            <TouchableOpacity 
+              
+              onPress={handleGerenciarClick} 
+              activeOpacity={0.8}
+            >
+              <Text style={styles.btnGerenciarTexto}>Gerenciar</Text>
+            </TouchableOpacity>
+          )}
+       </View>
 
         {/* Foto de Perfil */}
         {/*onPress={handleCliquePerfil}: é o antigo addEventListener("click"). Quando toca na foto, ele checa se usuario existe; se existir manda para /perfil, senão manda para /login.*/}
@@ -262,4 +269,20 @@ const styles = StyleSheet.create({
     marginTop: 10,
     textAlign: 'center',
   },
+
+   headerDireita: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12, // Espaço entre o botão e a foto de perfil
+  },
+ 
+  btnGerenciarTexto: {
+    color: '#CE47A2',
+    fontWeight: 'bold',
+    fontSize: 13,
+    letterSpacing: 1,
+  },
+
+
+
 });
