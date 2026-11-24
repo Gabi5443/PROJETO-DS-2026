@@ -5,10 +5,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Sniglet:wght@400;800&display=swap"
-        rel="stylesheet">
     <style>
+        /*fonte baixada e administrada localmente para não dar erro de permissão como com os links*/
+
+        @font-face {
+            font-family: 'Montserrat';
+            src: url('fonts/Montserrat-VariableFont_wght.ttf') format('truetype-variations');
+            font-weight: 100 900;
+            /* Vai do Thin (100) ao Black (900) */
+            font-style: normal;
+            font-display: swap;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -150,6 +158,7 @@
 
         /* Celulares */
         @media (max-width: 600px) {
+
             body,
             html {
                 height: auto;
@@ -164,14 +173,13 @@
                 gap: 1.5rem;
             }
         }
-
     </style>
 </head>
 
 <body>
     <div class="box">
         <form>
-            <h3>Entrar no Movieing</h3>           
+            <h3>Entrar no Movieing</h3>
 
             <div class="formGroup">
                 <label for="email">Email:</label>
@@ -190,44 +198,44 @@
     </div>
 
     <script>
-    const API_SERVIDOR = "http://localhost:5252";
-    const formLogin = document.querySelector("form");
+        const API_SERVIDOR = "http://localhost:5252";
+        const formLogin = document.querySelector("form");
 
-    formLogin.addEventListener("submit", async (event) => {
-        // Impede a página de recarregar ao enviar o formulário
-        event.preventDefault();
+        formLogin.addEventListener("submit", async (event) => {
+            // Impede a página de recarregar ao enviar o formulário
+            event.preventDefault();
 
-        const email = document.getElementById("emailUsers").value.trim();
-        const password = document.getElementById("senhaUsers").value;
+            const email = document.getElementById("emailUsers").value.trim();
+            const password = document.getElementById("senhaUsers").value;
 
-        try {
-            const resposta = await fetch(`${API_SERVIDOR}/api/Users/login`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                // Envia exatamente os campos "email" e "password" do seu LoginRequest no C#
-                body: JSON.stringify({ email, password })
-            });
+            try {
+                const resposta = await fetch(`${API_SERVIDOR}/api/Users/login`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    // Envia exatamente os campos "email" e "password" do seu LoginRequest no C#
+                    body: JSON.stringify({ email, password })
+                });
 
-            if (resposta.ok) {
-                const usuario = await resposta.json();
+                if (resposta.ok) {
+                    const usuario = await resposta.json();
 
-                // Salva no navegador para o headerPerfil.js e o MeuPerfil.html lerem depois
-                localStorage.setItem("usuarioLogado", JSON.stringify(usuario));
+                    // Salva no navegador para o headerPerfil.js e o MeuPerfil.html lerem depois
+                    localStorage.setItem("usuarioLogado", JSON.stringify(usuario));
 
-                // Redireciona para a página inicial do site
-                window.location.href = "index.html";
-            } else {
-                const erro = await resposta.json();
-                alert(erro.message || "E-mail ou senha inválidos.");
+                    // Redireciona para a página inicial do site
+                    window.location.href = "index.html";
+                } else {
+                    const erro = await resposta.json();
+                    alert(erro.message || "E-mail ou senha inválidos.");
+                }
+            } catch (erro) {
+                console.error("Erro ao fazer login:", erro);
+                alert("Não foi possível conectar ao servidor.");
             }
-        } catch (erro) {
-            console.error("Erro ao fazer login:", erro);
-            alert("Não foi possível conectar ao servidor.");
-        }
-    });
-</script>
+        });
+    </script>
 </body>
 
 </html>

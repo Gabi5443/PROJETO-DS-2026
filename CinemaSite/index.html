@@ -5,27 +5,28 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Movieing</title>
- 
+
 
   <style>
+    /*fonte baixada e administrada localmente para não dar erro de permissão como com os links*/
 
-/*fonte baixada e administrada localmente para não dar erro de permissão como com os links*/
+    @font-face {
+      font-family: 'Orbitron';
+      src: url('fonts/Orbitron-VariableFont_wght.ttf') format('truetype-variations');
+      font-weight: 400 900;
+      font-style: normal;
+      font-display: swap;
+    }
 
-@font-face {
-  font-family: 'Orbitron';
-  src: url('fonts/Orbitron-VariableFont_wght.ttf') format('truetype-variations');
-  font-weight: 400 900; 
-  font-style: normal;
-  font-display: swap;
-}
+    @font-face {
+      font-family: 'Montserrat';
+      src: url('fonts/Montserrat-VariableFont_wght.ttf') format('truetype-variations');
+      font-weight: 100 900;
+      /* Vai do Thin (100) ao Black (900) */
+      font-style: normal;
+      font-display: swap;
+    }
 
-@font-face {
-  font-family: 'Montserrat';
-  src: url('fonts/Montserrat-VariableFont_wght.ttf') format('truetype-variations');
-  font-weight: 100 900; /* Vai do Thin (100) ao Black (900) */
-  font-style: normal;
-  font-display: swap;
-}
     * {
       border: 0;
       margin: 0;
@@ -160,22 +161,22 @@
       overflow: hidden;
     }
 
-  .botao {
- text-decoration: none;
-            gap: 1rem;
-            font-family: "Orbitron", sans-serif;
-            color: #E25583;
-  transition: background-color 0.2s ease, transform 0.1s ease;
-  cursor: pointer;
-}
+    .botao {
+      text-decoration: none;
+      gap: 1rem;
+      font-family: "Orbitron", sans-serif;
+      color: #E25583;
+      transition: background-color 0.2s ease, transform 0.1s ease;
+      cursor: pointer;
+    }
 
-/* Efeito ao passar o mouse */
+    /* Efeito ao passar o mouse */
 
 
-/* Efeito ao clicar */
-.botao:hover {
-  transform: scale(0.98);
-}
+    /* Efeito ao clicar */
+    .botao:hover {
+      transform: scale(0.98);
+    }
   </style>
 </head>
 
@@ -193,12 +194,12 @@
     </div>
 
     <a class="botao" id="btnGerenciar" style="display: none;">
-    Gerenciar
+      Gerenciar
     </a>
 
     <img id="FotoPerfilHeader" src="http://localhost:5252/uploads/users/default-avatar.jpg" alt="Foto de perfil"
       style="width: 50px; height: 50px; object-fit: cover; border-radius: 50%; cursor: pointer; border: 1px solid #CE47A2;">
-      
+
   </header>
 
   <main>
@@ -220,20 +221,20 @@
 <script>
   const dadosSalvos = localStorage.getItem("usuarioLogado");
 
-if (dadosSalvos) {
+  if (dadosSalvos) {
     const usuario = JSON.parse(dadosSalvos);
     const email = usuario.emailUsers;
 
     if (email && email.toLowerCase().endsWith("movieing.com")) {
-        document.getElementById("btnGerenciar").style.display = "block";
+      document.getElementById("btnGerenciar").style.display = "block";
     }
-}
+  }
 
-document.getElementById("btnGerenciar").addEventListener("click", () => {
-   
+  document.getElementById("btnGerenciar").addEventListener("click", () => {
+
     window.location.href = "http://localhost:5252/api/Dashboard";
 
-});
+  });
 </script>
 
 </html>
