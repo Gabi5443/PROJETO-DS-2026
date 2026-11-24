@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, ScrollView, Text, TouchableOpacity, Image } from 'react-native';
+import { View, StyleSheet, ScrollView, Text, TouchableOpacity, Image, Linking } from 'react-native';
 //AsyncStorage: É o equivalente ao localStorage do navegador, usado para ler quem está logado no celular.
 import AsyncStorage from '@react-native-async-storage/async-storage';
 //useRouter: Ferramenta do Expo Router para navegar entre telas (substitui window.location.href).
@@ -104,10 +104,24 @@ export default function Index() {
       router.push('/login');
     }
   }
+{/* Se o email do user terminar com movieing.com (a função transforma  o nome em minúsculo), a const admin rece o usuário*/}
+const ehAdmin = usuario?.emailUsers?.toLowerCase().endsWith('movieing.com');
+
+function handleGerenciarClick() {
+    Linking.openURL(`${API_SERVIDOR}/api/Dashboard/Index.html`);
+  }
+  
 
   return (
     <ScrollView style={styles.all}>
       <View style={styles.header}>
+        {/* Deixando a logo clicável se  o user for admin */}
+         {/* Quando clicada, a logo ativa a verificação, se não for admin, o botão fica desativado*/}
+         <TouchableOpacity 
+          onPress={handleGerenciarClick} 
+          disabled={!ehAdmin}
+          activeOpacity={ehAdmin ? 0.7 : 1}
+        ></TouchableOpacity>
         {/* Logo MOVIEING */}
         <View style={styles.logo}>
           <Text style={[styles.logoText, { color: '#5B2C6F' }]}>M</Text>
@@ -119,6 +133,7 @@ export default function Index() {
           <Text style={[styles.logoText, { color: '#EC696A' }]}>N</Text>
           <Text style={[styles.logoText, { color: '#F27D52' }]}>G</Text>
         </View>
+       
 
         {/* Foto de Perfil */}
         {/*onPress={handleCliquePerfil}: é o antigo addEventListener("click"). Quando toca na foto, ele checa se usuario existe; se existir manda para /perfil, senão manda para /login.*/}

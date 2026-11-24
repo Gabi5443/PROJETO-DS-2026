@@ -323,13 +323,23 @@
 
 
         }
+
+        .title{
+            cursor: pointer;
+            transition: transform 0.3s ease;
+
+        }
+
+        .title:hover{
+            transform: scale(1.1); 
+        }
     </style>
 </head>
 
 <body>
 
     <div class="header">
-        <div class="title">
+        <div class="title" id="title">
             <div class="degrade">
                 <span>M</span>
                 <span>O</span>

@@ -105,3 +105,9 @@ async function carregarTotalSessions() { //chama a getAll de session e coloca em
 }
 
 carregarTotalSessions();
+
+
+  document.getElementById("title").addEventListener("click", () => {
+   
+    window.location.href = "http://localhost:5252/CinemaSite/index.html";
+  });
