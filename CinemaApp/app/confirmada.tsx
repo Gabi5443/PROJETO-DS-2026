@@ -66,6 +66,7 @@ const styles = StyleSheet.create({
     color: '#CE47A2',
     fontSize: 45,
     fontWeight: 'bold',
+    fontFamily: 'Montserrat-Regular',
   },
   titulo: {
     color: '#CE47A2',
@@ -73,12 +74,14 @@ const styles = StyleSheet.create({
     fontWeight: '800',
     marginBottom: 12,
     textAlign: 'center',
+    fontFamily: 'Montserrat-Regular',
   },
   numeroPedido: {
     color: '#FFFFFF',
     fontSize: 16,
     fontWeight: '700',
     marginBottom: 14,
+    fontFamily: 'Montserrat-Regular',
   },
   descricao: {
     color: '#CCCCCC',
@@ -86,6 +89,7 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     marginBottom: 30,
     textAlign: 'center',
+    fontFamily: 'Montserrat-Regular',
   },
   botao: {
     width: '100%',
@@ -98,5 +102,6 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 15,
     fontWeight: '700',
+    fontFamily: 'Montserrat-Regular',
   },
 });

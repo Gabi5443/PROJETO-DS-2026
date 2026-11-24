@@ -163,11 +163,13 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginBottom: 20,
         textAlign: 'center',
+        fontFamily: 'Montserrat-Regular',
     },
     label: {
         color: '#DDD',
         marginBottom: 6,
         fontSize: 14,
+        fontFamily: 'Montserrat-Regular',
     },
     input: {
         backgroundColor: '#0F0A1C',
@@ -191,6 +193,7 @@ const styles = StyleSheet.create({
         color: '#FFF',
         fontWeight: 'bold',
         fontSize: 16,
+        fontFamily: 'Montserrat-Regular',
     },
     voltar: {
         marginTop: 16,
@@ -199,5 +202,6 @@ const styles = StyleSheet.create({
     textoVoltar: {
         color: '#E25583',
         fontSize: 14,
+        fontFamily: 'Montserrat-Regular',
     },
 });

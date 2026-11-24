@@ -169,6 +169,7 @@ const styles = StyleSheet.create({
   textoVoltar: {
     color: '#CE47A2',
     fontWeight: '600',
+    fontFamily: 'Montserrat-Regular',
   },
   conteudoDetalhe: {
     flexDirection: 'column',
@@ -198,23 +199,27 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: 'bold',
     marginBottom: 10,
+    fontFamily: 'Montserrat-Regular',
   },
   metaInfo: {
     color: '#AAAAAA',
     fontSize: 16,
     marginBottom: 28,
+    fontFamily: 'Montserrat-Regular',
   },
   subtituloSinopse: {
     color: '#CE47A2',
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 10,
+    fontFamily: 'Montserrat-Regular',
   },
   sinopse: {
     color: '#DDDDDD',
     fontSize: 16,
     lineHeight: 26,
     textAlign: 'justify',
+    fontFamily: 'Montserrat-Regular',
   },
   btnComprar: {
     marginTop: 30,
@@ -229,10 +234,12 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 17,
     fontWeight: '700',
+    fontFamily: 'Montserrat-Regular',
   },
   textoErro: {
     color: '#e92f3b',
     fontSize: 16,
     marginBottom: 16,
+    fontFamily: 'Montserrat-Regular',
   },
 });

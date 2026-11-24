@@ -3,9 +3,26 @@ import { Stack } from 'expo-router';
 //Importa o componente StatusBar, que controla a barrinha bem no topo do celular onde ficam a hora, o sinal do Wi-Fi e a bateria.
 import { StatusBar } from 'expo-status-bar';
 
+import { useFonts } from 'expo-font';
+  
 //Cria e exporta o componente principal de layout do aplicativo (export default é obrigatório para o Expo Router reconhecer o arquivo). Tudo o que você colocar aqui dentro vai envolver todas as telas do seu app.
 export default function RootLayout() {
   //Inicia o retorno visual (JSX) que será desenhado na tela.
+
+  const [loaded, error] = useFonts({
+    'Montserrat-Regular': require('../assets/fonts/Montserrat-Regular.ttf'),
+    'Montserrat-SemiBold': require('../assets/fonts/Montserrat-Medium.ttf'),
+    'Montserrat-Bold': require('../assets/fonts/Montserrat-Bold.ttf'),
+    'Orbitron-Regular': require('../assets/fonts/Orbitron-Regular.ttf'),
+    'Orbitron-Bold': require('../assets/fonts/Orbitron-Bold.ttf'),
+    'Orbitron-Black': require('../assets/fonts/Orbitron-Black.ttf'),
+  });
+
+  // Aguarda as fontes terminarem de carregar antes de desenhar as telas
+  if (!loaded && !error) {
+    return null;
+  }
+
   return (
     //É um Fragmento React (<> ... </>). No React, um componente não pode retornar dois elementos soltos lado a lado (<StatusBar> e <Stack>). O fragmento serve como uma "caixa invisível" para agrupar os dois sem criar uma <View> desnecessária.
     <>

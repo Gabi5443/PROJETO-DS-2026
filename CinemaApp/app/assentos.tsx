@@ -292,6 +292,7 @@ const styles = StyleSheet.create({
     textoVoltar: {
         color: '#CE47A2',
         fontWeight: '600',
+        fontFamily: 'Montserrat-Regular',
     },
     titulo: {
         color: '#CE47A2',
@@ -299,6 +300,7 @@ const styles = StyleSheet.create({
         fontWeight: '800',
         marginBottom: 14,
         textAlign: 'center',
+        fontFamily: 'Montserrat-Regular',
     },
     infoSessao: {
         alignItems: 'center',
@@ -309,10 +311,12 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: '700',
         marginBottom: 4,
+        fontFamily: 'Montserrat-Regular',
     },
     precoSessao: {
         color: '#DDDDDD',
         fontSize: 15,
+        fontFamily: 'Montserrat-Regular',
     },
     legenda: {
         flexDirection: 'row',
@@ -334,6 +338,7 @@ const styles = StyleSheet.create({
     textoLegenda: {
         color: '#CCCCCC',
         fontSize: 13,
+        fontFamily: 'Montserrat-Regular',
     },
     telaCinema: {
         width: '90%',
@@ -353,6 +358,7 @@ const styles = StyleSheet.create({
         fontSize: 13,
         fontWeight: '700',
         letterSpacing: 5,
+        fontFamily: 'Montserrat-Regular',
     },
     mapaScroll: {
         alignItems: 'center',
@@ -372,6 +378,7 @@ const styles = StyleSheet.create({
         color: '#CE47A2',
         fontSize: 14,
         textAlign: 'center',
+        fontFamily: 'Montserrat-Regular',
     },
     assento: {
         width: 34,
@@ -395,6 +402,7 @@ const styles = StyleSheet.create({
         color: '#FFFFFF',
         fontSize: 12,
         fontWeight: '600',
+        fontFamily: 'Montserrat-Regular',
     },
     quantidadeSelecionada: {
         marginTop: 28,
@@ -402,6 +410,7 @@ const styles = StyleSheet.create({
         color: '#CCCCCC',
         fontSize: 14,
         textAlign: 'center',
+        fontFamily: 'Montserrat-Regular',
     },
     btnContinuar: {
         paddingVertical: 14,
@@ -417,10 +426,12 @@ const styles = StyleSheet.create({
         color: '#FFFFFF',
         fontSize: 15,
         fontWeight: '700',
+        fontFamily: 'Montserrat-Regular',
     },
     textoErro: {
         color: '#e92f3b',
         fontSize: 16,
         marginBottom: 16,
+        fontFamily: 'Montserrat-Regular',
     },
 });

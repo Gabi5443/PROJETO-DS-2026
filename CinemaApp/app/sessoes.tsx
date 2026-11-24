@@ -169,6 +169,7 @@ const styles = StyleSheet.create({
   textoVoltar: {
     color: '#CE47A2',
     fontWeight: '600',
+    fontFamily: 'Montserrat-Regular',
   },
   cabecalho: {
     marginBottom: 30,
@@ -178,23 +179,27 @@ const styles = StyleSheet.create({
     fontWeight: '800',
     color: '#CE47A2',
     marginBottom: 8,
+    fontFamily: 'Montserrat-Regular',
   },
   subtitulo: {
     color: '#AAAAAA',
     fontSize: 15,
     lineHeight: 22,
+    fontFamily: 'Montserrat-Regular',
   },
   mensagemVazia: {
     color: '#c2c1c1',
     fontSize: 16,
     textAlign: 'center',
     marginTop: 30,
+    fontFamily: 'Montserrat-Regular',
   },
   mensagemErro: {
     color: '#e92f3b',
     fontSize: 16,
     textAlign: 'center',
     marginTop: 30,
+    fontFamily: 'Montserrat-Regular',
   },
   listaSessoes: {
     flexDirection: 'row',
@@ -215,6 +220,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: '#CE47A2',
     marginBottom: 20,
+    fontFamily: 'Montserrat-Regular',
   },
   infoRow: {
     flexDirection: 'row',
@@ -225,11 +231,13 @@ const styles = StyleSheet.create({
   infoLabel: {
     color: '#AAAAAA',
     fontSize: 14,
+    fontFamily: 'Montserrat-Regular',
   },
   infoValor: {
     color: '#FFFFFF',
     fontSize: 15,
     fontWeight: '600',
+    fontFamily: 'Montserrat-Regular',
   },
   btnAssentos: {
     width: '100%',
@@ -243,5 +251,6 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 14,
     fontWeight: '700',
+    fontFamily: 'Montserrat-Regular',
   },
 });

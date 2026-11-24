@@ -292,6 +292,7 @@ const styles = StyleSheet.create({
   textoVoltar: {
     color: '#CE47A2',
     fontWeight: '600',
+    fontFamily: 'Montserrat-Regular',
   },
   titulo: {
     color: '#CE47A2',
@@ -299,6 +300,7 @@ const styles = StyleSheet.create({
     fontWeight: '800',
     marginBottom: 28,
     textAlign: 'center',
+    fontFamily: 'Montserrat-Regular',
   },
   secao: {
     backgroundColor: '#1C142B',
@@ -313,6 +315,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: '#CE47A2',
     marginBottom: 16,
+    fontFamily: 'Montserrat-Regular',
   },
   cardIngresso: {
     backgroundColor: '#251B35',
@@ -327,11 +330,13 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: '#FFFFFF',
     marginBottom: 12,
+    fontFamily: 'Montserrat-Regular',
   },
   label: {
     fontSize: 14,
     color: '#CCCCCC',
     marginBottom: 8,
+    fontFamily: 'Montserrat-Regular',
   },
   rowOpcoes: {
     flexDirection: 'row',
@@ -357,15 +362,18 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 14,
     fontWeight: '600',
+    fontFamily: 'Montserrat-Regular',
   },
   valorItem: {
     marginTop: 14,
     color: '#CCCCCC',
     fontSize: 14,
+    fontFamily: 'Montserrat-Regular',
   },
   destaquePreco: {
     color: '#CE47A2',
     fontWeight: 'bold',
+    fontFamily: 'Montserrat-Bold',
   },
   secaoTotal: {
     borderColor: '#CE47A2',
@@ -377,11 +385,13 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '700',
     color: '#FFFFFF',
+    fontFamily: 'Montserrat-Regular',
   },
   valorTotal: {
     fontSize: 20,
     fontWeight: '800',
     color: '#CE47A2',
+    fontFamily: 'Montserrat-Regular',
   },
   textoErro: {
     color: '#e92f3b',
@@ -389,6 +399,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 14,
     fontWeight: '600',
+    fontFamily: 'Montserrat-Regular',
   },
   btnConfirmar: {
     width: '100%',
@@ -401,5 +412,6 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 16,
     fontWeight: '700',
+    fontFamily: 'Montserrat-Regular',
   },
 });

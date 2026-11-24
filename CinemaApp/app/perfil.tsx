@@ -314,7 +314,7 @@ export default function Perfil() {
           {carregandoIngressos ? (
             <ActivityIndicator color="#CE47A2" />
           ) : ingressos.length === 0 ? (
-            <Text style={{ color: '#c2c1c1', textAlign: 'center', marginTop: 20 }}>
+            <Text style={{ color: '#c2c1c1', textAlign: 'center', marginTop: 20, fontFamily: 'Montserrat-Regular', }}>
               Você ainda não comprou nenhum ingresso.
             </Text>
           ) : (
@@ -387,6 +387,7 @@ const styles = StyleSheet.create({
   textoVoltar: {
     color: '#e92f3b',
     fontWeight: '600',
+    fontFamily: 'Montserrat-Regular',
   },
   fotoGrande: {
     width: 110,
@@ -400,6 +401,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     marginTop: 10,
+    fontFamily: 'Montserrat-Regular',
   },
   menuAbas: {
     flexDirection: 'row',
@@ -426,15 +428,18 @@ const styles = StyleSheet.create({
   textoAba: {
     color: '#c2c1c1',
     fontWeight: '600',
+    fontFamily: 'Montserrat-Regular',
   },
   textoAbaAtiva: {
     color: '#FFF',
+    fontFamily: 'Montserrat-Regular',
   },
   aviso: {
     color: '#CE47A2',
     textAlign: 'center',
     marginBottom: 12,
     fontWeight: 'bold',
+    fontFamily: 'Montserrat-Regular',
   },
   box: {
     width: '90%',
@@ -451,15 +456,18 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 16,
+    fontFamily: 'Montserrat-Regular',
   },
   dado: {
     color: '#FFF',
     fontSize: 15,
     marginBottom: 10,
+    fontFamily: 'Montserrat-Regular',
   },
   destaque: {
     color: '#B22282',
     fontWeight: 'bold',
+    fontFamily: 'Montserrat-Regular',
   },
   rodapePerfil: {
     borderTopWidth: 1,
@@ -479,6 +487,7 @@ const styles = StyleSheet.create({
   textoBadge: {
     color: '#E25583',
     fontSize: 13,
+    fontFamily: 'Montserrat-Regular',
   },
   btnSair: {
     borderWidth: 1,
@@ -490,6 +499,7 @@ const styles = StyleSheet.create({
   textoSair: {
     color: '#e92f3b',
     fontWeight: '600',
+    fontFamily: 'Montserrat-Regular',
   },
   btnFoto: {
     borderWidth: 1,
@@ -502,11 +512,13 @@ const styles = StyleSheet.create({
   textoBtnFoto: {
     color: '#CE47A2',
     fontWeight: 'bold',
+    fontFamily: 'Montserrat-Regular',
   },
   label: {
     color: '#DDD',
     marginBottom: 6,
     fontSize: 14,
+    fontFamily: 'Montserrat-Regular',
   },
   input: {
     backgroundColor: '#0F0A1C',
@@ -517,6 +529,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
     paddingVertical: 10,
     marginBottom: 16,
+    fontFamily: 'Montserrat-Regular',
   },
   btnSalvar: {
     backgroundColor: '#B22282',
@@ -529,5 +542,6 @@ const styles = StyleSheet.create({
     color: '#FFF',
     fontWeight: 'bold',
     fontSize: 16,
+    fontFamily: 'Montserrat-Regular',
   },
 });
