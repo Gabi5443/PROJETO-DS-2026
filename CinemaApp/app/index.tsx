@@ -104,7 +104,7 @@ export default function Index() {
       router.push('/login');
     }
   }
-{/* Se o email do user terminar com movieing.com (a função transforma  o nome em minúsculo), a const admin rece o usuário*/}
+{/* Se o email do user terminar com movieing.com (a função transforma  o nome em minúsculo), a const admin recebe o usuário*/}
 const ehAdmin = usuario?.emailUsers?.toLowerCase().endsWith('movieing.com');
 
 function handleGerenciarClick() {
