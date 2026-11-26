@@ -223,14 +223,14 @@ const styles = StyleSheet.create({
     badgeText: {
         color: '#FFF',
         fontSize: 12,
-        fontWeight: 'bold',
         letterSpacing: 1.5,
+        fontFamily: 'Orbitron-Bold'
     },
     movieTitle: {
         color: '#FFF',
         fontSize: 30,
-        fontWeight: '800',
         marginBottom: 10,
+        fontFamily: 'Orbitron-Bold'
     },
     movieMeta: {
         flexDirection: 'row',
@@ -251,18 +251,20 @@ const styles = StyleSheet.create({
     },
     ageText: {
         color: '#FFF',
-        fontWeight: '800',
         fontSize: 12,
+        fontFamily: 'Orbitron-Bold'
     },
     metaText: {
         color: '#A799C7',
         fontSize: 14,
         fontWeight: '500',
+        fontFamily: 'Orbitron-Bold'
     },
     movieDesc: {
         color: '#e0e0e0',
         fontSize: 14,
         lineHeight: 20,
+        fontFamily: 'Orbitron-Bold'
     },
     indicadores: {
         position: 'absolute',
