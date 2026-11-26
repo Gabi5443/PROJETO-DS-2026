@@ -204,6 +204,7 @@ const styles = StyleSheet.create({
   all: {
     flex: 1,
     backgroundColor: '#0F0A1C',
+    
   },
   header: {
     height: 100,
@@ -223,6 +224,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: '800',
     letterSpacing: 9,
+    fontFamily: 'Orbitron-Bold',
   },
   avatar: {
     width: 50,
@@ -240,6 +242,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 20,
     fontSize: 16,
+    fontFamily: 'Montserrat-Regular',
   },
   gridFilmes: {
     flexDirection: 'row',
@@ -268,6 +271,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginTop: 10,
     textAlign: 'center',
+    fontFamily: 'Montserrat-Regular',
   },
 
    headerDireita: {
@@ -281,6 +285,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 13,
     letterSpacing: 1,
+    fontFamily: 'Montserrat-Regular',
   },
 
 
