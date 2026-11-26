@@ -11,13 +11,13 @@ const quantidadeSelecionada = document.getElementById("quantidadeSelecionada");
 const botaoContinuar = document.getElementById("continuar");
 
 // Guarda os assentos escolhidos pelo usuário
-const assentosSelecionados = new Set();//essa const recebe um construtor criado a seguir
+const assentosSelecionados = new Set();//essa const recebe uma lista inteligente vazia que vai guardar os assentos que o usuario clicar, essa lista, não aceita duplicatas , o que nos livra da possibilidade de ter assentos escolhidos duas ou masi vezes.
 
 async function carregarAssentos() {
  //função assincrona de mostrar os assentos
     
     try {
-//se o id session não vier, avisa
+//se o id session não vier da pagina de escolher a sessão, avisa
         if (!idSession) {
             throw new Error("ID da sessão não informado.");
         }
@@ -85,11 +85,14 @@ function gerarAssentos(totalFileiras, assentosPorFileira, assentosOcupados) {
 
     const ocupados = new Set( 
         assentosOcupados.map(assento => String(assento).toUpperCase())
-    ); // uma variavel recebe um SET (uma estrutura que é capaz de verificar se determinado valor existe dentro dela).Esse seu vai mapear os assentos ocupados e transforma-los em maiusculos
+    ); // uma variavel recebe um SET (uma estrutura que é capaz de verificar se determinado valor existe dentro dela).Esse set vai mapear os assentos ocupados e transforma-los em maiusculos
+
+// PRIMEIRO LAÇO DE REPETIÇÃO - CONTA O TOTAL DE FILEIRAS 
+
 
     for (let linha = 0; linha < totalFileiras; linha++) { //laco de repetição: percorrer "linha" comeeçando por zero enquanto o numero de linhas (ou fileiras) for menor que o total de fileiras, passo 1 
 
-        const letra = String.fromCharCode(65 + linha); //letra recebe a linha em formato de letra. 65 é o codig para a letra "A"
+        const letra = String.fromCharCode(65 + linha);//Truque matematico - a const letra recebe a letra A, que tem cod 65, a linha começa em zero, então a primeira letra da linha será a. Depois do laço de repetição se mover, linha vira 1, letra recebe o cod 65 + 1 (66 - Letra B) e assim por diante
 
         // Cria uma fileira como uma div
         const fileira = document.createElement("div");
@@ -102,7 +105,9 @@ function gerarAssentos(totalFileiras, assentosPorFileira, assentosOcupados) {
 
         fileira.appendChild(identificacao);
 
-        for (let numero = 1; numero <= assentosPorFileira; numero++) { //percorra numero enquanto numero for menor ou igual o nmero de acentos por fileira passo 1
+        // SEGUNDO LAÇO DE REPETIÇÃO - CONTA AS CADEIRAS DAQUELA FILEIRA
+
+        for (let numero = 1; numero <= assentosPorFileira; numero++) { //percorra numero ( numero representa uma array com todos os assentos) enquanto numero for menor ou igual o nmero de assentos por fileira passo 1
 
             const nomeAssento = `${letra}${numero}`; //o nome do acento rece letra + o numero
 
@@ -113,9 +118,9 @@ function gerarAssentos(totalFileiras, assentosPorFileira, assentosOcupados) {
             botao.textContent = numero;
             botao.title = nomeAssento;
 
-            if (ocupados.has(nomeAssento)) { //se a variavel ocupados (que é uma array que deve conter os assentos ocupados)o botao é desativado (para q o usuário não possa escolher um acento já reservado)
+            if (ocupados.has(nomeAssento)) { //se a variavel ocupados (que é um set que deve conter os assentos ocupados)o botao é desativado (para q o usuário não possa escolher um acento já reservado)
                 botao.disabled = true;
-            } else { //caso contrário, ao botao fica clicavel e on click chama a função de selecionar acentos, levando o nome do acento escolhido e o valor do botao  como parametro
+            } else { //caso contrário, o botao fica clicavel e o on click chama a função de selecionar acentos, levando o nome do acento escolhido e o valor do botao  como parametro
                 botao.addEventListener("click", () => {
                     selecionarAssento(nomeAssento, botao);
                 });
@@ -131,24 +136,24 @@ function gerarAssentos(totalFileiras, assentosPorFileira, assentosOcupados) {
 
 function selecionarAssento(nomeAssento, botao) {
 
-    if (assentosSelecionados.has(nomeAssento)) { //se a const assentosSelecionados tiver um nome de acento
+    if (assentosSelecionados.has(nomeAssento)) { //se o set de assentosSelecionados tiver um nome de asseento
 
-        // Remove da seleção de cadeiras
+        // Remove a classe selecionado no elemento html
         assentosSelecionados.delete(nomeAssento); 
         botao.classList.remove("selecionado");
 
     } else {
 //senao
-        // Adiciona à seleção
+        // Adiciona a classe selecionado ao elemento html
         assentosSelecionados.add(nomeAssento);
         botao.classList.add("selecionado");
     }
-
+//isso serve para habilitar/desabiitar o css de cada assento ao ser selecionado/devolvido (habilitado ele fica roxinho, desabilitado sai o roxinho)
     // Atualiza a quantidade de assentos escolhidos
     quantidadeSelecionada.textContent =
         `${assentosSelecionados.size} assento(s) selecionado(s): ${
             [...assentosSelecionados].join(", ")
-        }`;
+        }`; //mostra os assentos selecionados separados por virgula
 
     // Só permite continuar se houver pelo menos um assento
     botaoContinuar.disabled = assentosSelecionados.size === 0;
@@ -165,3 +170,4 @@ botaoContinuar.addEventListener("click", () => {
 });
 
 carregarAssentos();
+//carrega a função
